@@ -1,4 +1,4 @@
-package com.map;
+package com.nomad;
 
 import android.app.Application;
 import android.content.Context;

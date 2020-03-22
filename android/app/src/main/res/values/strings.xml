@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">map</string>
+    <string name="app_name">Nomad</string>
+    <string name="facebook_app_id">635550793858257</string>
 </resources>

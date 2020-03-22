@@ -1,5 +1,5 @@
 {
-  "name": "map",
+  "name": "Nomad",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,17 +10,33 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@mapbox/polyline": "^1.1.0",
+    "@react-native-community/async-storage": "^1.8.1",
     "@react-native-community/geolocation": "^2.0.2",
+    "@react-native-community/google-signin": "^4.0.0",
+    "@react-native-community/masked-view": "^0.1.7",
+    "@react-native-community/viewpager": "^3.3.0",
+    "jssha": "^2.3.1",
+    "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-geolocation-service": "^4.0.0",
+    "react-native-drawer": "^2.5.1",
+    "react-native-fbsdk": "^1.1.2",
+    "react-native-gesture-handler": "^1.6.1",
     "react-native-maps": "0.26.1",
-    "react-native-permissions": "^2.0.9"
+    "react-native-modal": "^11.5.6",
+    "react-native-permissions": "^2.0.9",
+    "react-native-reanimated": "^1.7.0",
+    "react-native-responsive-screen": "^1.4.0",
+    "react-native-router-flux": "^4.2.0",
+    "react-native-safe-area-context": "^0.7.3",
+    "react-native-screens": "^2.4.0",
+    "react-native-scrollable-tab-view": "^1.0.0",
+    "react-native-twitter-signin": "^1.1.1",
+    "react-native-vector-icons": "^6.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/runtime": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/runtime": "^7.8.7",
     "@react-native-community/eslint-config": "^0.0.7",
     "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",

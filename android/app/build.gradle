@@ -128,9 +128,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.map"
+        applicationId "com.nomad"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
     }
@@ -180,8 +181,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    //implementation "com.android.support:appcompat-v7:23.0.1"
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
+    
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
@@ -198,4 +202,6 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply plugin: 'com.google.gms.google-services' // this should be the last line
