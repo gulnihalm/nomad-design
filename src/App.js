@@ -11,14 +11,16 @@ import {
   StyleSheet,
   View,
   Dimensions,
+  Button,Text,
   Alert,
-  Button,
-  Text,
   TouchableOpacity
 } from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {PERMISSIONS, request} from 'react-native-permissions';
 import Geolocation from "@react-native-community/geolocation";
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Header} from 'react-native-elements';
+import { Footer} from 'native-base';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -31,17 +33,24 @@ const styles = StyleSheet.create({
   button:{
     color: 'red'
   },
+  buttonContainer: {
+       margin: 20,
+       alignSelf: 'flex-end',
+   },
+   multiButtonContainer: {
+    margin: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   container: {
     ...StyleSheet.absoluteFillObject,
-    //  height: 400,
-    //  width: 400,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
+    flex: 1,
+    justifyContent: 'flex-start',
+    justifyContent: 'space-around'
   },
   map: {
-    flex: 1,
-    width,
-    height
+    width: wp('100%'),
+    height: hp('60%'),
   },
   marker: {
     backgroundColor: "#550bbc",
@@ -99,7 +108,7 @@ export default class App extends React.Component {
             let joined = this.state.coordinates.concat({latitude: position.coords.latitude, longitude: position.coords.longitude});
             this.setState({coordinates: joined, pos: region});
           }
-        } 
+        }
 
         else {
           let joined = this.state.coordinates.concat({latitude: position.coords.latitude, longitude: position.coords.longitude});
@@ -144,26 +153,37 @@ export default class App extends React.Component {
       button = <Button title="Start" color="#bada55" onPress={(e) => this.setState({markerPlaceEnabled: true})}/>
     else
       button = <Button title="Finish" color="#ff5c5c" onPress={(e) => this.setState({markerPlaceEnabled: false})}/>
-
     return (
     <View style={styles.container}>
-
+      <Header
+        centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff' } }}
+        rightComponent={<Button title="LogOut" color='#bada55'/> }
+      />
       <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={this.state.pos}
               onPress={(e) => {
                 console.log(e.nativeEvent.coordinate);
                 if(this.state.markerPlaceEnabled)
                   this.setState({ markers: [...this.state.markers, { latlng: e.nativeEvent.coordinate }] })}}>
-
         {this.state.markers.map((marker, i) => (<Marker onPress= {(e) => {this.onPressMarker(e)}} coordinate={marker.latlng} key = {i}/>))}
 
         <Polyline coordinates={this.state.coordinates} strokeWidth={3}/>
 
       </MapView>
 
-      {button}
-      <Button title="Add Trip" />
+      <View style={styles.multiButtonContainer}>
+        {button}
+        <Button title="Add Trip" />
+      </View>
 
-    </View>);
+      <View style= {styles.buttonContainer}>
+        <Button title="Back" />
+      </View>
+
+      <View>
+        <Footer style={{backgroundColor: "dodgerblue"}}/>
+      </View>
+    </View>
+);
 
   }
 

@@ -11,7 +11,7 @@ import StartPage from './src/pages/start-page';
 import SyncPage from './src/pages/sync-page';
 
 export default class Login extends Component {
-    
+
     render() {
         //pages used throughout the program
         const scenes = Actions.create(
@@ -22,7 +22,7 @@ export default class Login extends Component {
                 <Scene key="SyncPage" component={SyncPage}/>
             </Scene>
     );
-    
+
         return <Router scenes={scenes}/>
     }
 }
