@@ -21,6 +21,7 @@ import Geolocation from "@react-native-community/geolocation";
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {Header} from 'react-native-elements';
 import { Footer} from 'native-base';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -156,6 +157,7 @@ export default class App extends React.Component {
     return (
     <View style={styles.container}>
       <Header
+        leftComponent={<Icon name="menu" size={40} color="white" ></Icon>}
         centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff' } }}
         rightComponent={<Button title="LogOut" color='#bada55'/> }
       />
