@@ -158,8 +158,9 @@ export default class App extends React.Component {
     <View style={styles.container}>
       <Header
         leftComponent={<Icon name="menu" size={40} color="white" ></Icon>}
-        centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff' } }}
-        rightComponent={<Button title="LogOut" color='#bada55'/> }
+        centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff',fontWeight: "bold" } }}
+        rightComponent={<TouchableOpacity style={{backgroundColor:'#bada55', width: wp('20%'), padding: 5 }}><Text style={{fontWeight: "bold" ,alignSelf: 'center', color:'#fff', padding: 5}}>LOGOUT</Text></TouchableOpacity> }
+
       />
       <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={this.state.pos}
               onPress={(e) => {
