@@ -17,7 +17,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-export default class Database extends Component{
+export default class Profile extends Component{
   constructor(props){
       super(props)
 	  this.state = {

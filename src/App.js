@@ -19,14 +19,16 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import {PERMISSIONS, request} from 'react-native-permissions';
 import Geolocation from "@react-native-community/geolocation";
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import {Header} from 'react-native-elements';
+import {Header,Card} from 'react-native-elements';
 import { Footer} from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import EditTrip from './EditTrip';
 import Database from './Database';
 import Login from './Login';
-import Profile from './Profile'
+import Profile from './Profile';
+import SearchTrip from './SearchTrip';
+import FollowTrip from './FollowTrip';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -38,6 +40,8 @@ const LONGITUDE = 32.81651669267004;
 const Pages = {
   ProfilePage: 5,
   CreateTripPage: 1,
+  FollowTripPage: 8, 
+  SearchTripPage: 9
 };
 
 const styles = StyleSheet.create({
@@ -83,8 +87,9 @@ export default class App extends React.Component {
       },
       markers: [],
       markerPlaceEnabled: false,
-      Page: Pages.CreateTripPage,
-      user: null
+      Page: Pages.SearchTripPage,
+      user: 1, // null
+      trip: null
     }
   }
 
@@ -98,7 +103,7 @@ export default class App extends React.Component {
     if (response === 'granted')
       this.locateCurrentPosition();
 
-    };
+  };
 
   locateCurrentPosition = () => {
     setInterval(() => {
@@ -168,10 +173,15 @@ export default class App extends React.Component {
   	this.setState({user: userElement});
   }
 
+  setTrip(tripID){
+    console.log("setTrip: ",tripID);
+    this.setState({trip: tripID,Page: Pages.FollowTripPage });
+  }
+
   render() {
 
-    const {user} = this.state;
-    console.log("App js render");
+    const {user,trip,Page,pos} = this.state;
+    console.log("App js render",trip,Page);
 
   	if ( user === null ){
   		return (
@@ -181,7 +191,13 @@ export default class App extends React.Component {
   			);
   	}
 
-    const {Page} = this.state;
+    if ( Page === Pages.SearchTripPage  ){
+      return (
+        <SearchTrip user = {user} trip = {trip} setTrip = { (tripID) => this.setTrip(tripID) } >
+
+        </SearchTrip>
+      );
+    }
 
     if ( Page === Pages.ProfilePage ){
       return (
@@ -192,8 +208,17 @@ export default class App extends React.Component {
       );
     }
 
+    if ( Page === Pages.FollowTripPage ){
+      return (
+        <FollowTrip
+          user = {user}
+          trip = {trip}
+          pos = {pos}
+        />
+      )
+    }
+
     const {markers} = this.state;
-    const {pos} = this.state
 
     if(Page === Pages.CreateTripPage){
 
