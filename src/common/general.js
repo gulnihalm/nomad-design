@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 //IP adress of your device and port number (type "ipconfig" on cmd to see your IPv4 adress) 10.0.2.2:8080 on emulator
 //Don't change the "/login_php/" part
-export const hostURL = 'http://nomad-server2.000webhostapp.com/login_php/'; 
+export const hostURL = 'http://nomad-server2.000webhostapp.com/'; 
 
 export async function isLogin() {
 	var session = await AsyncStorage.getItem("session_ticket");

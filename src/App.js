@@ -87,8 +87,8 @@ export default class App extends React.Component {
       },
       markers: [],
       markerPlaceEnabled: false,
-      Page: Pages.SearchTripPage,
-      user: 1, // null
+      Page: this.props.page, //Pages.SearchTripPage,
+      user: this.props.user, //1, // null,
       trip: null
     }
   }
@@ -183,6 +183,7 @@ export default class App extends React.Component {
     const {user,trip,Page,pos} = this.state;
     console.log("App js render",trip,Page);
 
+    //should be able to delete this later?
   	if ( user === null ){
   		return (
   			<Login setUser = { (user) => this.setUser(user) }>
@@ -290,4 +291,3 @@ export default class App extends React.Component {
   }
 
 }
-

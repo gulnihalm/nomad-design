@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -113,5 +112,3 @@ const styles = StyleSheet.create({
 	  margin:10
   }
 })
-
-
