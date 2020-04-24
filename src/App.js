@@ -88,13 +88,21 @@ export default class App extends React.Component {
       markers: [],
       markerPlaceEnabled: false,
       Page: this.props.page, //Pages.SearchTripPage,
-      user: this.props.user, //1, // null,
+      user: 0, //1,
       trip: null
     }
   }
 
   componentDidMount() {
-    this.requestLocationPermission();
+    let { Page, user } = this.state;
+    let useMapServices = false;
+    if( Page === 1 || Page === 2 || Page === 8 || Page === 9 )
+        useMapServices = true;
+    if(useMapServices)
+        this.requestLocationPermission();
+
+    user = '{"ID":"' + this.props.guid + '", "email":"' + this.props.userEmail + '", "username":"' + this.props.userName + '", "password":"' + this.props.userPassword + '"}';
+    this.setState({Page, user});
   };
 
   requestLocationPermission = async () => {
