@@ -72,15 +72,109 @@ export default class EditTrip extends React.Component{
         this.setState({inputEnabled: true, selectedMarker: i, text: ''});
     }
 
-    submitTrip(){
+    async getLastTripCreatedByUser(){
+        const userID = this.props.user.ID;
+        console.log("LOG CURRENT USER:",userID);
+        tripID = 0;
+        fetch('http://nomad-server2.000webhostapp.com/getTrips.php')
+        .then((response)=> response.json())
+        .then((response) => {
+            // console.log('response from get: ',response);
+            let str = JSON.stringify(response);
+            str = str.replace(/\\/g, "");
+            str = str.substr(1,str.length - 2);
+
+            console.log('str:',str);
+            let obj = JSON.parse(str);
+            let array=Object.keys(obj).map(function(k){
+                return obj[k];
+            })
+
+            array[0].forEach(element => {
+            
+                if ( element.userID === userID ){
+                    tripID = element.tripID;
+                    console.log('trip id updated:',tripID);
+                }
+    
+            });
+            
+        }).catch((error) => {
+            Alert.alert('The error is',JSON.stringify(error.message));
+        });
+
+        return tripID;
+
+    }
+
+    async submitMarkers(){
+        const {markers,titles} = this.state;
+        const userID = this.props.user.ID;
+        // console.log("LOG CURRENT USER:",userID);
+        tripID = 0;
+        await fetch('http://nomad-server2.000webhostapp.com/getTrips.php')
+        .then((response)=> response.json())
+        .then((response) => {
+            // console.log('response from get: ',response);
+            let str = JSON.stringify(response);
+            str = str.replace(/\\/g, "");
+            str = str.substr(1,str.length - 2);
+
+            let obj = JSON.parse(str);
+            let array=Object.keys(obj).map(function(k){
+                return obj[k];
+            })
+
+            array[0].forEach(element => {
+            
+                if ( element.userID === userID ){
+                    tripID = element.tripID;
+                    console.log('trip id updated:',tripID);
+                }
+    
+            });
+            
+        }).catch((error) => {
+            Alert.alert('The error is',JSON.stringify(error.message));
+        });
+
+        console.log("Submitting MARKERS ->",tripID);
+        // console.log("************",markers[0].latlng.latitude);
+        // console.log("************",markers[0].latlng.longitude);
+        // console.log("************",titles[0]);
+
+        for (i = 0; i<markers.length ; i++) {
+            await fetch('http://nomad-server2.000webhostapp.com/submitMarker.php',{
+		        method: 'POST',
+		        headers:{
+			        Accept: 'application/json',
+			        'Content-Type':'application/json'
+		        },
+                body: JSON.stringify({
+                    tripID: tripID,
+                    latitude: markers[i].latlng.latitude,
+                    longitude: markers[i].latlng.longitude,
+                    text: titles[i]
+                })
+            })
+            .then(response => {response.text()})
+            .then(response => {
+                console.log('SUBMIT MARKER response is', response);
+            }).catch((error) => {
+                console.log('error is ', error.message);
+            });
+
+        }
+    }
+
+    async submitTrip(){
         console.log("Trip submitted");
         console.log(this.state.markers);
         console.log(this.state.titles);
         console.log(this.state.tripDescription);
         console.log('----------------');
 
-
-        fetch('http://nomad-server2.000webhostapp.com/submitTripInfo.php',{
+        await fetch('http://nomad-server2.000webhostapp.com/submitTripInfo.php',{
 		  method: 'POST',
 		  headers:{
 			Accept: 'application/json',
@@ -96,10 +190,12 @@ export default class EditTrip extends React.Component{
         })
         .then(response => {response.text()})
         .then(response => {
-            console.log('response is', response)
+            console.log('SUBMIT TRIP response is', response);
         }).catch((error) => {
-            console.log('error is ', error.message)
-        })
+            console.log('error is ', error.message);
+        });
+
+        this.submitMarkers();        
 
     }
 

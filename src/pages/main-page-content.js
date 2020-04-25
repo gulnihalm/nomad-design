@@ -82,11 +82,11 @@ export default class MainPage extends Component {
 							<Text>activeTab:		{this.state.activeTab}</Text>
 						</View>
 					</ScrollView>
-
+                    
+                    {//LOOK HERE FOR APP
+                    }
 					<ScrollView tabLabel="ios-navigate" style={styles.tabView} keyboardShouldPersistTaps='always'>
-						<View style={styles.card}>
-							<App/>
-						</View>
+                        <App guid = {this.state.guid} userEmail = {this.state.userEmail} userName = {this.state.userName} userPassword = {this.state.userPassword} page = {9}/>
 					</ScrollView>
 
 					<ScrollView tabLabel="ios-settings" style={styles.tabView} keyboardShouldPersistTaps='always'>
