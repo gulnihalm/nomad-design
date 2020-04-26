@@ -81,15 +81,17 @@ export default class FollowTrip extends React.Component{
         const {markers} = this.state;
 
         var flag = 0
+        var distance = DISTANCE_LIMIT
 
         markers.forEach( marker => {
+            var diff =  this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude )
+            console.log("-------------DISTANCE____IF DISINDAKİ:", diff, marker.markerID);
 
-            console.log("-------------DISTANCE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
 
-
-            if ( this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) < DISTANCE_LIMIT ){
-                console.log("YOU ARE CLOSE TO MARKER:",marker);
-                console.log("DISTANCE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
+            if ( diff < distance ){
+                console.log("YOU ARE CLOSE TO MARKER IF ICINDE:",marker);
+                console.log("DISTANCE IF ICINDE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
+                distance = diff
                 flag = marker.markerID;
             }
         });
