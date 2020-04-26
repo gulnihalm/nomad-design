@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between'
     },
     container: {
-
       flex: 1,
       justifyContent: 'flex-start',
       justifyContent: 'space-around'
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
 });
 
 
-const DISTANCE_LIMIT = 12000; // 100 meters is close enough to collect token
+const DISTANCE_LIMIT = 120000; // 100 meters is close enough to collect token
 
 export default class FollowTrip extends React.Component{
 
@@ -59,10 +58,18 @@ export default class FollowTrip extends React.Component{
         super(props);
         const {markers} = this.props;
         this.state = {
-            markers: this.getMarkers(),
-
+            flag: 0,
+            markersChecked: [],
+            markersClaimed: [],
+            markers: [],
+            markerIndex: -1
         }
+    }
 
+    componentDidMount(){
+        let {markers} = this.state;
+        markers = this.getMarkers();
+        this.setState({markers});
     }
 
     measure(lat1, lon1, lat2, lon2) { // generally used geo measurement function
@@ -74,34 +81,38 @@ export default class FollowTrip extends React.Component{
         var d = R * c;
         return d * 1000; // meters
     }
-
+    //Ayrıca checkPosition diyince tek marker uzerinde calısalım her render dediginde her markera bakmasının anlamı yok demiştik ya onu o hale getirmek
     checkPosition(){
-
         const {pos} = this.props;
         const {markers} = this.state;
+        let {markersChecked, flag, markerIndex} = this.state;
 
-        var flag = 0
-        var distance = DISTANCE_LIMIT
+        var distance = DISTANCE_LIMIT;
+        let count = 0;
 
         markers.forEach( marker => {
             var diff =  this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude )
             console.log("-------------DISTANCE____IF DISINDAKİ:", diff, marker.markerID);
 
 
-            if ( diff < distance ){
+            if ( diff < distance && !markersChecked[count]){
                 console.log("YOU ARE CLOSE TO MARKER IF ICINDE:",marker);
                 console.log("DISTANCE IF ICINDE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
                 distance = diff
                 flag = marker.markerID;
+                markersChecked[count] = true;
+                this.setState({markersChecked, flag, markerIndex: count});
+                return flag;
             }
+            count++;
         });
 
         return flag;
-
     }
 
 
     getMarkers(){
+        let {markersChecked, markersClaimed} = this.state;
         myMarkers = [];
         tripID = this.props.trip;
         fetch('http://nomad-server2.000webhostapp.com/getMarkers.php')
@@ -118,7 +129,7 @@ export default class FollowTrip extends React.Component{
             })
 
             array[0].forEach(element => {
-
+            
                 console.log("->",element);
                 if ( element.tripID === tripID ){
 
@@ -132,22 +143,21 @@ export default class FollowTrip extends React.Component{
                         markerID: parseInt(element.markerID)
                     }
 
-
                     myMarkers.push(m);
+                    markersChecked.push(false);
+                    markersClaimed.push(false);
                     console.log("marker found:",element);
-                }
-
+                }                
             });
-
+            
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
         });
+        this.setState({markersChecked, markersClaimed});
 
         return myMarkers;
-
     }
-
-
+   
     render(){
 
         console.log(this.props.user);
@@ -175,7 +185,7 @@ export default class FollowTrip extends React.Component{
                 {closeEnough>0 &&
                     <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
                       <Text>You are close to a checkpoint! TAP button to collect your Token!</Text>
-                      <Button title = "Get Token" onPress={() => Actions.ARpage({type:'reset'})}></Button>
+                      <Button title = "Get Token" onPress={() => Actions.ARpage({markerIndex: this.state.markerIndex, markerID: closeEnough, markersClaimed: this.state.markersClaimed})}></Button>
                     </View>
                 }
 

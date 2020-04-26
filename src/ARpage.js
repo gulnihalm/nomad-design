@@ -61,7 +61,7 @@ componentWillUnmount() {
             {alignItems: 'center', justifyContent: 'center'},
             {transform:[{translateX:this.token.x},
                         {translateY: this.token.y }]}]}
-            onPress= {()=>Actions.FollowTrip({type:'reset'})}>
+            onPress= {()=>Actions.popTo("MainPage",{})}>
             <Image style={[styles.token]}
               source= {{uri : 'https://i.pinimg.com/originals/c1/2d/c5/c12dc536b8f8797b629eb9942a2dbbf1.gif'}} />
           </TouchableOpacity>
