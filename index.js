@@ -10,7 +10,6 @@ import MainSidebar from './src/pages/main-page-sidebar'; //IMPORTANT: MainPage r
 import StartPage from './src/pages/start-page';
 import SyncPage from './src/pages/sync-page';
 import ARpage from './src/ARpage';
-import FollowTrip from './src/FollowTrip';
 
 export default class Login extends Component {
 
@@ -23,7 +22,6 @@ export default class Login extends Component {
                 <Scene key="MainPage" component={MainSidebar}/>
                 <Scene key="SyncPage" component={SyncPage}/>
                 <Scene key="ARpage" component={ARpage}/>
-                <Scene key="FollowTrip" component={FollowTrip}/>
             </Scene>
     );
 
