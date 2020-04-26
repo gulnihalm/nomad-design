@@ -81,7 +81,7 @@ export default class FollowTrip extends React.Component{
         var d = R * c;
         return d * 1000; // meters
     }
-    //Ayrıca checkPosition diyince tek marker uzerinde calısalım her render dediginde her markera bakmasının anlamı yok demiştik ya onu o hale getirmek
+    
     checkPosition(){
         const {pos} = this.props;
         const {markers} = this.state;
