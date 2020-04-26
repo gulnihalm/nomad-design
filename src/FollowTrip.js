@@ -159,7 +159,7 @@ export default class FollowTrip extends React.Component{
         closeEnough = this.checkPosition();
         console.log(closeEnough,"__________________________________________________________________________");
         console.log(closeEnough,"__________________________________________________________________________");
-        console.log(closeEnough,"__________________________________________________________________________"); 
+        console.log(closeEnough,"__________________________________________________________________________");
         console.log("My markers for trip:",this.props.trip,"----->",markers);
 
         return (

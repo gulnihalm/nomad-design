@@ -38,7 +38,7 @@ componentDidMount() {
     this.token.y = parseFloat((this.state.x + 0.05) * 30)
 
   });
-  setUpdateIntervalForType(SensorTypes.gyroscope, 1000);
+  setUpdateIntervalForType(SensorTypes.gyroscope, 45);
   this.setState({ subscription });
 }
 componentWillUnmount() {
