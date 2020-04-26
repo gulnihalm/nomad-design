@@ -9,9 +9,11 @@ import LoginPage from './src/pages/login-page';
 import MainSidebar from './src/pages/main-page-sidebar'; //IMPORTANT: MainPage refers to main-page-sidebar, main-page-content is sidebar's child.
 import StartPage from './src/pages/start-page';
 import SyncPage from './src/pages/sync-page';
+import ARpage from './src/ARpage';
+import FollowTrip from './src/FollowTrip';
 
 export default class Login extends Component {
-    
+
     render() {
         //pages used throughout the program
         const scenes = Actions.create(
@@ -20,9 +22,11 @@ export default class Login extends Component {
                 <Scene key="LoginPage" component={LoginPage}/>
                 <Scene key="MainPage" component={MainSidebar}/>
                 <Scene key="SyncPage" component={SyncPage}/>
+                <Scene key="ARpage" component={ARpage}/>
+                <Scene key="FollowTrip" component={FollowTrip}/>
             </Scene>
     );
-    
+
         return <Router scenes={scenes}/>
     }
 }

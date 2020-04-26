@@ -19,7 +19,7 @@ const { RNTwitterSignIn } = NativeModules;
 export default class MainPage extends Component {
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			guid: 				this.props.guid,
 			userName: 			this.props.userName,
@@ -40,7 +40,7 @@ export default class MainPage extends Component {
 			fbMail: 			this.props.fbMail,
 			googleMail: 		this.props.googleMail,
 			twitterMail:		this.props.twitterMail,
-			
+
 			register: 			this.props.register,	//to display RegisterModal
 			deleteAcc:			false, 					//to display DeleteModal
 			viewInfo: 			false, 					//to display "Kullanıcı Bilgilerini Göster"
@@ -58,7 +58,7 @@ export default class MainPage extends Component {
 					contentProps={{bounces: false}}
 					style={{marginTop: 10}}
 					initialPage={this.state.register ? (3):(1)}
-					locked={this.state.lock} 
+					locked={this.state.lock}
 					onChangeTab={({i}) => this.setState({activeTab: i})}
 					onScroll={()=>{
 						if(this.state.activeTab == 1){
@@ -66,11 +66,11 @@ export default class MainPage extends Component {
 						else{
 							this.setState({lock:false});}
 					}}
-					renderTabBar={() => <TabBarIcons/>}> 
-					
+					renderTabBar={() => <TabBarIcons/>}>
+
 					{//extra tab that is being replaced by sidebar button, user should never see this or be able to reach this tab
 					<ScrollView tabLabel="ios-bug"/>}
-					
+
 
 					<ScrollView tabLabel="ios-notifications" style={styles.tabView} keyboardShouldPersistTaps='always' //keyboardDismissMode='on-drag'
 					>
@@ -82,7 +82,7 @@ export default class MainPage extends Component {
 							<Text>activeTab:		{this.state.activeTab}</Text>
 						</View>
 					</ScrollView>
-                    
+
                     {//LOOK HERE FOR APP
                     }
 					<ScrollView tabLabel="ios-navigate" style={styles.tabView} keyboardShouldPersistTaps='always'>
@@ -92,9 +92,9 @@ export default class MainPage extends Component {
 					<ScrollView tabLabel="ios-settings" style={styles.tabView} keyboardShouldPersistTaps='always'>
 
 						{this.state.viewInfo ? ( //SHOW PERSONAL INFO
-							<View style={[styles.card, {height: hp(27) + 
-								(this.state.emailEntrance && hp(3)) + (this.state.fbEntrance && hp(6)) + 
-								(this.state.googleEntrance && hp(6)) + (this.state.twitterEntrance && hp(6)) 
+							<View style={[styles.card, {height: hp(27) +
+								(this.state.emailEntrance && hp(3)) + (this.state.fbEntrance && hp(6)) +
+								(this.state.googleEntrance && hp(6)) + (this.state.twitterEntrance && hp(6))
 							}]}>
 								<Text>Name: {this.state.userName}</Text>
 								<Text>Surname: {this.state.userSurname}</Text>
@@ -106,7 +106,7 @@ export default class MainPage extends Component {
 								{(this.state.googleEntrance) && <View><Text>googleID: {this.state.googleID}</Text><Text>googleMail: {this.state.googleMail}</Text></View>}
 								{(this.state.twitterEntrance) && <View><Text>twitterID: {this.state.twitterID}</Text><Text>twitterMail: {this.state.twitterMail}</Text></View>}
 								<View style={{top: 5, width: wp(25)}}>
-									<TouchableOpacity style={styles.altButton} 
+									<TouchableOpacity style={styles.altButton}
 										onPress={()=>{this.setState({ viewInfo: false });}}>
 										<Text style={styles.buttonText}>Gizle</Text>
 									</TouchableOpacity>
@@ -115,7 +115,7 @@ export default class MainPage extends Component {
 							):(
 							<View style={[styles.card, {justifyContent: 'center', height: hp(12)}]}>
 								<View style={{width: wp(75)}}>
-									<TouchableOpacity style={styles.button} 
+									<TouchableOpacity style={styles.button}
 										onPress={()=>{this.setState({ viewInfo: true });}}>
 										<Text style={styles.buttonText}>Kullanıcı Bilgilerini Göster</Text>
 									</TouchableOpacity>
@@ -123,24 +123,24 @@ export default class MainPage extends Component {
 							</View>) // END OF PERSONAL INFO
 						}
 
-						
-						{// REGISTER/CHANGE EMAIL AND PASSWORD 					
+
+						{// REGISTER/CHANGE EMAIL AND PASSWORD
 						<View style={[styles.card, {justifyContent: 'center', height: hp(12) + (this.state.viewConfigInfo && hp(9))}]}>
 							<View style = {{flex: 1, flexDirection: 'row'}}>
 								<View style={{width: wp(67.5)}}>
-									<TouchableOpacity style={styles.button} 
+									<TouchableOpacity style={styles.button}
 										onPress={()=>{this.setState({ register: true }); }}>
 										<Text style={styles.buttonText}>Kullanıcı Bilgilerini Ayarla</Text>
 									</TouchableOpacity>
 								</View>
 								<View style={{left: 5, width: wp(12.5)}}>
-									<TouchableOpacity style={styles.button} 
+									<TouchableOpacity style={styles.button}
 										onPress={()=>{this.setState({ viewConfigInfo: !this.state.viewConfigInfo });}}>
 											<Icon name="ios-information-circle-outline" size={25} color="white"/>
 									</TouchableOpacity>
 								</View>
 							</View>
-										
+
 							{this.state.viewConfigInfo && (
 								<Text>Sistemimize kayıtlı e-mail adresinizi değiştirebilir, ve gelecekte daha hızlı giriş yapabilmeniz için bir şifre belirleyebilirsiniz.</Text>
 							)}
@@ -155,10 +155,10 @@ export default class MainPage extends Component {
 								fbEntrance		= {this.state.fbEntrance}
 								googleEntrance	= {this.state.googleEntrance}
 								twitterEntrance	= {this.state.twitterEntrance}
-								
+
 								onRegister={( userPassword, userEmail, register, emailEntrance )=>{
-									this.setState({ 
-										userPassword: userPassword, 
+									this.setState({
+										userPassword: userPassword,
 										register: register,
 										userEmail: userEmail,
 										emailEntrance: emailEntrance
@@ -169,7 +169,7 @@ export default class MainPage extends Component {
 						{//DELETE ACCOUNT
 						<View style={[styles.card, {justifyContent: 'center', height: hp(12)}]}>
 							<View style={{width: wp(75)}}>
-								<TouchableOpacity style={styles.button} 
+								<TouchableOpacity style={styles.button}
 									onPress={()=>{this.setState({ deleteAcc: true });}}>
 									<Text style={styles.buttonText}>Hesabı sil</Text>
 								</TouchableOpacity>
@@ -178,7 +178,7 @@ export default class MainPage extends Component {
 								guid			= {this.state.guid}
 								userChoice		= {this.state.userChoice}
 								deleteAcc		= {this.state.deleteAcc}
-								
+
 								onDelete={( deleteAcc )=>{
 									this.setState({ deleteAcc: deleteAcc });
 								}}/>
@@ -195,21 +195,21 @@ export default class MainPage extends Component {
 									</View>
 								):( this.state.userChoice == "1" ? ( //LOG OUT GOOGLE
 										<View style={{width: wp(25)}}>
-											<TouchableOpacity style={styles.altButton} 
+											<TouchableOpacity style={styles.altButton}
 												onPress={()=>{ google_signOut(); Actions.LoginPage({type: 'reset'}); }}>
 												<Text style={styles.buttonText}>Çıkış</Text>
 											</TouchableOpacity>
 										</View>
 									):( this.state.userChoice == "2" ? ( //LOG OUT TWITTER
 											<View style={{width: wp(25)}}>
-												<TouchableOpacity style={styles.altButton} 
+												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ RNTwitterSignIn.logOut(); Actions.LoginPage({type: 'reset'}); }}>
 													<Text style={styles.buttonText}>Çıkış</Text>
 												</TouchableOpacity>
 											</View>
 										):( //LOG OUT EMAIL
 											<View style={{width: wp(25)}}>
-												<TouchableOpacity style={styles.altButton} 
+												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ Actions.LoginPage({type: 'reset'}); }}>
 													<Text style={styles.buttonText}>Çıkış</Text>
 												</TouchableOpacity>
@@ -222,7 +222,7 @@ export default class MainPage extends Component {
 					</ScrollView>
 				</ScrollableTabView>
 
-				<TouchableHighlight style={{ position: 'absolute', height: 55, width: wp(100/NUMBER_OF_TABS), backgroundColor: '#BF1E2E', justifyContent: 'center', alignItems: 'center' }} 
+				<TouchableHighlight style={{ position: 'absolute', height: 55, width: wp(100/NUMBER_OF_TABS), backgroundColor: '#BF1E2E', justifyContent: 'center', alignItems: 'center' }}
 					onPress={()=>{
 						this.props.onChangeDrawer(true);
 					}}>
@@ -253,21 +253,21 @@ const styles = StyleSheet.create({
 		shadowRadius: 3,
 	},
 	altButton: {
-		borderRadius: 30, 
-		backgroundColor: 'grey', 
-		justifyContent: 'center', 
-		alignItems: 'center', 
+		borderRadius: 30,
+		backgroundColor: 'grey',
+		justifyContent: 'center',
+		alignItems: 'center',
 		padding: 10
 	},
 	button: {
-		borderRadius: 30, 
-		backgroundColor: '#BF1E2E', 
+		borderRadius: 30,
+		backgroundColor: '#BF1E2E',
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 10
 	},
 	buttonText: {
-		fontSize: 18, 
+		fontSize: 18,
 		color: '#fff'
 	},
 });

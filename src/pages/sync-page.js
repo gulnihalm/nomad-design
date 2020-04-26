@@ -22,9 +22,9 @@ export default class SyncPage extends Component {
 		super(props);
 
 		this.state = {
-            guid:               this.props.guid, 			//guid of the account that will be synced
-            googleEntrance:   	this.props.googleEntrance, 	//google account linked in the account that will be synced?
-            fbEntrance:    		this.props.fbEntrance,		//fb account linked in the account that will be synced?
+      guid:               this.props.guid, 			//guid of the account that will be synced
+      googleEntrance:   	this.props.googleEntrance, 	//google account linked in the account that will be synced?
+      fbEntrance:    		this.props.fbEntrance,		//fb account linked in the account that will be synced?
 			twitterEntrance:  	this.props.twitterEntrance,	//twitter account linked in the account that will be synced?
 			socialID:           "",							//social id of the account that will be linked
 			socialMail:			"",							//social email of the account that will be linked
@@ -37,7 +37,7 @@ export default class SyncPage extends Component {
 	twitter_sync() {
 		let TWITTER_CONSUMER_KEY = "8ovOZFvJGnEXETzYb9OQv7TEZ";
 		let TWITTER_CONSUMER_SECRET = "8E7HFH5mJFFhA0uITjj9GFbxgg6UJjjJVNSEZQ2vwxjXVTzphg";
-		
+
 		RNTwitterSignIn.init(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET);
 		RNTwitterSignIn.logIn()
 		.then(data => {
@@ -144,7 +144,7 @@ export default class SyncPage extends Component {
 		.then((res) => {
 			if (res.result == 1){
 				alert("Senkronizasyon başarılı. Tekrar giriş yapmanız gerekiyor.");
-				Actions.LoginPage({type: 'reset'}); 
+				Actions.LoginPage({type: 'reset'});
 			}
 			else if (res.result == -1){
 				alert("Senkronizasyon başarısız.");
@@ -182,7 +182,7 @@ export default class SyncPage extends Component {
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center', top: -hp(0.9) }}>
 
-                {!this.state.fbEntrance && 
+                {!this.state.fbEntrance &&
                     <View style={styles.buttonWrapper}>
                         <TouchableOpacity style={[styles.button, { backgroundColor: "#3b5998" }]}
                             onPress={this.fbSync.bind(this)}
@@ -192,7 +192,7 @@ export default class SyncPage extends Component {
                     </View>
                 }
 
-                {!this.state.googleEntrance && 
+                {!this.state.googleEntrance &&
                     <View style={styles.buttonWrapper}>
                         <TouchableOpacity style={[styles.button, { backgroundColor: "#db4437" }]}
                             onPress={this.googleSync}
@@ -202,7 +202,7 @@ export default class SyncPage extends Component {
                     </View>
                 }
 
-                {!this.state.twitterEntrance && 
+                {!this.state.twitterEntrance &&
                     <View style={styles.buttonWrapper}>
                         <TouchableOpacity style={[styles.button, { backgroundColor: "#00acee" }]}
                             onPress={this.twitter_sync.bind(this)}
@@ -213,17 +213,17 @@ export default class SyncPage extends Component {
 				}
 
 				<View style={{
-					width: wp(25), top: height/2 - hp(18) - (!this.state.fbEntrance && hp(6)) 
+					width: wp(25), top: height/2 - hp(18) - (!this.state.fbEntrance && hp(6))
 					- (!this.state.googleEntrance && hp(6)) - (!this.state.twitterEntrance && hp(6))
 				}}>
-                    <TouchableOpacity style={styles.altButton} 
+                    <TouchableOpacity style={styles.altButton}
                         onPress={()=>{Actions.pop();}}>
                         <Text style={styles.buttonText}>İptal</Text>
                     </TouchableOpacity>
                 </View>
 
 				<View style={{
-					alignItems: 'center', top: height/2 - hp(18) - (!this.state.fbEntrance && hp(6)) 
+					alignItems: 'center', top: height/2 - hp(18) - (!this.state.fbEntrance && hp(6))
 					- (!this.state.googleEntrance && hp(6)) - (!this.state.twitterEntrance && hp(6))
 				}}>
                     <View style={{ marginVertical: 8.3, borderBottomWidth: 1, borderBottomColor: '#C6C6CC', width: wp(90) }}/>
@@ -255,14 +255,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     buttonWrapper: {
-        marginVertical: 8.3, 
+        marginVertical: 8.3,
         width: wp(55),
     },
     altButton: {
-		borderRadius: 30, 
-		backgroundColor: 'grey', 
-		justifyContent: 'center', 
-		alignItems: 'center', 
+		borderRadius: 30,
+		backgroundColor: 'grey',
+		justifyContent: 'center',
+		alignItems: 'center',
 		padding: 10
 	},
 });

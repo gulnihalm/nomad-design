@@ -14,6 +14,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import {Header} from 'react-native-elements';
 import { Footer} from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
+import {RNCamera} from 'react-native-camera';
+import {Actions} from 'react-native-router-flux';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -32,14 +34,14 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between'
     },
     container: {
-      ...StyleSheet.absoluteFillObject,
+
       flex: 1,
       justifyContent: 'flex-start',
       justifyContent: 'space-around'
     },
     map: {
       width: wp('100%'),
-      height: hp('60%'),
+      height: hp('50%'),
     },
     marker: {
       backgroundColor: "#550bbc",
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
 });
 
 
-const DISTANCE_LIMIT = 120; // 100 meters is close enough to collect token
+const DISTANCE_LIMIT = 12000; // 100 meters is close enough to collect token
 
 export default class FollowTrip extends React.Component{
 
@@ -57,8 +59,10 @@ export default class FollowTrip extends React.Component{
         super(props);
         const {markers} = this.props;
         this.state = {
-            markers: this.getMarkers()
+            markers: this.getMarkers(),
+
         }
+
     }
 
     measure(lat1, lon1, lat2, lon2) { // generally used geo measurement function
@@ -80,12 +84,12 @@ export default class FollowTrip extends React.Component{
 
         markers.forEach( marker => {
 
-            console.log("-------------DISTANCE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );        
-                
+            console.log("-------------DISTANCE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
+
 
             if ( this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) < DISTANCE_LIMIT ){
                 console.log("YOU ARE CLOSE TO MARKER:",marker);
-                console.log("DISTANCE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );        
+                console.log("DISTANCE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
                 flag = marker.markerID;
             }
         });
@@ -112,7 +116,7 @@ export default class FollowTrip extends React.Component{
             })
 
             array[0].forEach(element => {
-            
+
                 console.log("->",element);
                 if ( element.tripID === tripID ){
 
@@ -130,46 +134,56 @@ export default class FollowTrip extends React.Component{
                     myMarkers.push(m);
                     console.log("marker found:",element);
                 }
-    
+
             });
-            
+
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
         });
 
         return myMarkers;
-       
+
     }
-   
+
+
     render(){
 
         console.log(this.props.user);
         console.log(this.props.trip);
 
+
+
         const {markers} = this.state;
         const {pos} = this.props
 
         closeEnough = this.checkPosition();
-
+        console.log(closeEnough,"__________________________________________________________________________");
+        console.log(closeEnough,"__________________________________________________________________________");
+        console.log(closeEnough,"__________________________________________________________________________"); 
         console.log("My markers for trip:",this.props.trip,"----->",markers);
 
         return (
-            <View>
-                <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
-  
+
+            <View style={{flex: 1, justifyContent: 'space-between',alignItems:'center' , width:  wp('100%'),height:  hp('100%')}}>
+              <View style={{flex: 1, width: wp('100%'),height:  hp('80%')}}>
+                <MapView style={styles.map}  provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
+
                     {markers.map((marker, i) => (<Marker coordinate={marker.latlng} title={marker.text} key = {i}/>))}
-
-
-  
                 </MapView>
-
                 {closeEnough>0 &&
-                    <View>
-                        <Text>You are close to a checkpoint!</Text>
+                    <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
+                      <Text>You are close to a checkpoint! TAP button to collect your Token!</Text>
+                      <Button title = "Get Token" onPress={() => Actions.ARpage({type:'reset'})}></Button>
                     </View>
                 }
+
+              </View>
+
+
             </View>
         );
+
+
     }
 
 }
