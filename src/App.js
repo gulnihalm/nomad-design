@@ -26,7 +26,6 @@ import Icon from 'react-native-vector-icons/Entypo';
 import EditTrip from './EditTrip';
 import Database from './Database';
 import Login from './Login';
-import Profile from './Profile';
 import SearchTrip from './SearchTrip';
 import FollowTrip from './FollowTrip';
 
@@ -38,7 +37,6 @@ const LATITUDE =40.016331868381485;
 const LONGITUDE = 32.81651669267004;
 
 const Pages = {
-  ProfilePage: 5,
   CreateTripPage: 1,
   FollowTripPage: 8, 
   SearchTripPage: 9
@@ -205,15 +203,6 @@ export default class App extends React.Component {
         <SearchTrip user = {user} trip = {trip} setTrip = { (tripID) => this.setTrip(tripID) } >
 
         </SearchTrip>
-      );
-    }
-
-    if ( Page === Pages.ProfilePage ){
-      return (
-        <Profile
-          user={user}
-        />
-          
       );
     }
 

@@ -22,9 +22,9 @@ export default class SyncPage extends Component {
 		super(props);
 
 		this.state = {
-      guid:               this.props.guid, 			//guid of the account that will be synced
-      googleEntrance:   	this.props.googleEntrance, 	//google account linked in the account that will be synced?
-      fbEntrance:    		this.props.fbEntrance,		//fb account linked in the account that will be synced?
+            guid:               this.props.guid, 			//guid of the account that will be synced
+            googleEntrance:   	this.props.googleEntrance, 	//google account linked in the account that will be synced?
+            fbEntrance:    		this.props.fbEntrance,		//fb account linked in the account that will be synced?
 			twitterEntrance:  	this.props.twitterEntrance,	//twitter account linked in the account that will be synced?
 			socialID:           "",							//social id of the account that will be linked
 			socialMail:			"",							//social email of the account that will be linked

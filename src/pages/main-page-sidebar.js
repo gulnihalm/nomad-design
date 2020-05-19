@@ -81,8 +81,15 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 								<Icon style={{left: -wp(12.5)}} name = 'ios-menu' size={30} color= 'white' />
 						</TouchableHighlight>
 						
-						<View //name and pic
-							style={[styles.card, {flexDirection: 'row' }]}>
+						<TouchableOpacity //name and pic
+							style={[styles.card, {flexDirection: 'row' }]}
+                            onPress={()=>{
+                                Actions.ProfilePage({ 
+                                    guid: this.state.guid, userChoice: this.state.userChoice,
+                                    googleEntrance: this.state.googleEntrance, fbEntrance: this.state.fbEntrance, twitterEntrance: this.state.twitterEntrance,
+                                    userName: this.state.userName,  pic: this.state.pic, userSurname: this.state.userSurname
+                                }); 
+                            }}>
 							{this.state.pic && (
 								<Image source={{uri: this.state.pic }} style={{width: 50, height: 50}}/>
 							)}
@@ -97,7 +104,7 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 									{this.getAdjustedUsername(7)}
 								</Text>
 							</View>
-						</View>
+						</TouchableOpacity>
 
 						<View style={{ position: 'absolute', top: hp(100) - 80, left: wp(25)-45 }}>
 							{ this.state.userChoice == "0" ? ( //LOG OUT FACEBOOK
