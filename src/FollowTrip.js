@@ -16,6 +16,7 @@ import { Footer} from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
 import {RNCamera} from 'react-native-camera';
 import {Actions} from 'react-native-router-flux';
+import MapViewDirections from 'react-native-maps-directions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     },
     map: {
       width: wp('100%'),
-      height: hp('50%'),
+      height: hp('80%'),
     },
     marker: {
       backgroundColor: "#550bbc",
@@ -50,26 +51,48 @@ const styles = StyleSheet.create({
 });
 
 
-const DISTANCE_LIMIT = 120000; // 100 meters is close enough to collect token
-
+const DISTANCE_LIMIT = 9720; // 100 meters is close enough to collect token
+const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM';
 export default class FollowTrip extends React.Component{
 
     constructor(props){
         super(props);
+        this.buttonPress = this.buttonPress.bind(this);
+        this.markRoute= this.markRoute.bind(this);
+        this.markersChecked = [];
+        this.tokeNum =0;
+        this.finished;
+        this.m=0;
+        this.coordinates = {
+          latitude :0,
+          longitude:0,
+        };
+        this.poss={
+          latitude: this.props.pos.latitude,
+          longitude: this.props.pos.longitude,
+        };
         const {markers} = this.props;
         this.state = {
-            flag: 0,
-            markersChecked: [],
+            //flag: 0,
+            //markersChecked2: this.props.markersChecked2,
             markersClaimed: [],
             markers: [],
-            markerIndex: -1
+            markerIndex: -1,
+            //finished2 : this.props.finished2,
+
+
         }
     }
 
+
+
     componentDidMount(){
         let {markers} = this.state;
+//      let {coordinates} = this.state;
         markers = this.getMarkers();
+//        coordinates = this.markRoute();
         this.setState({markers});
+
     }
 
     measure(lat1, lon1, lat2, lon2) { // generally used geo measurement function
@@ -81,38 +104,104 @@ export default class FollowTrip extends React.Component{
         var d = R * c;
         return d * 1000; // meters
     }
-    
+
     checkPosition(){
         const {pos} = this.props;
         const {markers} = this.state;
-        let {markersChecked, flag, markerIndex} = this.state;
-
-        var distance = DISTANCE_LIMIT;
+        //let {markersChecked} = this.state;
         let count = 0;
-
+        var distance = DISTANCE_LIMIT;
+        let flag=0;
         markers.forEach( marker => {
             var diff =  this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude )
             console.log("-------------DISTANCE____IF DISINDAKİ:", diff, marker.markerID);
 
 
-            if ( diff < distance && !markersChecked[count]){
+            if ( diff < distance && !this.markersChecked[count]){
                 console.log("YOU ARE CLOSE TO MARKER IF ICINDE:",marker);
                 console.log("DISTANCE IF ICINDE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
                 distance = diff
                 flag = marker.markerID;
-                markersChecked[count] = true;
-                this.setState({markersChecked, flag, markerIndex: count});
-                return flag;
             }
             count++;
+
         });
 
         return flag;
     }
 
+    markRoute(){
+        const {pos} = this.props;
+        const {markers} = this.state;
+//        let {coordinates} = this.state;
+        var count =0;
+        var temp=1000000;
+        var flag2 =0;
+        let finished2= this.state;
+//        var m;
+        for(let i = 0; i<this.m; i++){
+            if (this.markersChecked[i]){
+              this.finished= 1;
+            }
+            else {
+              this.finished =0;
+            }
+        }
+        markers.forEach(marker => {
+            var distance =  this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude )
+
+            if (distance <= temp && !this.markersChecked[count]){
+              temp=distance;
+              flag2=count;
+//            m=marker;
+              this.coordinates= marker.latlng;
+//            console.log(this.markersChecked,"GİRDİİİİİİİİİİİİİ")
+
+
+            }
+            count++;
+        });
+//      coordinates=marker.latlng
+//      return coordinates;
+//        return m;
+
+
+    }
+
+    markClose(closeEnough){
+      const {pos} = this.props;
+      const {markers} = this.state;
+
+      let count = 0;
+      let index= -1;
+      markers.forEach( marker => {
+
+          if ( marker.markerID === closeEnough){
+              index = count;
+          }
+          count++;
+
+      });
+      return index;
+    }
+
+    buttonPress = (closeEnough) => {
+      const {pos} = this.props;
+      let {markersChecked2}=this.state;
+      let {finished2}=this.state;
+      const {markers} = this.state;
+      //let mchecked = markersChecked;
+      let mindex = this.markClose(closeEnough);
+      this.markersChecked[mindex]=true;
+      //this.setState({markersChecked: mchecked ,markerIndex: mindex});
+      console.log(mindex,"_________");
+      console.log(this.markersChecked,"_________");
+      Actions.ARpage();
+    }
+
 
     getMarkers(){
-        let {markersChecked, markersClaimed} = this.state;
+        //let {markersChecked, markersClaimed} = this.state;
         myMarkers = [];
         tripID = this.props.trip;
         fetch('http://nomad-server2.000webhostapp.com/getMarkers.php')
@@ -129,7 +218,7 @@ export default class FollowTrip extends React.Component{
             })
 
             array[0].forEach(element => {
-            
+
                 console.log("->",element);
                 if ( element.tripID === tripID ){
 
@@ -144,20 +233,21 @@ export default class FollowTrip extends React.Component{
                     }
 
                     myMarkers.push(m);
-                    markersChecked.push(false);
-                    markersClaimed.push(false);
+                    this.markersChecked.push(false);
+                    this.m=this.m+1;
+                    //markersClaimed.push(false);
                     console.log("marker found:",element);
-                }                
+                }
             });
-            
+
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
         });
-        this.setState({markersChecked, markersClaimed});
+        //this.setState({markersChecked, markersClaimed});
 
         return myMarkers;
     }
-   
+
     render(){
 
         console.log(this.props.user);
@@ -168,11 +258,24 @@ export default class FollowTrip extends React.Component{
         const {markers} = this.state;
         const {pos} = this.props
 
-        closeEnough = this.checkPosition();
+
+
+
+        var closeEnough = this.checkPosition();
+        this.markRoute();
+//        this.coordinates = m.latlng;
+
         console.log(closeEnough,"__________________________________________________________________________");
         console.log(closeEnough,"__________________________________________________________________________");
+        console.log(this.finished,"22222222222222222222222");
+        console.log(this.markersChecked,"111111111111111111111111111");
         console.log(closeEnough,"__________________________________________________________________________");
         console.log("My markers for trip:",this.props.trip,"----->",markers);
+        console.log(this.coordinates,"***************************");
+        console.log(this.markersChecked[1]);
+
+
+
 
         return (
 
@@ -181,11 +284,26 @@ export default class FollowTrip extends React.Component{
                 <MapView style={styles.map}  provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
 
                     {markers.map((marker, i) => (<Marker coordinate={marker.latlng} title={marker.text} key = {i}/>))}
+                    {this.finished<1 &&
+                    <MapViewDirections
+                      origin={this.poss}
+                      destination={this.coordinates}
+                      apikey={GOOGLE_MAPS_APIKEY}
+                      mode="WALKING"
+                      strokeWidth= {3}
+                      strokeColor = "#BF1E2E"
+                    />}
                 </MapView>
                 {closeEnough>0 &&
                     <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
                       <Text>You are close to a checkpoint! TAP button to collect your Token!</Text>
-                      <Button title = "Get Token" onPress={() => Actions.ARpage({markerIndex: this.state.markerIndex, markerID: closeEnough, markersClaimed: this.state.markersClaimed})}></Button>
+                      <Button title = "Get Token" color="#BF1E2E"  onPress= { () => {this.buttonPress(closeEnough)}}></Button>
+                    </View>
+                }
+                {this.finished>0 &&
+                    <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
+                      <Text>Route FINISHED! Tap button to proceed.</Text>
+                      <Button title = "FINISH" color="#BF1E2E"></Button>
                     </View>
                 }
 

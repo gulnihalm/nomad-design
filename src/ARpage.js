@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Alert, Text, Button, TouchableOpacity, Image, Dimensions, Animated ,PanResponder,DeviceEventEmitter, NativeModules} from 'react-native'
+import { StyleSheet, View, Alert, Text, Button, TouchableOpacity, Image, Dimensions, Animated ,PanResponder,DeviceEventEmitter, NativeModules, BackHandler} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { RNCamera } from 'react-native-camera'
 import { gyroscope, setUpdateIntervalForType, SensorTypes } from "react-native-sensors";
@@ -20,6 +20,7 @@ class ARpage extends Component {
   }
 
 componentDidMount() {
+  BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   const subscription = gyroscope.subscribe(({x,y }) => {
     x= parseInt((100*x))/100
     y= parseInt((100*y))/100
@@ -41,8 +42,12 @@ componentDidMount() {
   setUpdateIntervalForType(SensorTypes.gyroscope, 45);
   this.setState({ subscription });
 }
-componentWillUnmount() {
-  this.state.subscription.unsubscribe();
+  handleBackButton() {
+    return true;
+}
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    this.state.subscription.unsubscribe();
 }
 
 
