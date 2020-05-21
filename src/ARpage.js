@@ -11,43 +11,43 @@ class ARpage extends Component {
     constructor(props) {
     super(props);
 
-    this.token= {x: 0, y:0}
+    this.token= {x: 0, y:0}//token place (pixel)
     this.state = {
-      x:0,
+      x:0,//initial place for token(degree to translate)
       y:0,//oynayabiliyoruz
       //t: true,
     };
   }
 
 componentDidMount() {
-  BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-  const subscription = gyroscope.subscribe(({x,y }) => {
-    x= parseInt((100*x))/100
+  BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);//telefonun geri tuşu çalışmasın
+  const subscription = gyroscope.subscribe(({x,y }) => {//gyroscope açık
+    x= parseInt((100*x))/100// degree to int
     y= parseInt((100*y))/100
     this.setState(state => ({
-      x: x + state.x , y: y + state.y
+      x: x + state.x , y: y + state.y// degree turn
     }));
-    if(this.token.y  >2150 || this.token.y<-2150){
+    if(this.token.y  >2150 || this.token.y<-2150){//360 degree turn
       this.setState({x:0});
 
    }
-    if(this.token.x >2150 || this.token.x <-2150){
+    if(this.token.x >2150 || this.token.x <-2150){//360 degree turn
       this.setState({y:0});
 
    }
-    this.token.x = parseFloat((this.state.y - 0.03) * 30)
-    this.token.y = parseFloat((this.state.x + 0.05) * 30)
+    this.token.x = parseFloat((this.state.y - 0.03) * 30)//degree to pixel translation
+    this.token.y = parseFloat((this.state.x + 0.05) * 30)//degree to pixel translation
 
   });
-  setUpdateIntervalForType(SensorTypes.gyroscope, 45);
+  setUpdateIntervalForType(SensorTypes.gyroscope, 45);//gyroscope interval, smaller for more presicion, but if too small phone heats up! 45 is fine
   this.setState({ subscription });
 }
-  handleBackButton() {
-    return true;
+  handleBackButton() {//telefonun geri tuşu çalışmasın
+    return true;//telefonun geri tuşu çalışmasın
 }
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    this.state.subscription.unsubscribe();
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);//telefonun geri tuşu çalışmasın
+    this.state.subscription.unsubscribe();//gyroscope kapalı
 }
 
 
