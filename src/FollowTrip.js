@@ -297,8 +297,13 @@ export default class FollowTrip extends React.Component{
                 </MapView>
                 {closeEnough>0 &&//if distance to closest marker under DISTANCE_LIMIT show AR button
                     <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
-                      <Text>You are close to a checkpoint! TAP button to collect your Token!</Text>
+                      <Text>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
                       <Button title = "Get Token" color="#BF1E2E"  onPress= { () => {this.buttonPress(closeEnough)}}></Button>
+                    </View>
+                }
+                {closeEnough<1 &&
+                    <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
+                      <Text>Follow the route and go to the next checkpoint!</Text>
                     </View>
                 }
                 {this.finished>0 &&//if route is finished show finish button
