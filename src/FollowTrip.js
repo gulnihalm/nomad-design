@@ -6,6 +6,7 @@ import {
     Dimensions,
     Button,
     Text,
+    TouchableOpacity,
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Geolocation from "@react-native-community/geolocation";
@@ -15,6 +16,7 @@ import {Header} from 'react-native-elements';
 import { Footer} from 'native-base';
 import Icon from 'react-native-vector-icons/Entypo';
 import {RNCamera} from 'react-native-camera';
+import { hostURL } from './common/general';
 import {Actions} from 'react-native-router-flux';
 import MapViewDirections from 'react-native-maps-directions';
 
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
 });
 
 
-const DISTANCE_LIMIT = 9720; // 100 meters is close enough to collect token but right now it is close to 10km for testing
+const DISTANCE_LIMIT = 100000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM'; //google api key with directions included
 export default class FollowTrip extends React.Component{
 
@@ -79,7 +81,6 @@ export default class FollowTrip extends React.Component{
             markers: [],//marker array
             markerIndex: -1,//index
             //finished2 : this.props.finished2,
-
 
         }
     }
@@ -114,12 +115,12 @@ export default class FollowTrip extends React.Component{
         let flag=0;
         markers.forEach( marker => {
             var diff =  this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude )
-            console.log("-------------DISTANCE____IF DISINDAKİ:", diff, marker.markerID);
+            ///console.log("-------------DISTANCE____IF DISINDAKİ:", diff, marker.markerID);
 
 
             if ( diff < distance && !this.markersChecked[count]){// if same index for marker in question is true on bool array then that marker is checked.
-                console.log("YOU ARE CLOSE TO MARKER IF ICINDE:",marker);
-                console.log("DISTANCE IF ICINDE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
+                ///console.log("YOU ARE CLOSE TO MARKER IF ICINDE:",marker);
+                ///console.log("DISTANCE IF ICINDE:",this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude ) );
                 distance = diff
                 flag = marker.markerID;
             }
@@ -195,8 +196,8 @@ export default class FollowTrip extends React.Component{
       this.markersChecked[mindex]=true;//make the same index in bool array true
       this.tokeNum=this.tokeNum+1;//collected one token
       //this.setState({markersChecked: mchecked ,markerIndex: mindex});
-      console.log(mindex,"_________");
-      console.log(this.markersChecked,"_________");
+      ///console.log(mindex,"_________");
+      ///console.log(this.markersChecked,"_________");
       Actions.ARpage();//go to AR
     }
 
@@ -205,7 +206,7 @@ export default class FollowTrip extends React.Component{
         //let {markersChecked, markersClaimed} = this.state;
         myMarkers = [];
         tripID = this.props.trip;
-        fetch('http://nomad-server2.000webhostapp.com/getMarkers.php')
+        fetch( hostURL + 'getMarkers.php')
         .then((response)=> response.json())
         .then((response) => {
             // console.log('response from get: ',response);
@@ -220,7 +221,7 @@ export default class FollowTrip extends React.Component{
 
             array[0].forEach(element => {
 
-                console.log("->",element);
+                ///console.log("->",element);
                 if ( element.tripID === tripID ){
 
                     m = {
@@ -237,22 +238,51 @@ export default class FollowTrip extends React.Component{
                     this.markersChecked.push(false);//put exactly one false for one marker. No of markers and "false"s will be same
                     this.m=this.m+1;//increase the size by one
                     //markersClaimed.push(false);
-                    console.log("marker found:",element);
+                    ///console.log("marker found:",element);
                 }
             });
 
         }).catch((error) => {
-            Alert.alert('The error is',JSON.stringify(error.message));
+            alert('The error is',JSON.stringify(error.message));
         });
         //this.setState({markersChecked, markersClaimed});
 
         return myMarkers;
     }
 
+    finishTrip=()=>{
+        console.log(this.props.user);
+        console.log(this.props.trip);
+        
+        fetch(hostURL + 'finishTrip.php', {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user: this.props.user,
+                trip: this.props.trip
+            })
+        })
+        .then((response)=> response.json())
+        .then((response) => {
+            console.log('finishTrip response: ', response);
+            if(response.result == 1){
+                this.props.onBack(9);
+            }
+            else if(response.result == -1){
+                alert("Finished trip could not be saved");
+            }
+        }).catch((error) => {
+            alert('Finish trip error: ', error);
+        });
+    }
+
     render(){
 
-        console.log(this.props.user);//for tracking
-        console.log(this.props.trip);//for tracking
+        ///console.log(this.props.user);//for tracking
+        ///console.log(this.props.trip);//for tracking
 
 
 
@@ -266,14 +296,14 @@ export default class FollowTrip extends React.Component{
         this.markRoute();// draw route and check if route is completed
 //        this.coordinates = m.latlng;
 
-        console.log(closeEnough,"__________________________________________________________________________");//for tracking
-        console.log(closeEnough,"__________________________________________________________________________");//for tracking
-        console.log(this.finished,"22222222222222222222222");                                                 //for tracking
-        console.log(this.markersChecked,"111111111111111111111111111");                                       //for tracking
-        console.log(closeEnough,"__________________________________________________________________________");//for tracking
-        console.log("My markers for trip:",this.props.trip,"----->",markers);                                 //for tracking
-        console.log(this.coordinates,"***************************");                                          //for tracking
-        console.log(this.markersChecked[1]);                                                                  //for tracking
+        ///console.log(closeEnough,"__________________________________________________________________________");//for tracking
+        ///console.log(closeEnough,"__________________________________________________________________________");//for tracking
+        ///console.log(this.finished,"22222222222222222222222");                                                 //for tracking
+        ///console.log(this.markersChecked,"111111111111111111111111111");                                       //for tracking
+        ///console.log(closeEnough,"__________________________________________________________________________");//for tracking
+        ///console.log("My markers for trip:",this.props.trip,"----->",markers);                                 //for tracking
+        ///console.log(this.coordinates,"***************************");                                          //for tracking
+        ///console.log(this.markersChecked[1]);                                                                  //for tracking
 
 
 
@@ -309,7 +339,8 @@ export default class FollowTrip extends React.Component{
                 {this.finished>0 &&//if route is finished show finish button
                     <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
                       <Text>Route FINISHED! Tap button to proceed.</Text>
-                      <Button title = "FINISH" color="#BF1E2E"></Button>
+                      <Button title = "FINISH" color="#BF1E2E"
+                        onPress={this.finishTrip}/>
                     </View>
 
 

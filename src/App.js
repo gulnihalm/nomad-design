@@ -187,7 +187,7 @@ export default class App extends React.Component {
   render() {
 
     const {user,trip,Page,pos} = this.state;
-    console.log("App js render",trip,Page);
+    //console.log("App js render",trip,Page);
 
     //should be able to delete this later?
   	if ( user === null ){
@@ -212,6 +212,9 @@ export default class App extends React.Component {
           user = {user}
           trip = {trip}
           pos = {pos}
+          onBack={( page )=>{
+            this.setState({ Page: page });
+          }}
         />
       )
     }
