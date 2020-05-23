@@ -38,7 +38,7 @@ const LONGITUDE = 32.81651669267004;
 
 const Pages = {
   CreateTripPage: 1,
-  FollowTripPage: 8, 
+  FollowTripPage: 8,
   SearchTripPage: 9
 };
 
@@ -140,7 +140,7 @@ export default class App extends React.Component {
       }, error => console.log(error.message), {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 3600000,
+        //maximumAge: 3600000,
         distanceFilter: 100000
       })
     }, 1000);
@@ -166,7 +166,7 @@ export default class App extends React.Component {
     console.log(markers);
 
     let filteredMarkers = markers.filter((marker) => (marker.latlng.latitude != e.nativeEvent.coordinate.latitude) && (marker.latlng.longitude != e.nativeEvent.coordinate.longitude));
-    
+
     console.log('filtered markers');
     console.log(filteredMarkers);
 
@@ -227,7 +227,7 @@ export default class App extends React.Component {
 
       if(!this.state.markerPlaceEnabled)
         button = <Button title="Start" color="#bada55" onPress={(e) => this.setState({markerPlaceEnabled: true})}/>
-  
+
       return (
       <View style={styles.container}>
       	<Header
@@ -235,15 +235,15 @@ export default class App extends React.Component {
         	centerComponent={{ text: 'TRIP CREATION', style: { color: '#fff' } }}
         	rightComponent={<TouchableOpacity onPress = { (e) => {this.setUser(null)} } style={{backgroundColor:'#bada55', width: wp('25%'), padding: 5 }}><Text style={{fontWeight: "bold" ,alignSelf: 'center', color:'#fff', padding: 5}}>LOGOUT</Text></TouchableOpacity> }
       	/>
-  
+
         <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={this.state.pos}
                 onPress={(e) => {
                   console.log(e.nativeEvent.coordinate);
                   if(this.state.markerPlaceEnabled)
                     this.setState({ markers: [...this.state.markers, { latlng: e.nativeEvent.coordinate }] })}}>
-  
+
           {this.state.markers.map((marker, i) => (<Marker onPress= {(e) => { if(this.state.markerPlaceEnabled) this.onPressMarker(e)}} coordinate={marker.latlng} key = {i}/>))}
-  
+
         </MapView>
 
         <View style={styles.multiButtonContainer}>
@@ -262,7 +262,7 @@ export default class App extends React.Component {
         <View>
           <Footer style={{backgroundColor: "dodgerblue"}}/>
         </View>
-                  
+
         </View>
 
       );
@@ -271,7 +271,7 @@ export default class App extends React.Component {
     else if(Page === 2){
 
       return(
-        
+
         <EditTrip user = {user} markers = {markers} pos = {pos}>
 
         </EditTrip>
@@ -280,13 +280,13 @@ export default class App extends React.Component {
 	else if(Page === 3){
 
 		return(
-		  
+
 		  <Database markers = {markers} pos = {pos}>
-  
+
 		  </Database>
 		);
 	  }
-   
+
 
   }
 
