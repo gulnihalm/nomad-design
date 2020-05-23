@@ -331,7 +331,7 @@ export default class FollowTrip extends React.Component{
                       <Button title = "Get Token" color="#BF1E2E"  onPress= { () => {this.buttonPress(closeEnough)}}></Button>
                     </View>
                 }
-                {closeEnough<1 &&
+                {closeEnough<1 && this.finished<1 &&
                     <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
                       <Text>Follow the route and go to the next checkpoint!</Text>
                     </View>
