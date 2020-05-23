@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Alert, Text, Button, TouchableOpacity, Image, Dimensions, Animated ,PanResponder,DeviceEventEmitter, NativeModules, BackHandler} from 'react-native'
+import { StyleSheet, View, Alert, Text, Button, TouchableOpacity, Image, Dimensions, PixelRatio, Animated ,PanResponder,DeviceEventEmitter, NativeModules, BackHandler} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { RNCamera } from 'react-native-camera'
 import { gyroscope, setUpdateIntervalForType, SensorTypes } from "react-native-sensors";
 import {Actions} from 'react-native-router-flux';
 
 const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
+//830.5714285714286 411.42857142857144
+//const objWidth = width/8;
+//const objHeight = height/8;
 
 class ARpage extends Component {
     constructor(props) {
@@ -13,8 +18,8 @@ class ARpage extends Component {
 
     this.token= {x: 0, y:0}//token place (pixel)
     this.state = {
-      x:0,//initial place for token(degree to translate)
-      y:0,//oynayabiliyoruz
+        x: Math.random() < 0.5 ? (Math.random()*(-20)) : (Math.random()*(20)),//initial place for token(degree to translate)
+        y:0,//oynayabiliyoruz	      y: Math.random() < 0.5 ? (Math.random()*(-30)) : (Math.random()*(30)),//oynayabiliyoruz
       //t: true,
     };
   }
@@ -27,6 +32,7 @@ componentDidMount() {
     this.setState(state => ({
       x: x + state.x , y: y + state.y// degree turn
     }));
+    //console.log(this.state.x,"XX....YYYY", this.state.y);
     if(this.token.y  >2150 || this.token.y<-2150){//360 degree turn
       this.setState({x:0});
 
@@ -85,8 +91,8 @@ const styles = StyleSheet.create({
     height: wp('100%'),
   },
   token: {
-    width: wp('50%'),
-    height: wp('50%'),
+    width: wp('20%'),
+    height: wp('40%'),
     position: 'absolute',
   },
 })

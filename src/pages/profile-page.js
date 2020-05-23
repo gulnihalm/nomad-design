@@ -24,7 +24,6 @@ export default class ProfilePage extends Component {
             userName: 			this.props.userName, 
             userSurname:		this.props.userSurname,
             pic: 				this.props.pic,
-            disable:            false,
 		};
     }
 
@@ -41,17 +40,23 @@ export default class ProfilePage extends Component {
                         <Text style={[styles.text, {fontSize: 25}]}>{this.state.userName + " " + this.state.userSurname}</Text>
                     </View>
                     
-                    <View style={styles.textWrapper}>
-                        <Text style={styles.text}>some fucking text</Text>
-                    </View>
-
                     <View style={styles.buttonWrapper}>
                         <TouchableOpacity style={styles.button}
-                            onPress={()=>{}}
-                            disabled={this.state.disable}>
-                            <Text style={styles.buttonText}>some fucking button</Text>
+                            onPress={()=>{ Actions.FinishedTripsPage({
+                                guid: this.state.guid, userChoice: this.state.userChoice,
+                                googleEntrance: this.state.googleEntrance, fbEntrance: this.state.fbEntrance, twitterEntrance: this.state.twitterEntrance,
+                                userName: this.state.userName,  pic: this.state.pic, userSurname: this.state.userSurname
+                            }); }}>
+                            <Text style={styles.buttonText}>Finished Routes</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <View style={styles.textWrapper}>
+                        <Text style={[styles.text,{fontWeight:'bold'}]}>Synchronized Accounts</Text>
+                    </View>
+                        {this.state.fbEntrance && <Text style={[styles.text,{}]}>Facebook</Text>}
+                        {this.state.googleEntrance && <Text style={[styles.text,{}]}>Google</Text>}
+                        {this.state.twitterEntrance && <Text style={[styles.text,{}]}>Twitter</Text>}
                 </View>
 
                 <View style={{ position: 'absolute', width: wp(25), top: height - hp(12) }}>
@@ -75,7 +80,6 @@ const styles = StyleSheet.create({
         borderBottomColor: '#000',
         borderBottomWidth: 1,
         marginVertical: 8.3,
-        width: wp(75),
     },
     button: {
 		borderRadius: 30,

@@ -71,16 +71,16 @@ export default class SearchTrip extends Component{
 
         if ( trips.length == 0 )
             return (
-                <Text>Waiting Response...</Text>
+                <Text>Getting Available Trips...</Text>
             );
 
         return (
             <View>
                 {trips.map(trip =>
-                    <Card title={trip[2]} text={trip.description}>
-                        <Text style={{fontWeight:"bold"}}>Labeli buraya</Text>
+                    <Card title={trip[2]}>
+                        <Text style={{fontWeight:"bold"}}>{trip[3]}</Text>
 
-                        <Text>Bu bir ornek card. Bunu customize edebilirsiniz</Text>
+                        <Text>{trip[4]}</Text>
 
                         <Button title='Follow This Trip' onPress={() => this.onPressFollow(trip[0])}> </Button>
                         
