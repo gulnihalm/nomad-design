@@ -138,10 +138,10 @@ export default class App extends React.Component {
         //   this.setState({coordinates: joined, pos: region});
         // }
       }, error => console.log(error.message), {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 10000,
         //maximumAge: 3600000,
-        distanceFilter: 100000
+
       })
     }, 1000);
   };

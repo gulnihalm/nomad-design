@@ -5,6 +5,7 @@ import {
     View,
     Dimensions,
     Button,
+    Image,
     Text,
     TouchableOpacity,
 } from 'react-native';
@@ -49,12 +50,25 @@ const styles = StyleSheet.create({
       backgroundColor: "#550bbc",
       padding: 5,
       borderRadius: 5
+    },
+    markerStyle: {
+      width: 50,
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    userStyle: {
+      width: 40,
+      height: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
     }
 });
 
 
 const DISTANCE_LIMIT = 100000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM'; //google api key with directions included
+//AIzaSyCA0MiYtfUFz70Mz4vZh6YTnjfY4_r_r18
 export default class FollowTrip extends React.Component{
 
     constructor(props){
@@ -69,10 +83,7 @@ export default class FollowTrip extends React.Component{
           latitude :0,
           longitude:0,
         };
-        this.poss={//user position
-          latitude: this.props.pos.latitude,
-          longitude: this.props.pos.longitude,
-        };
+
         const {markers} = this.props;
         this.state = {
             //flag: 0,
@@ -93,7 +104,6 @@ export default class FollowTrip extends React.Component{
         markers = this.getMarkers();//get markers from DB
 //        coordinates = this.markRoute();
         this.setState({markers});
-
     }
 
     measure(lat1, lon1, lat2, lon2) { // generally used geo measurement function
@@ -253,7 +263,7 @@ export default class FollowTrip extends React.Component{
     finishTrip=()=>{
         console.log(this.props.user);
         console.log(this.props.trip);
-        
+
         fetch(hostURL + 'finishTrip.php', {
             method: "POST",
             headers: {
@@ -312,15 +322,25 @@ export default class FollowTrip extends React.Component{
 
             <View style={{flex: 1, justifyContent: 'space-between',alignItems:'center' , width:  wp('100%'),height:  hp('100%')}}>
               <View style={{flex: 1, width: wp('100%'),height:  hp('80%')}}>
-                <MapView style={styles.map}  provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
-
-                    {markers.map((marker, i) => (<Marker coordinate={marker.latlng} title={marker.text} key = {i}/>))}
+                <MapView style={styles.map}  provider={PROVIDER_GOOGLE}  followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
+                  <Marker coordinate={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}>
+                     <View style ={styles.userStyle}>
+                     <Image style ={styles.userStyle} source= {{uri : 'https://i.ya-webdesign.com/images/pokemon-red-sprite-png-12.gif'}} />
+                   </View>
+                  </Marker>
+                    {markers.map((marker, i) => (<Marker coordinate={marker.latlng} title={marker.text} key = {i}>
+                        <View style ={styles.markerStyle}>
+                          <Image style ={styles.markerStyle} source= {{uri : 'https://www.mountcarmelliving.com/wp-content/uploads/2016/07/map-marker.gif'}} />
+                        </View>
+                    </Marker>))}
                     {this.finished<1 &&//if route is not finished keep drawing to next marker
                     <MapViewDirections
-                      origin={this.poss}//from user location to
+                      origin={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}//from user location to
                       destination={this.coordinates}//closest maker
                       apikey={GOOGLE_MAPS_APIKEY}
-                      mode="WALKING"//walking route
+                      resetOnChange = {false}
+                      presicion = 'high'
+                      mode='WALKING'//walking route
                       strokeWidth= {3}//kalınlık
                       strokeColor = "#BF1E2E"//renk
                     />}
