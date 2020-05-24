@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },
     map: {
       width: wp('100%'),
-      height: hp('80%'),
+      height: hp('90%'),
     },
     marker: {
       backgroundColor: "#550bbc",
@@ -339,8 +339,8 @@ export default class FollowTrip extends React.Component{
                       destination={this.coordinates}//closest maker
                       apikey={GOOGLE_MAPS_APIKEY}
                       resetOnChange = {false}
-                      presicion = 'high'
-                      mode='WALKING'//walking route
+                      presicion = "high"
+                      mode="WALKING"//walking route
                       strokeWidth= {3}//kalınlık
                       strokeColor = "#BF1E2E"//renk
                     />}
