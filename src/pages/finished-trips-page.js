@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NativeModules, Text, View, ScrollView, TouchableOpacity, Dimensions, StyleSheet, Platform, Image } from 'react-native';
+import { NativeModules, Text, View, ScrollView, SafeAreaView, TouchableOpacity, Dimensions, StyleSheet, Platform, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { hostURL } from '../common/general';
@@ -97,7 +97,7 @@ export default class FinishedTripsPage extends Component {
         console.log(trips);
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                {(trips.length == 0 && !requestDone) &&
+                {!requestDone &&
                     <View style={{alignItems: 'center', top: -hp(12)}}>
                         <View style={{width: wp(75),}}>
                             <Text style={[styles.text, {fontSize: 25}]}>Getting your followed trips...</Text>
@@ -112,27 +112,24 @@ export default class FinishedTripsPage extends Component {
                     </View>
                 }
                 {(trips.length != 0 && requestDone) &&
-                    <View style={{alignItems: 'center'}}>
-                        <View style={{position: 'absolute', top: -hp(30)}}>
+                    <View style={{flex:1, alignItems: 'center'}}>
+                        <View style={{position: 'absolute', top: hp(3)}}>
                             <Text style={[styles.text, {fontSize: 25}]}>Your Followed Trips</Text>
                         </View>
 
-                        <View style={{alignItems: 'center', top: -hp(30)}}>
-                            <View style={{top: hp(5), width:wp(100)}}>
-                                {trips.map(trip =>
-                                <View>
-                                    <Card title={trip[2]}>
-                                        <Text style={{fontWeight:"bold"}}>{trip[3]}</Text>
-                                        <Text>{trip[4]}</Text>
-                                    </Card>
-                                </View>
-                                )}
-                            </View>
-                        </View>
+                        <ScrollView style={{marginBottom:hp(20), top: hp(9), width:wp(100)}}>
+                            {trips.map(trip =>
+                                <Card title={trip[2]}>
+                                    <Text style={{fontWeight:"bold", marginBottom:2}}>{trip[3]}</Text>
+                                    <Text style={{marginVertical:2}}>{trip[4]}</Text>
+                                    <Button title='Comment and rate this trip' onPress={() => {}}></Button>
+                                </Card>
+                            )}
+                        </ScrollView>
                     </View>
                 }
 
-                <View style={{ position: 'absolute', width: wp(25), top: height - hp(12) }}>
+                <View style={{ position: 'absolute', width: wp(25), top: height - hp(9) }}>
                     <TouchableOpacity style={styles.altButton}
                         onPress={()=>{Actions.pop();}}>
                         <Text style={styles.buttonText}>Geri</Text>
