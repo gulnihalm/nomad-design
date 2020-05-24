@@ -18,8 +18,8 @@ class ARpage extends Component {
 
     this.token= {x: 0, y:0}//token place (pixel)
     this.state = {
-      x: Math.random() < 0.5 ? (Math.random()*(-20)) : (Math.random()*(20)),//initial place for token(degree to translate)
-      y: Math.random() < 0.5 ? (Math.random()*(-30)) : (Math.random()*(30)),//oynayabiliyoruz
+      x: Math.random() < 0.5 ? (Math.random()*(-15)) : (Math.random()*(15)),//initial place for token(degree to translate)
+      y: Math.random() < 0.5 ? (Math.random()*(-20)) : (Math.random()*(20)),//oynayabiliyoruz
       //t: true,
     };
   }
@@ -45,7 +45,7 @@ componentDidMount() {
     this.token.y = parseFloat((this.state.x + 0.05) * 30)//degree to pixel translation
 
   });
-  setUpdateIntervalForType(SensorTypes.gyroscope, 45);//gyroscope interval, smaller for more presicion, but if too small phone heats up! 45 is fine
+  setUpdateIntervalForType(SensorTypes.gyroscope, 35);//gyroscope interval, smaller for more presicion, but if too small phone heats up! 45 is fine
   this.setState({ subscription });
 }
   handleBackButton() {//telefonun geri tuşu çalışmasın
