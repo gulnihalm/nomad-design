@@ -1,4 +1,5 @@
 import React from 'react';
+import {Actions} from 'react-native-router-flux';
 import MapView, {Marker, AnimatedRegion, PROVIDER_GOOGLE, Polyline} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import {
     StyleSheet,
@@ -68,6 +69,7 @@ export default class EditTrip extends React.Component{
     }
 
     onPressMarker(i) {
+        
 
         this.setState({inputEnabled: true, selectedMarker: i, text: ''});
     }
@@ -196,7 +198,7 @@ export default class EditTrip extends React.Component{
         });
 
         this.submitMarkers();        
-
+        
     }
 
     render(){
@@ -216,36 +218,35 @@ export default class EditTrip extends React.Component{
                 <View style={styles.container}>
 
                     <Header
-        	            leftComponent={<Icon name="menu" size={40} color="white" ></Icon>}
+        	            backgroundColor = '#BF1E2E'
         	            centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff' } }}
-        	            rightComponent={<Button title="LogOut" color='#bada55'/> }
+        	            
       	            />
-                    <View>
-                        <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }} label = {'Description'} placeholder = {'Trip Description'} value={this.state.tripDescription} onChangeText={desc => {
-                            this.setState({tripDescription: desc});}}/>
-                    </View>
+                    
                     <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
             
                         {this.state.markers.map((marker, i) => <Marker identifier = {i.toString(10)} title = {this.state.titles[i]} description = {this.state.descriptions[i]} 
                             onPress= {(e) => {this.onPressMarker(i)}} coordinate={marker.latlng} key = {i}/>)}
             
                     </MapView>
-                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }} label = {'title'} placeholder = {'title'} value={this.state.text} onChangeText={text => {
+                    <View>
+                        <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }} label = {'Description'} placeholder = {'Trip Description'} value={this.state.tripDescription} onChangeText={desc => {
+                            this.setState({tripDescription: desc});}}/>
+                    </View>
+                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }} label = {'title'} placeholder = {'Marker Title'} value={this.state.text} onChangeText={text => {
                         let temp = titles.slice();
                         temp[selectedMarker] = text;
                         this.setState({titles: temp, text: text});}}/>
 
                     <View style={styles.multiButtonContainer}>
                         <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
-                        <Button title="Next" onPress = {(e) => this.setState({Page:2})}/>
+                        
                     </View>
 
-                    <View style= {styles.buttonContainer}>
-                        <Button title="Back" onPress = {(e) => this.setState({Page:2})}/>
-                    </View>
+                    
 
                     <View>
-                        <Footer style={{backgroundColor: "dodgerblue"}}/>
+                        <Footer style={{backgroundColor: "#BF1E2E"}}/>
                     </View>
 
                 </View>
@@ -259,14 +260,12 @@ export default class EditTrip extends React.Component{
                 <View style={styles.container}>
 
                     <Header
-        	            leftComponent={<Icon name="menu" size={40} color="white" ></Icon>}
+                        backgroundColor = '#BF1E2E'
+        	            
         	            centerComponent={{ text: 'TRIP CREATION', style: { color: '#fff' } }}
-        	            rightComponent={<Button title="LogOut" color='#bada55'/> }
+        	            
       	            />
-                    <View style={{width:'100%'}}>
-                        <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }} label = {'Description'} placeholder = {'Trip Description'} value={this.state.tripDescription} onChangeText={desc => {
-                            this.setState({tripDescription: desc});}}/>
-                    </View>
+                    
 
                     <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
             
@@ -274,17 +273,18 @@ export default class EditTrip extends React.Component{
             
                     </MapView>
 
-                   
+                    <View style={{width:'100%'}}>
+                        <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }} label = {'Description'} placeholder = {'Trip Description'} value={this.state.tripDescription} onChangeText={desc => {
+                            this.setState({tripDescription: desc});}}/>
+                    </View>
                     <View style={styles.multiButtonContainer}>
                         <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
                     </View>
 
-                    <View style= {styles.buttonContainer}>
-                        <Button title="Back" onPress = {(e) => this.setState({Page:2})}/>
-                    </View>
+                    
 
                     <View>
-                        <Footer style={{backgroundColor: "dodgerblue"}}/>
+                        <Footer style={{backgroundColor: "#BF1E2E"}}/>
                     </View>
 
                     

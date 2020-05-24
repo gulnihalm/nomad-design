@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     flex: 1,
+    borderColor:'red',
     justifyContent: 'flex-start',
     justifyContent: 'space-around'
   },
@@ -69,6 +70,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#550bbc",
     padding: 5,
     borderRadius: 5
+  },
+  text:{
+    fontFamily:'Open Sans'
   }
 });
 
@@ -85,9 +89,9 @@ export default class App extends React.Component {
       },
       markers: [],
       markerPlaceEnabled: false,
-      Page: this.props.page, //Pages.SearchTripPage,
-      user: 0, //1,
-      trip: null
+      Page: this.props.page,
+      user: 0, //This will include all the user information. Not just UserID. It should include UserID, email, username and password like the user JSON object below
+      trip: null,
     }
   }
 
@@ -99,7 +103,7 @@ export default class App extends React.Component {
     if(useMapServices)
         this.requestLocationPermission();
 
-    user = '{"ID":"' + this.props.guid + '", "email":"' + this.props.userEmail + '", "username":"' + this.props.userName + '", "password":"' + this.props.userPassword + '"}';
+    user = '{"ID":"' + this.props.guid + '", "email":"' + this.props.userEmail + '", "username":"' + this.props.userName + '", "password":"' + this.props.userPassword + '"}';//HI I AM THE JSON OBJECT MENTIONED
     this.setState({Page, user});
   };
 
@@ -190,13 +194,13 @@ export default class App extends React.Component {
     //console.log("App js render",trip,Page);
 
     //should be able to delete this later?
-  	if ( user === null ){
+  	/*if ( user === null ){
   		return (
   			<Login setUser = { (user) => this.setUser(user) }>
 
   			</Login>
   			);
-  	}
+  	}*/
 
     if ( Page === Pages.SearchTripPage  ){
       return (
@@ -231,9 +235,9 @@ export default class App extends React.Component {
       return (
       <View style={styles.container}>
       	<Header
-        	leftComponent={<Icon name="menu" size={40} color="white" ></Icon>}
+        	backgroundColor = '#BF1E2E'
         	centerComponent={{ text: 'TRIP CREATION', style: { color: '#fff' } }}
-        	rightComponent={<TouchableOpacity onPress = { (e) => {this.setUser(null)} } style={{backgroundColor:'#bada55', width: wp('25%'), padding: 5 }}><Text style={{fontWeight: "bold" ,alignSelf: 'center', color:'#fff', padding: 5}}>LOGOUT</Text></TouchableOpacity> }
+
       	/>
 
         <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={this.state.pos}
@@ -250,17 +254,14 @@ export default class App extends React.Component {
           {button}
           <Button title="Next" onPress = {(e) => this.setState({Page:2})}/>
         </View>
+        <View style={styles.multiButtonContainer}>
 
-        <View style= {styles.buttonContainer}>
-          <Button title="Back" />
-        </View>
+        <Text >You will tap map to put markers and retap to remove the marker. To disable/enable removing and see the locations, click STOP/START button. To add description tap NEXT</Text>
 
-		<View>
-          <Button title="DB" onPress = {(e) => this.setState({Page:3})}/>
         </View>
 
         <View>
-          <Footer style={{backgroundColor: "dodgerblue"}}/>
+          <Footer style={{backgroundColor: "#BF1E2E"}}/>
         </View>
 
         </View>
@@ -277,15 +278,7 @@ export default class App extends React.Component {
         </EditTrip>
       );
     }
-	else if(Page === 3){
 
-		return(
-
-		  <Database markers = {markers} pos = {pos}>
-
-		  </Database>
-		);
-	  }
 
 
   }

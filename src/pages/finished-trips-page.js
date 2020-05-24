@@ -58,12 +58,14 @@ export default class FinishedTripsPage extends Component {
                 str = str.substr(1,str.length - 2);
 
                 console.log('str:',str);
+                
                 let obj = JSON.parse(str);
+                
                 let array=Object.keys(obj).map(function(k){
                     return obj[k];
                 })
-
-                array[0].forEach(element => {
+                
+                array.forEach(element => {
                 
                     var trip = [];
                     trip.push(element.tripID);
@@ -75,8 +77,11 @@ export default class FinishedTripsPage extends Component {
                     trips.push(trip);
         
                 });
+                
                 this.setState({trips, requestDone:true});
+                
                 this.forceUpdate();
+                
             }
             else if(response.result == -1){
                 alert("Followed trips were not acquired");
