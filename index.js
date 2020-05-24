@@ -11,7 +11,7 @@ import StartPage from './src/pages/start-page';
 import SyncPage from './src/pages/sync-page';
 import ProfilePage from './src/pages/profile-page';
 import FinishedTripsPage from './src/pages/finished-trips-page';
-import CreateTripPage from './src/App';
+import CreateTripPage from './src/CreateTripPage';
 import ARpage from './src/ARpage';
 
 export default class Login extends Component {

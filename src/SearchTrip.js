@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import {Header,Card,Button, SearchBar} from 'react-native-elements';
-import Search from 'react-native-search-box';
 
 export default class SearchTrip extends Component{
     constructor(props){

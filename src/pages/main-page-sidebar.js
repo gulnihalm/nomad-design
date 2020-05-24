@@ -108,7 +108,7 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 						<TouchableOpacity //Create Trip Button
                             style={styles.sidebarButton}
                             onPress={()=>{
-                                Actions.CreateTripPage({page:1})
+                                Actions.CreateTripPage({guid: this.state.guid, userEmail: this.props.userEmail, userName: this.state.userName, userPassword: this.props.userPassword});
                             }}>
                             <Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Create Trip</Text>
                         </TouchableOpacity>
