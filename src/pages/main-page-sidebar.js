@@ -105,7 +105,13 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 								</Text>
 							</View>
 						</TouchableOpacity>
-
+						<TouchableOpacity //Create Trip Button
+                            style={styles.sidebarButton}
+                            onPress={()=>{
+                                Actions.CreateTripPage({page:1})
+                            }}>
+                            <Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Create Trip</Text>
+                        </TouchableOpacity>
 						<View style={{ position: 'absolute', top: hp(100) - 80, left: wp(25)-45 }}>
 							{ this.state.userChoice == "0" ? ( //LOG OUT FACEBOOK
 								<View style={{width: wp(25)}}>
