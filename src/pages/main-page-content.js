@@ -142,7 +142,7 @@ export default class MainPage extends Component {
 							</View>
 
 							{this.state.viewConfigInfo && (
-								<Text>You can change your e-mail address, and you can determine a new password for future login.</Text>
+								<Text>You can change your e-mail address registered in our system, and you can set a password to login faster in future.</Text>
 							)}
 
 							<RegisterModal
@@ -187,31 +187,31 @@ export default class MainPage extends Component {
 
 						<View style={[styles.card, {justifyContent: 'center', height: hp(12)}]}>
 							{ this.state.userChoice == "0" ? ( //LOG OUT FACEBOOK
-									<View style={{width: wp(25)}}>
+									<View style={{width: wp(30)}}>
 										<TouchableOpacity style={styles.altButton}
 											onPress={()=>{ LoginManager.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-											<Text style={styles.buttonText}>Exit</Text>
+											<Text style={styles.buttonText}>Log out</Text>
 										</TouchableOpacity>
 									</View>
 								):( this.state.userChoice == "1" ? ( //LOG OUT GOOGLE
-										<View style={{width: wp(25)}}>
+										<View style={{width: wp(30)}}>
 											<TouchableOpacity style={styles.altButton}
 												onPress={()=>{ google_signOut(); Actions.LoginPage({type: 'reset'}); }}>
-												<Text style={styles.buttonText}>Exit</Text>
+												<Text style={styles.buttonText}>Log out</Text>
 											</TouchableOpacity>
 										</View>
 									):( this.state.userChoice == "2" ? ( //LOG OUT TWITTER
-											<View style={{width: wp(25)}}>
+											<View style={{width: wp(30)}}>
 												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ RNTwitterSignIn.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-													<Text style={styles.buttonText}>Exit</Text>
+													<Text style={styles.buttonText}>Log out</Text>
 												</TouchableOpacity>
 											</View>
 										):( //LOG OUT EMAIL
-											<View style={{width: wp(25)}}>
+											<View style={{width: wp(30)}}>
 												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ Actions.LoginPage({type: 'reset'}); }}>
-													<Text style={styles.buttonText}>Exit</Text>
+													<Text style={styles.buttonText}>Log out</Text>
 												</TouchableOpacity>
 											</View>
 										)

@@ -84,7 +84,7 @@ export default class DeleteModal extends Component {
 
                     <View style={{ margin: 8.3 , width: wp(75) }}>
                         <Text style={{ textAlign: 'left' }}>Are you sure you want to delete this account?</Text>
-                        <Text style={{ textAlign: 'left' }}>This can not be undone.</Text>
+                        <Text style={{ textAlign: 'left' }}>This action can not be undone.</Text>
                     </View>
 
                     <View style={{flexDirection: 'row'}}>

@@ -100,21 +100,21 @@ export default class FinishedTripsPage extends Component {
                 {!requestDone &&
                     <View style={{alignItems: 'center', top: -hp(12)}}>
                         <View style={{width: wp(75),}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>Fetching finished routes...</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>Getting your finished trips...</Text>
                         </View>
                     </View>
                 }
                 {(trips.length == 0 && requestDone) &&
                     <View style={{alignItems: 'center', top: -hp(12)}}>
                         <View style={{width: wp(75),}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>You have not completed a route yet, you can see finished routes here and you can rate them and leave a comment.</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>You have not completed a trip yet, once you do, you can view, rate and comment on your finished trips in here.</Text>
                         </View>
                     </View>
                 }
                 {(trips.length != 0 && requestDone) &&
                     <View style={{flex:1, alignItems: 'center'}}>
                         <View style={{position: 'absolute', top: hp(3)}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>Finished Routes</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>Your Finished Trips</Text>
                         </View>
 
                         <ScrollView style={{marginBottom:hp(20), top: hp(9), width:wp(100)}}>
@@ -123,10 +123,10 @@ export default class FinishedTripsPage extends Component {
                                     <Text style={{fontWeight:"bold", marginBottom:2}}>{trip[3]}</Text>
                                     <Text style={{marginVertical:2}}>{trip[4]}</Text>
                                     {(trip[5] == "") &&
-                                        <Button title='Rotayı puanla ve yorumla' onPress={() => { Actions.CommentRatePage({tripID: trip[0], tripName: trip[2], label: trip[3], description: trip[4], guid: this.state.guid}); }}></Button>
+                                        <Button title='Rate and comment on this trip' onPress={() => { Actions.CommentRatePage({tripID: trip[0], tripName: trip[2], label: trip[3], description: trip[4], guid: this.state.guid}); }}></Button>
                                     }
                                     {(trip[5] != "") &&
-                                        <Button title='Bu rotayı puanladınız ve yorumladınız' disabled={true}></Button>
+                                        <Button title='You have already rated and commented on this trip' disabled={true}></Button>
                                     }
                                 </Card>
                             )}

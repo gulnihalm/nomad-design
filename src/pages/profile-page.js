@@ -47,7 +47,7 @@ export default class ProfilePage extends Component {
                                 googleEntrance: this.state.googleEntrance, fbEntrance: this.state.fbEntrance, twitterEntrance: this.state.twitterEntrance,
                                 userName: this.state.userName,  pic: this.state.pic, userSurname: this.state.userSurname
                             }); }}>
-                            <Text style={styles.buttonText}>Finished Routes</Text>
+                            <Text style={styles.buttonText}>Finished Trips</Text>
                         </TouchableOpacity>
                     </View>
 

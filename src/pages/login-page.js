@@ -103,7 +103,7 @@ export default class LoginPage extends Component {
 					});
 				}
 				else if (res.result == -1){ //WRONG OR NON-EXISTING USER
-					alert("User not verified");
+					alert("User could not be verified");
 					this.setState({disable: false});
 				}
 				else if (res.result == -2){ //WRONG PASSWORD
@@ -285,11 +285,11 @@ export default class LoginPage extends Component {
 					acc = " google";
 				if(userChoice == "2")
 					acc = " twitter";
-				alert("Email associated with this" + acc + " account is used in another login. You need to login to other account and sync both accounts in order to used this" + acc + " account.");
+				alert("E-mail associated with this" + acc + " account is used in another login. In order to use this" + acc + ", you need to login from that other account and synchronize this account manually.");
 				this.setState({disable: false});
 			}
 			else if (res.result == -1){
-				alert("Login with social media account not verified: "  + res.error );
+				alert("Login with social media account could not be verified: "  + res.error );
 				this.setState({disable: false});
 			}
 		})
@@ -302,7 +302,7 @@ export default class LoginPage extends Component {
 	render() {
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center', top: -hp(0.9) }}>
-				<View style={{ marginVertical: 8.3, width: wp(50) }}>
+				<View style={{ marginVertical: 8.3, width: wp(60) }}>
 					<TouchableOpacity style={[styles.button, { backgroundColor: "#3b5998" }]}
 						onPress={this.fbLogin.bind(this)}
 						disabled={this.state.disable}>
@@ -310,7 +310,7 @@ export default class LoginPage extends Component {
 					</TouchableOpacity>
 				</View>
 
-				<View style={{ marginVertical: 8.3, width: wp(50) }}>
+				<View style={{ marginVertical: 8.3, width: wp(60) }}>
 					<TouchableOpacity style={[styles.button, { backgroundColor: "#db4437" }]}
 						onPress={this.googleSignIn}
 						disabled={this.state.disable}>
@@ -318,7 +318,7 @@ export default class LoginPage extends Component {
 					</TouchableOpacity>
 				</View>
 
-				<View style={{ marginVertical: 8.3, width: wp(50) }}>
+				<View style={{ marginVertical: 8.3, width: wp(60) }}>
 					<TouchableOpacity style={[styles.button, { backgroundColor: "#00acee" }]}
 						onPress={this.twitter_signIn.bind(this)}
 						disabled={this.state.disable}>
@@ -328,7 +328,7 @@ export default class LoginPage extends Component {
 
 				<View style={{ marginVertical: 8.3, borderBottomWidth: 1, borderBottomColor: '#C6C6CC', width: wp(90) }}/>
 				<View style={{ width: wp(75) }}>
-					<Text style={{ color:'#96969C', fontSize: 10, textAlign: 'center' }}>If you created a password during an old login seesion</Text>
+					<Text style={{ color:'#96969C', fontSize: 10, textAlign: 'center' }}>If you created a password before</Text>
 				</View>
 
 				<TextInput
@@ -342,9 +342,9 @@ export default class LoginPage extends Component {
 					borderColor='black'
 					onChangeText={(value) => this.setState({ userPassword: value })}
 					value={this.state.userPassword}
-					placeholder="Passoword" />
+					placeholder="Password" />
 
-				<View style={{ marginVertical: 8.3, width: wp(25) }}>
+				<View style={{ marginVertical: 8.3, width: wp(30) }}>
 					<TouchableOpacity style={styles.button}
 						onPress={this.emailLogin.bind(this)}
 						onPressOut={()=>{this.setState({disable: true});}}

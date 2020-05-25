@@ -143,7 +143,7 @@ export default class SyncPage extends Component {
 		.then((res) => res.json())
 		.then((res) => {
 			if (res.result == 1){
-				alert("synchronization is successful. You need to login in again.");
+				alert("Synchronization is successful. You need to login again.");
 				Actions.LoginPage({type: 'reset'});
 			}
 			else if (res.result == -1){
@@ -158,7 +158,7 @@ export default class SyncPage extends Component {
 					acc = " google";
 				if(syncChoice == "2")
 					acc = " twitter";
-				alert("An account linked with this" + acc + " account is active. If you want to synchronize, first you need to delete one of accounts in question.");
+				alert("An account linked with this" + acc + " account is in use. If you want to synchronize, first you need to delete one of the accounts in question.");
 				this.setState({disable: false});
 			}
 
@@ -187,7 +187,7 @@ export default class SyncPage extends Component {
                         <TouchableOpacity style={[styles.button, { backgroundColor: "#3b5998" }]}
                             onPress={this.fbSync.bind(this)}
 							disabled={this.state.disable}>
-                            <Text style={styles.buttonText}>Synchronize Facebook account</Text>
+                            <Text style={styles.buttonText}>Synchronize Facebook Account</Text>
                         </TouchableOpacity>
                     </View>
                 }
@@ -197,7 +197,7 @@ export default class SyncPage extends Component {
                         <TouchableOpacity style={[styles.button, { backgroundColor: "#db4437" }]}
                             onPress={this.googleSync}
 							disabled={this.state.disable}>
-                            <Text style={styles.buttonText}>Synchronize Google account</Text>
+                            <Text style={styles.buttonText}>Synchronize Google Account</Text>
                         </TouchableOpacity>
                     </View>
                 }
@@ -207,7 +207,7 @@ export default class SyncPage extends Component {
                         <TouchableOpacity style={[styles.button, { backgroundColor: "#00acee" }]}
                             onPress={this.twitter_sync.bind(this)}
 							disabled={this.state.disable}>
-                            <Text style={styles.buttonText}>Synchronize Twitter account</Text>
+                            <Text style={styles.buttonText}>Synchronize Twitter Account</Text>
                         </TouchableOpacity>
                     </View>
 				}
@@ -228,11 +228,11 @@ export default class SyncPage extends Component {
 				}}>
                     <View style={{ marginVertical: 8.3, borderBottomWidth: 1, borderBottomColor: '#C6C6CC', width: wp(90) }}/>
 					<View style={{ width: wp(75) }}>
-						<Text style={{ color:'#96969C', fontSize: 10, textAlign: 'center' }}>Please make sure that the account you want to synchronize is not linked with another account.</Text>
+						<Text style={{ color:'#96969C', fontSize: 10, textAlign: 'center' }}>Please make sure that the account you want to synchronize is not linked with another Nomad account.</Text>
 					</View>
                     <View style={{ marginVertical: 8.3, borderBottomWidth: 1, borderBottomColor: '#C6C6CC', width: wp(90) }}/>
                     <View style={{ width: wp(75) }}>
-                        <Text style={{ color:'#96969C', fontSize: 10, textAlign: 'center' }}>You do not need to synchronize your accounts, but you can not create accounts using social media accounts which are shearing the same email address.</Text>
+                        <Text style={{ color:'#96969C', fontSize: 10, textAlign: 'center' }}>You do not need to synchronize your accounts, but you can not create a new account on our system with different social media accounts associated with the same e-mail </Text>
                     </View>
                 </View>
 

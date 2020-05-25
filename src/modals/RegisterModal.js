@@ -163,7 +163,7 @@ export default class RegisterModal extends Component {
 					{this.state.options.length > 1 &&
 						<View>
 							<View style={{ margin: 8.3 , width: wp(75) }}>
-								<Text style={{ textAlign: 'left' }}>E-mail: (değiştirmek istemiyorsanız hiçbirine basmayabilirsiniz)</Text>
+								<Text style={{ textAlign: 'left' }}>E-mail: (if you don't want to change it you don't need to press any e-mail option)</Text>
 							</View>
 							{this.state.options.map((emails, index)=>{  
 								return ( 
@@ -177,7 +177,7 @@ export default class RegisterModal extends Component {
 								)})
 							}
 							<View style={{ width: wp(75) }}>
-								<Text style={{ fontSize: 10, textAlign: 'center' }}>(Şu anki e-mailiniz: {this.state.userEmail})</Text>
+								<Text style={{ fontSize: 10, textAlign: 'center' }}>(Your current e-mail: {this.state.userEmail})</Text>
 							</View>
 						</View>
 					}
@@ -189,7 +189,7 @@ export default class RegisterModal extends Component {
 							this.checker( type );
 						}}
 						value={this.state.password}
-						placeholder="Şifre"/>
+						placeholder="Password"/>
 					
 					<PasswordTextInput
 						borderColor={this.state.confPassBorderColor}
@@ -198,7 +198,7 @@ export default class RegisterModal extends Component {
 							this.checker( type );
 						}}
 						value={this.state.confirmPassword}
-						placeholder="Şifre (tekrar)"/>
+						placeholder="Password (again)"/>
 
 					<View
 						style={{ top: hp(3), width: wp(25) }}>
@@ -206,14 +206,14 @@ export default class RegisterModal extends Component {
 							onPress={this.registration.bind(this)}
 							onPressOut={()=>{this.setState({disable: true});}}
 							disabled={this.state.disable}>
-							<Text style={styles.buttonText}>Kayıt Ol</Text>
+							<Text style={styles.buttonText}>Submit</Text>
 						</TouchableOpacity>
 					</View>
 					
 					<View style={{top: height/2 - hp(22.5) - (this.state.options.length * hp(6.875)), width: wp(25)}}>
 						<TouchableOpacity style={styles.altButton} 
 							onPress={this.resetRegisterModal}>
-							<Text style={styles.buttonText}>İptal</Text>
+							<Text style={styles.buttonText}>Cancel</Text>
 						</TouchableOpacity>
 					</View>
 

@@ -114,31 +114,31 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
                         </TouchableOpacity>
 						<View style={{ position: 'absolute', top: hp(100) - 80, left: wp(25)-45 }}>
 							{ this.state.userChoice == "0" ? ( //LOG OUT FACEBOOK
-								<View style={{width: wp(25)}}>
+								<View style={{width: wp(30)}}>
 									<TouchableOpacity style={styles.altButton}
 										onPress={()=>{ LoginManager.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-										<Text style={styles.buttonText}>Exit</Text>
+										<Text style={styles.buttonText}>Log out</Text>
 									</TouchableOpacity>
 								</View>
 								):( this.state.userChoice == "1" ? ( //LOG OUT GOOGLE
-									<View style={{width: wp(25)}}>
+									<View style={{width: wp(30)}}>
 										<TouchableOpacity style={styles.altButton}
 											onPress={()=>{ google_signOut(); Actions.LoginPage({type: 'reset'}); }}>
-											<Text style={styles.buttonText}>Exit</Text>
+											<Text style={styles.buttonText}>Log out</Text>
 										</TouchableOpacity>
 									</View>
 									):( this.state.userChoice == "2" ? ( //LOG OUT TWITTER
-										<View style={{width: wp(25)}}>
+										<View style={{width: wp(30)}}>
 											<TouchableOpacity style={styles.altButton}
 												onPress={()=>{ RNTwitterSignIn.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-												<Text style={styles.buttonText}>Exit</Text>
+												<Text style={styles.buttonText}>Log out</Text>
 											</TouchableOpacity>
 										</View>
 										):( //LOG OUT EMAIL
-											<View style={{width: wp(25)}}>
+											<View style={{width: wp(30)}}>
 												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ Actions.LoginPage({type: 'reset'}); }}>
-													<Text style={styles.buttonText}>Exit</Text>
+													<Text style={styles.buttonText}>Log out</Text>
 												</TouchableOpacity>
 											</View>
 										)
@@ -156,7 +156,7 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 										googleEntrance: this.state.googleEntrance, fbEntrance: this.state.fbEntrance, twitterEntrance: this.state.twitterEntrance,
 									});
 								}}>
-								<Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Sync Accounts</Text>
+								<Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Synchronize Your Accounts</Text>
 							</TouchableOpacity>
 						}
 

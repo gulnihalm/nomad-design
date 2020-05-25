@@ -30,7 +30,7 @@ export default class CommentRatePage extends Component {
     submitCommentAndRate(){
         let {guid, tripID, comment, rating} = this.state;
         if(comment == ""){
-            alert("In addition to rate, you need to leave a comment.");
+            alert("You need to leave a comment with your rating");
         }
         else{
             fetch(hostURL + 'commentAndRate.php', {
@@ -51,10 +51,10 @@ export default class CommentRatePage extends Component {
                 console.log('commentAndRate response: ', response);
                 if(response.result == 1){
                     Actions.popTo('ProfilePage');
-                    alert("Your rate and comment added succesfully.");
+                    alert("Your comment and rating has been added succesfully.");
                 }
                 else if( response.error != "" ){
-                    alert("Rate and comment failed.");
+                    alert("Comment and rate submission failed.");
                 }
             }).catch((error) => {
                 alert('Comment and rate error: ', error);
@@ -85,11 +85,11 @@ export default class CommentRatePage extends Component {
                         numberOfLines={10}
                         maxLength={65535}
                         textAlignVertical='top'
-                        placeholder="Write comment"
+                        placeholder="Write a comment"
                         autoCorrect={false} autoCapitalize="none" autoCompleteType="off" />
 
                     <AirbnbRating
-                        reviews={["Very Bad", "Bad", "Okey", "Good", "Super"]}
+                        reviews={["Very Bad", "Bad", "OK", "Good", "Super"]}
                         size={wp(12)}
                         reviewColor='#BF1E2E'
                         selectedColor='#BF1E2E'
@@ -100,14 +100,14 @@ export default class CommentRatePage extends Component {
                         onPress={this.submitCommentAndRate.bind(this)}
                         onPressOut={()=>{this.setState({disable: true});}}
                         disabled={this.state.disable}>
-                        <Text style={styles.buttonText}>Send</Text>
+                        <Text style={styles.buttonText}>Submit</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ position: 'absolute', width: wp(25), top: height - hp(9) }}>
                     <TouchableOpacity style={styles.altButton}
                         onPress={()=>{Actions.pop();}}>
-                        <Text style={styles.buttonText}>Send</Text>
+                        <Text style={styles.buttonText}>Back</Text>
                     </TouchableOpacity>
                 </View>
 			</View>
