@@ -17,12 +17,12 @@ export default class FinishedTripsPage extends Component {
 		super(props);
 
 		this.state = {
-            guid:               this.props.guid, 			//guid of the account that will be synced
-            googleEntrance:   	this.props.googleEntrance, 	//google account linked in the account that will be synced?
-            fbEntrance:    		this.props.fbEntrance,		//fb account linked in the account that will be synced?
-			twitterEntrance:  	this.props.twitterEntrance,	//twitter account linked in the account that will be synced?
-			userChoice:         this.props.userChoice, 		//what social media option the user selected to end up here. (1=fb, 2=g, 3=tw)
-            userName: 			this.props.userName, 
+            guid:               this.props.guid,
+            googleEntrance:   	this.props.googleEntrance,
+            fbEntrance:    		this.props.fbEntrance,
+			twitterEntrance:  	this.props.twitterEntrance,
+			userChoice:         this.props.userChoice,
+            userName: 			this.props.userName,
             userSurname:		this.props.userSurname,
             pic: 				this.props.pic,
             trips:              [],
@@ -51,13 +51,13 @@ export default class FinishedTripsPage extends Component {
         })
         .then((response)=> response.json())
         .then((response) => {
-            console.log('getFollowedTrips response: ', response);
+            //console.log('getFollowedTrips response: ', response);
             if(response.result == 1){
                 let str = JSON.stringify(response.trips);
                 str = str.replace(/\\/g, "");
                 str = str.substr(1,str.length - 2);
 
-                console.log('str:',str);
+                //console.log('str:',str);
                 
                 let obj = JSON.parse(str);
                 
@@ -94,7 +94,6 @@ export default class FinishedTripsPage extends Component {
 
 	render() {
         let {trips, requestDone} = this.state;
-        console.log(trips);
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 {!requestDone &&
@@ -118,11 +117,11 @@ export default class FinishedTripsPage extends Component {
                         </View>
 
                         <ScrollView style={{marginBottom:hp(20), top: hp(9), width:wp(100)}}>
-                            {trips.map(trip =>
-                                <Card title={trip[2]}>
+                            {trips.map((trip, key) =>
+                                <Card key={key} title={trip[2]}>
                                     <Text style={{fontWeight:"bold", marginBottom:2}}>{trip[3]}</Text>
                                     <Text style={{marginVertical:2}}>{trip[4]}</Text>
-                                    <Button title='Comment and rate this trip' onPress={() => {}}></Button>
+                                    <Button title='Comment and rate this trip' onPress={() => { Actions.CommentRatePage({tripID: trip[0], tripName: trip[2], label: trip[3], description: trip[4], guid: this.state.guid}); }}></Button>
                                 </Card>
                             )}
                         </ScrollView>

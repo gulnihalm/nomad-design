@@ -167,7 +167,8 @@ export default class LoginPage extends Component {
 	}
 
 	//GOOGLE
-	async componentDidMount() {
+    async componentDidMount() {
+        //console.disableYellowBox = true; //this line will be uncommented in the future to film the video, it makes warnings go away.
 		GoogleSignin.configure({
 			webClientId: '400607000498-jn424j5pgm227lanvijrctf4kktm2bpp.apps.googleusercontent.com',
 			offlineAccess: false,

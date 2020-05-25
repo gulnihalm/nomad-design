@@ -142,7 +142,7 @@ export default class SearchTrip extends Component{
             return (
                 <Text>Getting Available Trips...</Text>
             );
-        console.log(trips.length)
+        //console.log(trips.length)
         return (
             <ScrollView style={styles.scrollView}>
             <View>
@@ -154,9 +154,9 @@ export default class SearchTrip extends Component{
                 />
                 <Button title='Search' onPress={() => this.searchTrip()}> </Button>
                 
-                {trips.map(trip =>
+                {trips.map((trip,key) =>
                     
-                    <Card title={trip[2]}>
+                    <Card key={key} title={trip[2]}>
                         <Text style={{fontWeight:"bold"}}>{trip[3]}</Text>
                         <Text>{trip[4]}</Text>
                         <Button title='Follow This Trip' onPress={() => this.onPressFollow(trip[0])}> </Button>

@@ -54,12 +54,12 @@ export default class ProfilePage extends Component {
                     <View style={styles.textWrapper}>
                         <Text style={[styles.text,{fontWeight:'bold'}]}>Synchronized Accounts</Text>
                     </View>
-                        {this.state.fbEntrance && <Text style={[styles.text,{}]}>Facebook</Text>}
-                        {this.state.googleEntrance && <Text style={[styles.text,{}]}>Google</Text>}
-                        {this.state.twitterEntrance && <Text style={[styles.text,{}]}>Twitter</Text>}
+                    {this.state.fbEntrance && <Text style={[styles.text,{}]}>Facebook</Text>}
+                    {this.state.googleEntrance && <Text style={[styles.text,{}]}>Google</Text>}
+                    {this.state.twitterEntrance && <Text style={[styles.text,{}]}>Twitter</Text>}
                 </View>
 
-                <View style={{ position: 'absolute', width: wp(25), top: height - hp(12) }}>
+                <View style={{ position: 'absolute', width: wp(25), top: height - hp(9) }}>
                     <TouchableOpacity style={styles.altButton}
                         onPress={()=>{Actions.pop();}}>
                         <Text style={styles.buttonText}>Geri</Text>

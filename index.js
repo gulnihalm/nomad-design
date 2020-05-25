@@ -11,8 +11,9 @@ import StartPage from './src/pages/start-page';
 import SyncPage from './src/pages/sync-page';
 import ProfilePage from './src/pages/profile-page';
 import FinishedTripsPage from './src/pages/finished-trips-page';
-import CreateTripPage from './src/CreateTripPage';
-import ARpage from './src/ARpage';
+import CreateTripPage from './src/pages/CreateTripPage';
+import ARpage from './src/pages/ARpage';
+import CommentRatePage from './src/pages/comment-rate-page';
 
 export default class Login extends Component {
 
@@ -27,6 +28,7 @@ export default class Login extends Component {
                 <Scene key="CreateTripPage" component = {CreateTripPage}/>
                 <Scene key="ProfilePage" component={ProfilePage}/>
                 <Scene key="FinishedTripsPage" component={FinishedTripsPage}/>
+                <Scene key="CommentRatePage" component={CommentRatePage}/>
                 <Scene key="ARpage" component={ARpage}/>
             </Scene>
     );
