@@ -25,17 +25,38 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
-    button:{
-      color: 'red'
+
+    textStyle: {
+      fontSize:20,
+      textAlign: 'center',
+      color: "#f8f8ff",
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 7
     },
-    buttonContainer: {
-         margin: 20,
-         alignSelf: 'flex-end',
-     },
-     multiButtonContainer: {
-      margin: 20,
-      flexDirection: 'row',
-      justifyContent: 'space-between'
+    textStyle2: {
+      fontSize:15,
+      textAlign: 'left',
+      color: "#f8f8ff",
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+    },
+    textStyle3: {
+      fontSize:15,
+      textAlign: 'center',
+      color: "#f8f8ff",
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 7
+    },
+    buttonStyle: {
+      alignItems: 'center',
+      width: wp('48%'),
+      padding:10,
+      backgroundColor: '#BF1E2E',
+      borderRadius:3,
+      borderColor: "#d3d3d3",
+      borderWidth: 1
     },
     container: {
       flex: 1,
@@ -44,7 +65,7 @@ const styles = StyleSheet.create({
     },
     map: {
       width: wp('100%'),
-      height: hp('90%'),
+      height: hp('71%'),
     },
     marker: {
       backgroundColor: "#550bbc",
@@ -79,6 +100,10 @@ export default class FollowTrip extends React.Component{
         this.tokeNum =0;//token collected
         this.finished;//end toute condition, 1 is finished, 0 is not finished
         this.m=0;//marker array length
+        this.mapdata= {
+          distance : 0,
+          duration : 0,
+        }
         this.coordinates = {//global variable to get closest marker coordinates for drawing
           latitude :0,
           longitude:0,
@@ -321,7 +346,8 @@ export default class FollowTrip extends React.Component{
         return (
 
             <View style={{flex: 1, justifyContent: 'space-between',alignItems:'center' , width:  wp('100%'),height:  hp('100%')}}>
-              <View style={{flex: 1, width: wp('100%'),height:  hp('80%')}}>
+              <View style={{flex: 1, width: wp('100%'),height:  hp('100%')}}>
+                <View style={{width: wp('100%'),height:  hp('8.5%')}}></View>
                 <MapView style={styles.map}  provider={PROVIDER_GOOGLE}  followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
                   <Marker coordinate={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}>
                      <View style ={styles.userStyle}>
@@ -339,28 +365,74 @@ export default class FollowTrip extends React.Component{
                       destination={this.coordinates}//closest maker
                       apikey={GOOGLE_MAPS_APIKEY}
                       resetOnChange = {false}
+                      timePrecision = "now"
                       presicion = "high"
                       mode="WALKING"//walking route
                       strokeWidth= {3}//kalınlık
                       strokeColor = "#BF1E2E"//renk
+                      onStart={(params) => {
+                       console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+                      }}
+                      onReady={result => {
+                        console.log(`Distance: ${result.distance} km`)
+                        console.log(`Duration: ${result.duration} min.`)
+                        this.mapdata.distance = result.distance;
+                        this.mapdata.duration = parseInt(result.duration);
+
+                        this.mapView.fitToCoordinates(result.coordinates, {
+                          edgePadding: {
+                            right: (width / 20),
+                            bottom: (height / 20),
+                            left: (width / 20),
+                            top: (height / 20),
+                          }
+                        });
+                      }}
                     />}
                 </MapView>
                 {closeEnough>0 &&//if distance to closest marker under DISTANCE_LIMIT show AR button
-                    <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
-                      <Text>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
-                      <Button title = "Get Token" color="#BF1E2E"  onPress= { () => {this.buttonPress(closeEnough)}}></Button>
+                    <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('100%')}}>
+                      <View style={{backgroundColor:"#BF1E2E", padding:10}} >
+                        <Text style={styles.textStyle2}>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
+                        <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
+                      </View>
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.buttonPress(closeEnough)}}>
+                          <Text style={styles.textStyle}>Get Token</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                          <Text style={styles.textStyle}>Find Me</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                 }
                 {closeEnough<1 && this.finished<1 &&
-                    <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
-                      <Text>Follow the route and go to the next checkpoint!</Text>
+                    <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('100%')}}>
+                      <View style={{backgroundColor:"#BF1E2E", padding:10}} >
+                        <Text style={styles.textStyle2}>Follow the route and go to the next checkpoint!</Text>
+                        <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
+                      </View>
+                      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                          <Text style={styles.textStyle}>Find Me</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                 }
                 {this.finished>0 &&//if route is finished show finish button
-                    <View style={{flex:1 , height: hp('20%'), width: wp('100%')}}>
-                      <Text>Route FINISHED! Tap button to proceed.</Text>
-                      <Button title = "FINISH" color="#BF1E2E"
-                        onPress={this.finishTrip}/>
+                    <View style={{flex:1,flexDirection: 'column', height: hp('20%'), width: wp('100%')}}>
+                      <View style={{backgroundColor:"#BF1E2E", padding:10}} >
+                        <Text style={styles.textStyle2}>Trip done. TAP FINISH.</Text>
+                        <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
+                      </View>
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity style={styles.buttonStyle} onPress={this.finishTrip}>
+                          <Text style={styles.textStyle}>FINISH</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                          <Text style={styles.textStyle}>Find Me</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
 
 
