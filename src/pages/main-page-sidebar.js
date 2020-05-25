@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import {Actions} from 'react-native-router-flux';
 import { NativeModules, View, Text, TouchableOpacity, TouchableHighlight, StyleSheet, Image, Dimensions, Platform } from 'react-native';
 import MainPage from './main-page-content';
-import Drawer from 'react-native-drawer'; 
+import Drawer from 'react-native-drawer';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { LoginManager } from 'react-native-fbsdk';
 import { google_signOut  } from '../common/social/GoogleSignIn';
 
-var { height, width } = Dimensions.get('window'); 
+var { height, width } = Dimensions.get('window');
 
 if(Platform.OS == 'android'){
 	height = height-24;
@@ -20,10 +20,10 @@ const { RNTwitterSignIn } = NativeModules;
 export default class MainSidebar extends Component { //Actions.MainPage actually redirects here, not main page, as this is the parent of main-page-content.
 	constructor(props) {
 		super(props);
-		
+
 		this.state = {
 			guid: 				this.props.guid,
-			userName: 			this.props.userName, 
+			userName: 			this.props.userName,
 			userSurname:		this.props.userSurname,
 			userChoice: 		this.props.userChoice,
 
@@ -57,8 +57,8 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 
 	render() {
 		return(
-			<Drawer 
-				open={this.state.openDrawer} 
+			<Drawer
+				open={this.state.openDrawer}
 				type='overlay'
 				openDrawerOffset={0.5}
 				captureGestures={true}
@@ -73,32 +73,32 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 				content={ //sidebar content
 					<View style={{ flex: 1, backgroundColor: "#E7E6EC"}}>
 						<TouchableHighlight //sidebar button
-							style={{ 
-								height: 55, width: wp(50), backgroundColor: '#BF1E2E', 
+							style={{
+								height: 55, width: wp(50), backgroundColor: '#BF1E2E',
 								justifyContent: 'center', alignItems: 'center'
-							}} 
+							}}
 							onPress={()=>{ this.setState({openDrawer: false}); }}>
 								<Icon style={{left: -wp(12.5)}} name = 'ios-menu' size={30} color= 'white' />
 						</TouchableHighlight>
-						
+
 						<TouchableOpacity //name and pic
 							style={[styles.card, {flexDirection: 'row' }]}
                             onPress={()=>{
-                                Actions.ProfilePage({ 
+                                Actions.ProfilePage({
                                     guid: this.state.guid, userChoice: this.state.userChoice,
                                     googleEntrance: this.state.googleEntrance, fbEntrance: this.state.fbEntrance, twitterEntrance: this.state.twitterEntrance,
                                     userName: this.state.userName,  pic: this.state.pic, userSurname: this.state.userSurname
-                                }); 
+                                });
                             }}>
 							{this.state.pic && (
 								<Image source={{uri: this.state.pic }} style={{width: 50, height: 50}}/>
 							)}
 
-							<View 
+							<View
 								onLayout={(event)=>{
 									if(event.nativeEvent.layout.width < 85 ){
 										this.setState({ userNameIsLong: false });
-									}									
+									}
 								}}>
 								<Text numberOfLines={(this.state.userNameIsLong) ? 2:1} style={{ marginLeft: 10, top: (this.state.userNameIsLong) ? 7:15 }}>
 									{this.getAdjustedUsername(7)}
@@ -117,28 +117,28 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 								<View style={{width: wp(25)}}>
 									<TouchableOpacity style={styles.altButton}
 										onPress={()=>{ LoginManager.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-										<Text style={styles.buttonText}>Çıkış</Text>
+										<Text style={styles.buttonText}>Exit</Text>
 									</TouchableOpacity>
 								</View>
 								):( this.state.userChoice == "1" ? ( //LOG OUT GOOGLE
 									<View style={{width: wp(25)}}>
-										<TouchableOpacity style={styles.altButton} 
+										<TouchableOpacity style={styles.altButton}
 											onPress={()=>{ google_signOut(); Actions.LoginPage({type: 'reset'}); }}>
-											<Text style={styles.buttonText}>Çıkış</Text>
+											<Text style={styles.buttonText}>Exit</Text>
 										</TouchableOpacity>
 									</View>
 									):( this.state.userChoice == "2" ? ( //LOG OUT TWITTER
 										<View style={{width: wp(25)}}>
-											<TouchableOpacity style={styles.altButton} 
+											<TouchableOpacity style={styles.altButton}
 												onPress={()=>{ RNTwitterSignIn.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-												<Text style={styles.buttonText}>Çıkış</Text>
+												<Text style={styles.buttonText}>Exit</Text>
 											</TouchableOpacity>
 										</View>
 										):( //LOG OUT EMAIL
 											<View style={{width: wp(25)}}>
-												<TouchableOpacity style={styles.altButton} 
+												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ Actions.LoginPage({type: 'reset'}); }}>
-													<Text style={styles.buttonText}>Çıkış</Text>
+													<Text style={styles.buttonText}>Exit</Text>
 												</TouchableOpacity>
 											</View>
 										)
@@ -146,24 +146,24 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 								) // END OF LOG OUT
 							}
 						</View>
-						
+
 						{(!this.state.fbEntrance || !this.state.googleEntrance || !this.state.twitterEntrance ) &&
 							<TouchableOpacity //SYNC BUTTON
 								style={styles.sidebarButton}
 								onPress={()=>{
-									Actions.SyncPage({ 
+									Actions.SyncPage({
 										guid: this.state.guid, userChoice: this.state.userChoice,
-										googleEntrance: this.state.googleEntrance, fbEntrance: this.state.fbEntrance, twitterEntrance: this.state.twitterEntrance, 
-									}); 
+										googleEntrance: this.state.googleEntrance, fbEntrance: this.state.fbEntrance, twitterEntrance: this.state.twitterEntrance,
+									});
 								}}>
-								<Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Hesaplarını Senkronize Et</Text>
+								<Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Sync Accounts</Text>
 							</TouchableOpacity>
 						}
-						
-						
+
+
 					</View>
 				}>
-				<MainPage 
+				<MainPage
 					userName		= {this.state.userName}
 					userSurname		= {this.state.userSurname}
 					userEmail		= {this.props.userEmail}
@@ -172,7 +172,7 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 					fbEntrance		= {this.state.fbEntrance}
 					googleEntrance	= {this.state.googleEntrance}
 					twitterEntrance	= {this.state.twitterEntrance}
-					emailEntrance 	= {this.props.emailEntrance} 
+					emailEntrance 	= {this.props.emailEntrance}
 					pic				= {this.state.pic}
 					fbID			= {this.state.fbID}
 					googleID		= {this.state.googleID}
@@ -203,21 +203,21 @@ const styles = StyleSheet.create({
 		shadowRadius: 3,
 	},
 	altButton: {
-		borderRadius: 30, 
-		backgroundColor: 'grey', 
-		justifyContent: 'center', 
-		alignItems: 'center', 
+		borderRadius: 30,
+		backgroundColor: 'grey',
+		justifyContent: 'center',
+		alignItems: 'center',
 		padding: 10
 	},
 	button: {
-		borderRadius: 30, 
-		backgroundColor: '#BF1E2E', 
+		borderRadius: 30,
+		backgroundColor: '#BF1E2E',
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 10
 	},
 	buttonText: {
-		fontSize: 18, 
+		fontSize: 18,
 		color: '#fff'
 	},
 	sidebarButton: {
@@ -230,8 +230,8 @@ const styles = StyleSheet.create({
 		shadowOffset: { width: 2, height: 2, },
 		shadowOpacity: 0.5,
 		shadowRadius: 3,
-		height: 60, 
-		justifyContent: 'center', 
+		height: 60,
+		justifyContent: 'center',
 		alignItems: 'center'
 	},
 });

@@ -20,7 +20,7 @@ export default class DeleteModal extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {		
+		this.state = {
 			guid:   		this.props.guid,
 			userChoice:		this.props.userChoice,
 			disable: 		false,
@@ -29,7 +29,7 @@ export default class DeleteModal extends Component {
 
 	deletion() {
 		let { guid, userChoice } = this.state;
-		
+
         fetch( hostURL + 'user_deletion.php', {
             method: "POST",
             headers: {
@@ -81,60 +81,60 @@ export default class DeleteModal extends Component {
 				onBackButtonPress={this.resetDeleteModal}
 				>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#E7E6EC' }}>
-					
+
                     <View style={{ margin: 8.3 , width: wp(75) }}>
-                        <Text style={{ textAlign: 'left' }}>Hesabı silmek istediğinize emin misiniz?</Text>
-                        <Text style={{ textAlign: 'left' }}>Bu işlem geri alınamaz.</Text>
+                        <Text style={{ textAlign: 'left' }}>Are you sure you want to delete this account?</Text>
+                        <Text style={{ textAlign: 'left' }}>This can not be undone.</Text>
                     </View>
-                    
+
                     <View style={{flexDirection: 'row'}}>
                         <View
                             style={{ margin: 8.3, width: wp(25) }}>
-                            <TouchableOpacity style={styles.button} 
+                            <TouchableOpacity style={styles.button}
                                 onPress={this.deletion.bind(this)}
 								onPressOut={()=>{this.setState({disable: true});}}
 								disabled={this.state.disable}>
-                                <Text style={styles.buttonText}>Evet</Text>
+                                <Text style={styles.buttonText}>Yes</Text>
                             </TouchableOpacity>
                         </View>
-                        
+
                         <View style={{ margin: 8.3, width: wp(25)}}>
-                            <TouchableOpacity style={styles.altButton} 
+                            <TouchableOpacity style={styles.altButton}
                                 onPress={this.resetDeleteModal}>
-                                <Text style={styles.buttonText}>Hayır</Text>
+                                <Text style={styles.buttonText}>No</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    
+
 				</View>
 			</Modal>
 		);
 	}
-} 
+}
 
 const styles = StyleSheet.create({
 	altButton: {
-		borderRadius: 30, 
-		backgroundColor: 'grey', 
-		justifyContent: 'center', 
-		alignItems: 'center', 
+		borderRadius: 30,
+		backgroundColor: 'grey',
+		justifyContent: 'center',
+		alignItems: 'center',
 		padding: 10
 	},
 	button: {
-		borderRadius: 30, 
-		backgroundColor: '#BF1E2E', 
+		borderRadius: 30,
+		backgroundColor: '#BF1E2E',
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 10
 	},
 	buttonText: {
-		fontSize: 18, 
+		fontSize: 18,
 		color: '#fff'
 	},
 	modal: {
-		flex: 1, 
-		justifyContent: 'center', 
-		alignItems: 'center', 
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 		backgroundColor: '#fff'
 	},
 });

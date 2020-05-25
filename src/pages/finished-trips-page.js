@@ -58,15 +58,15 @@ export default class FinishedTripsPage extends Component {
                 str = str.substr(1,str.length - 2);
 
                 console.log('str:',str);
-                
+
                 let obj = JSON.parse(str);
-                
+
                 let array=Object.keys(obj).map(function(k){
                     return obj[k];
                 })
-                
+
                 array.forEach(element => {
-                
+
                     var trip = [];
                     trip.push(element.tripID);
                     trip.push(element.userID);
@@ -76,13 +76,13 @@ export default class FinishedTripsPage extends Component {
                     trip.push(element.rating);
 
                     trips.push(trip);
-        
+
                 });
-                
+
                 this.setState({trips, requestDone:true});
-                
+
                 this.forceUpdate();
-                
+
             }
             else if(response.error != ""){
                 alert("Followed trips were not acquired");
@@ -100,21 +100,21 @@ export default class FinishedTripsPage extends Component {
                 {!requestDone &&
                     <View style={{alignItems: 'center', top: -hp(12)}}>
                         <View style={{width: wp(75),}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>Tamamladığınız rotalar bulunuyor...</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>Fetching finished routes...</Text>
                         </View>
                     </View>
                 }
                 {(trips.length == 0 && requestDone) &&
                     <View style={{alignItems: 'center', top: -hp(12)}}>
                         <View style={{width: wp(75),}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>Henüz bir rota tamamlamamışsınız, tamamladığınız rotaları burada görüp puanlayabilir ve yorum yapabilirsiniz</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>You have not completed a route yet, you can see finished routes here and you can rate them and leave a comment.</Text>
                         </View>
                     </View>
                 }
                 {(trips.length != 0 && requestDone) &&
                     <View style={{flex:1, alignItems: 'center'}}>
                         <View style={{position: 'absolute', top: hp(3)}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>Tamamladığınız Rotalar</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>Finished Routes</Text>
                         </View>
 
                         <ScrollView style={{marginBottom:hp(20), top: hp(9), width:wp(100)}}>
@@ -137,7 +137,7 @@ export default class FinishedTripsPage extends Component {
                 <View style={{ position: 'absolute', width: wp(25), top: height - hp(9) }}>
                     <TouchableOpacity style={styles.altButton}
                         onPress={()=>{Actions.pop();}}>
-                        <Text style={styles.buttonText}>Geri</Text>
+                        <Text style={styles.buttonText}>Back</Text>
                     </TouchableOpacity>
                 </View>
 			</View>

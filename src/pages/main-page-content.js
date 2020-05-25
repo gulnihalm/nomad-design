@@ -108,7 +108,7 @@ export default class MainPage extends Component {
 								<View style={{top: 5, width: wp(25)}}>
 									<TouchableOpacity style={styles.altButton}
 										onPress={()=>{this.setState({ viewInfo: false });}}>
-										<Text style={styles.buttonText}>Gizle</Text>
+										<Text style={styles.buttonText}>Hide</Text>
 									</TouchableOpacity>
 								</View>
 							</View>
@@ -117,7 +117,7 @@ export default class MainPage extends Component {
 								<View style={{width: wp(75)}}>
 									<TouchableOpacity style={styles.button}
 										onPress={()=>{this.setState({ viewInfo: true });}}>
-										<Text style={styles.buttonText}>Kullanıcı Bilgilerini Göster</Text>
+										<Text style={styles.buttonText}>Display User Information</Text>
 									</TouchableOpacity>
 								</View>
 							</View>) // END OF PERSONAL INFO
@@ -130,7 +130,7 @@ export default class MainPage extends Component {
 								<View style={{width: wp(67.5)}}>
 									<TouchableOpacity style={styles.button}
 										onPress={()=>{this.setState({ register: true }); }}>
-										<Text style={styles.buttonText}>Kullanıcı Bilgilerini Ayarla</Text>
+										<Text style={styles.buttonText}>Change User Information</Text>
 									</TouchableOpacity>
 								</View>
 								<View style={{left: 5, width: wp(12.5)}}>
@@ -142,7 +142,7 @@ export default class MainPage extends Component {
 							</View>
 
 							{this.state.viewConfigInfo && (
-								<Text>Sistemimize kayıtlı e-mail adresinizi değiştirebilir, ve gelecekte daha hızlı giriş yapabilmeniz için bir şifre belirleyebilirsiniz.</Text>
+								<Text>You can change your e-mail address, and you can determine a new password for future login.</Text>
 							)}
 
 							<RegisterModal
@@ -171,7 +171,7 @@ export default class MainPage extends Component {
 							<View style={{width: wp(75)}}>
 								<TouchableOpacity style={styles.button}
 									onPress={()=>{this.setState({ deleteAcc: true });}}>
-									<Text style={styles.buttonText}>Hesabı sil</Text>
+									<Text style={styles.buttonText}>Delete Account</Text>
 								</TouchableOpacity>
 							</View>
 							<DeleteModal
@@ -190,28 +190,28 @@ export default class MainPage extends Component {
 									<View style={{width: wp(25)}}>
 										<TouchableOpacity style={styles.altButton}
 											onPress={()=>{ LoginManager.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-											<Text style={styles.buttonText}>Çıkış</Text>
+											<Text style={styles.buttonText}>Exit</Text>
 										</TouchableOpacity>
 									</View>
 								):( this.state.userChoice == "1" ? ( //LOG OUT GOOGLE
 										<View style={{width: wp(25)}}>
 											<TouchableOpacity style={styles.altButton}
 												onPress={()=>{ google_signOut(); Actions.LoginPage({type: 'reset'}); }}>
-												<Text style={styles.buttonText}>Çıkış</Text>
+												<Text style={styles.buttonText}>Exit</Text>
 											</TouchableOpacity>
 										</View>
 									):( this.state.userChoice == "2" ? ( //LOG OUT TWITTER
 											<View style={{width: wp(25)}}>
 												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ RNTwitterSignIn.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-													<Text style={styles.buttonText}>Çıkış</Text>
+													<Text style={styles.buttonText}>Exit</Text>
 												</TouchableOpacity>
 											</View>
 										):( //LOG OUT EMAIL
 											<View style={{width: wp(25)}}>
 												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ Actions.LoginPage({type: 'reset'}); }}>
-													<Text style={styles.buttonText}>Çıkış</Text>
+													<Text style={styles.buttonText}>Exit</Text>
 												</TouchableOpacity>
 											</View>
 										)

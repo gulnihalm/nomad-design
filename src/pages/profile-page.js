@@ -21,7 +21,7 @@ export default class ProfilePage extends Component {
             fbEntrance:    		this.props.fbEntrance,		//fb account linked in the account that will be synced?
 			twitterEntrance:  	this.props.twitterEntrance,	//twitter account linked in the account that will be synced?
 			userChoice:         this.props.userChoice, 		//what social media option the user selected to end up here. (1=fb, 2=g, 3=tw)
-            userName: 			this.props.userName, 
+            userName: 			this.props.userName,
             userSurname:		this.props.userSurname,
             pic: 				this.props.pic,
 		};
@@ -39,7 +39,7 @@ export default class ProfilePage extends Component {
                     <View style={{marginTop: 8.3, marginBottom: 30}}>
                         <Text style={[styles.text, {fontSize: 25}]}>{this.state.userName + " " + this.state.userSurname}</Text>
                     </View>
-                    
+
                     <View style={styles.buttonWrapper}>
                         <TouchableOpacity style={styles.button}
                             onPress={()=>{ Actions.FinishedTripsPage({
@@ -62,7 +62,7 @@ export default class ProfilePage extends Component {
                 <View style={{ position: 'absolute', width: wp(25), top: height - hp(9) }}>
                     <TouchableOpacity style={styles.altButton}
                         onPress={()=>{Actions.pop();}}>
-                        <Text style={styles.buttonText}>Geri</Text>
+                        <Text style={styles.buttonText}>Back</Text>
                     </TouchableOpacity>
                 </View>
 			</View>

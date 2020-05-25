@@ -18,8 +18,8 @@ export default class CommentRatePage extends Component {
 		this.state = {
             guid:           this.props.guid,
             tripID:         this.props.tripID,
-            tripName:       this.props.tripName, 
-            label:          this.props.label, 
+            tripName:       this.props.tripName,
+            label:          this.props.label,
             description:    this.props.description,
             comment:        "",
             rating:         5,
@@ -30,7 +30,7 @@ export default class CommentRatePage extends Component {
     submitCommentAndRate(){
         let {guid, tripID, comment, rating} = this.state;
         if(comment == ""){
-            alert("Puanlamanızla birlikte bir yorum da eklemelisiniz.");
+            alert("In addition to rate, you need to leave a comment.");
         }
         else{
             fetch(hostURL + 'commentAndRate.php', {
@@ -51,10 +51,10 @@ export default class CommentRatePage extends Component {
                 console.log('commentAndRate response: ', response);
                 if(response.result == 1){
                     Actions.popTo('ProfilePage');
-                    alert("Yorumunuz ve puanlamanız başarıyla eklendi");
+                    alert("Your rate and comment added succesfully.");
                 }
                 else if( response.error != "" ){
-                    alert("Yorumunuz ve puanlamanız eklenemedi");
+                    alert("Rate and comment failed.");
                 }
             }).catch((error) => {
                 alert('Comment and rate error: ', error);
@@ -76,8 +76,8 @@ export default class CommentRatePage extends Component {
                     <View style={styles.textWrapper}>
                         <Text style={styles.text}>{this.state.description}</Text>
                     </View>
-                    
-                    <TextInput 
+
+                    <TextInput
                         style={{ width: wp(75), marginVertical:hp(2), borderColor: 'black', borderWidth: 0.5 }}
                         onChangeText={(value) => this.setState({ comment: value })}
                         value={this.state.comment}
@@ -85,11 +85,11 @@ export default class CommentRatePage extends Component {
                         numberOfLines={10}
                         maxLength={65535}
                         textAlignVertical='top'
-                        placeholder="Yorumunuzu yazın"
+                        placeholder="Write comment"
                         autoCorrect={false} autoCapitalize="none" autoCompleteType="off" />
-                    
+
                     <AirbnbRating
-                        reviews={["Çok kötü", "Kötü", "İdare Eder", "İyi", "Süper"]}
+                        reviews={["Very Bad", "Bad", "Okey", "Good", "Super"]}
                         size={wp(12)}
                         reviewColor='#BF1E2E'
                         selectedColor='#BF1E2E'
@@ -100,14 +100,14 @@ export default class CommentRatePage extends Component {
                         onPress={this.submitCommentAndRate.bind(this)}
                         onPressOut={()=>{this.setState({disable: true});}}
                         disabled={this.state.disable}>
-                        <Text style={styles.buttonText}>Gönder</Text>
+                        <Text style={styles.buttonText}>Send</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ position: 'absolute', width: wp(25), top: height - hp(9) }}>
                     <TouchableOpacity style={styles.altButton}
                         onPress={()=>{Actions.pop();}}>
-                        <Text style={styles.buttonText}>Geri</Text>
+                        <Text style={styles.buttonText}>Send</Text>
                     </TouchableOpacity>
                 </View>
 			</View>
