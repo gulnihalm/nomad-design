@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     textStyle2: {
       fontSize:15,
-      textAlign: 'left',
+      textAlign: 'center',
       color: "#f8f8ff",
       textShadowColor: 'rgba(0, 0, 0, 0.75)',
       textShadowOffset: {width: -1, height: 1},
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     },
     map: {
       width: wp('100%'),
-      height: hp('71%'),
+      height: hp('73.5%'),
     },
     marker: {
       backgroundColor: "#550bbc",
@@ -391,7 +391,7 @@ export default class FollowTrip extends React.Component{
                     />}
                 </MapView>
                 {closeEnough>0 &&//if distance to closest marker under DISTANCE_LIMIT show AR button
-                    <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('100%')}}>
+                    <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('96%')}}>
                       <View style={{backgroundColor:"#BF1E2E", padding:10}} >
                         <Text style={styles.textStyle2}>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
                         <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
@@ -407,7 +407,7 @@ export default class FollowTrip extends React.Component{
                     </View>
                 }
                 {closeEnough<1 && this.finished<1 &&
-                    <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('100%')}}>
+                    <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('96%')}}>
                       <View style={{backgroundColor:"#BF1E2E", padding:10}} >
                         <Text style={styles.textStyle2}>Follow the route and go to the next checkpoint!</Text>
                         <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
@@ -420,7 +420,7 @@ export default class FollowTrip extends React.Component{
                     </View>
                 }
                 {this.finished>0 &&//if route is finished show finish button
-                    <View style={{flex:1,flexDirection: 'column', height: hp('20%'), width: wp('100%')}}>
+                    <View style={{flex:1,flexDirection: 'column', height: hp('20%'), width: wp('96%')}}>
                       <View style={{backgroundColor:"#BF1E2E", padding:10}} >
                         <Text style={styles.textStyle2}>Trip done. TAP FINISH.</Text>
                         <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
