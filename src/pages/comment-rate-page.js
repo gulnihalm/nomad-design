@@ -22,41 +22,50 @@ export default class CommentRatePage extends Component {
             label:          this.props.label, 
             description:    this.props.description,
             comment:        "",
-            rating:         "",
+            rating:         5,
+            disable:        false,
 		};
     }
 
     submitCommentAndRate(){
-        /*
-        let {guid, tripID, comment, rating} = this.state; //add more states if needed
-        fetch(hostURL + 'commentAndRate.php', {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                guid: guid,
-                tripID: tripID,
-                comment: comment,
-                rating: rating
+        let {guid, tripID, comment, rating} = this.state;
+        if(comment == ""){
+            alert("Puanlamanızla birlikte bir yorum da eklemelisiniz.");
+        }
+        else{
+            fetch(hostURL + 'commentAndRate.php', {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    guid: guid,
+                    tripID: tripID,
+                    comment: comment,
+                    rating: rating
+                })
             })
-        })
-        .then((response)=> response.json())
-        .then((response) => {
-            //console.log('commentAndRate response: ', response);
-        }).catch((error) => {
-            alert('Comment and rate error: ', error);
-        });
-        */
-    }
-
-    ratingCompleted(rating) {
-        console.log("Rating is: " + rating)
+            .then((response)=> response.json())
+            .then((response) => {
+                console.log('commentAndRate response: ', response);
+                if(response.result == 1){
+                    Actions.popTo('ProfilePage');
+                    alert("Yorumunuz ve puanlamanız başarıyla eklendi");
+                }
+                else if( response.error != "" ){
+                    alert("Yorumunuz ve puanlamanız eklenemedi");
+                }
+            }).catch((error) => {
+                alert('Comment and rate error: ', error);
+            });
+        }
+        this.setState({ disable: false });
     }
 
 	render() {
         let {trips, requestDone} = this.state;
+        console.log(this.state.rating);
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{top:hp(3), flex:1, alignItems: 'center'}}>
@@ -74,32 +83,25 @@ export default class CommentRatePage extends Component {
                         value={this.state.comment}
                         multiline
                         numberOfLines={10}
+                        maxLength={65535}
                         textAlignVertical='top'
-                        placeholder="Enter your comment here"
+                        placeholder="Yorumunuzu yazın"
                         autoCorrect={false} autoCapitalize="none" autoCompleteType="off" />
                     
                     <AirbnbRating
-                        reviews={["BOK GİBİ BOK", "Bunu yapanın aq", "İdare Eder", "İyi", "Süper"]}
+                        reviews={["Çok kötü", "Kötü", "İdare Eder", "İyi", "Süper"]}
                         size={wp(12)}
                         reviewColor='#BF1E2E'
                         selectedColor='#BF1E2E'
+                        onFinishRating={(rating)=>{this.setState({rating: rating});}}
                         reviewSize={20}
-                        //starStyle
-                        //starContainerStyle={{borderWidth:1, borderColor:'#000'}}
                         defaultRating={5}/>
-
-                    <Rating
-                        type='custom'
-                        ratingImage={IMAGE}
-                        ratingColor='#3498db'
-                        ratingBackgroundColor='#c8c7c8'
-                        ratingCount={10}
-                        imageSize={30}
-                        showRating={true}
-                        startingValue={10}
-                        fractions={1}
-                        onFinishRating={this.ratingCompleted}
-                        style={{ paddingVertical: 10 }}/>
+                    <TouchableOpacity style={[styles.button,{marginVertical:hp(2)}]}
+                        onPress={this.submitCommentAndRate.bind(this)}
+                        onPressOut={()=>{this.setState({disable: true});}}
+                        disabled={this.state.disable}>
+                        <Text style={styles.buttonText}>Gönder</Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={{ position: 'absolute', width: wp(25), top: height - hp(9) }}>

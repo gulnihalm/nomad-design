@@ -57,7 +57,7 @@ export default class FinishedTripsPage extends Component {
                 str = str.replace(/\\/g, "");
                 str = str.substr(1,str.length - 2);
 
-                //console.log('str:',str);
+                console.log('str:',str);
                 
                 let obj = JSON.parse(str);
                 
@@ -73,6 +73,7 @@ export default class FinishedTripsPage extends Component {
                     trip.push(element.name);
                     trip.push(element.label);
                     trip.push(element.description);
+                    trip.push(element.rating);
 
                     trips.push(trip);
         
@@ -83,7 +84,7 @@ export default class FinishedTripsPage extends Component {
                 this.forceUpdate();
                 
             }
-            else if(response.result == -1){
+            else if(response.error != ""){
                 alert("Followed trips were not acquired");
             }
         }).catch((error) => {
@@ -99,21 +100,21 @@ export default class FinishedTripsPage extends Component {
                 {!requestDone &&
                     <View style={{alignItems: 'center', top: -hp(12)}}>
                         <View style={{width: wp(75),}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>Getting your followed trips...</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>Tamamladığınız rotalar bulunuyor...</Text>
                         </View>
                     </View>
                 }
                 {(trips.length == 0 && requestDone) &&
                     <View style={{alignItems: 'center', top: -hp(12)}}>
                         <View style={{width: wp(75),}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>You have not followed a trip yet, once you do, you can rate and comment on the trips you have followed in here</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>Henüz bir rota tamamlamamışsınız, tamamladığınız rotaları burada görüp puanlayabilir ve yorum yapabilirsiniz</Text>
                         </View>
                     </View>
                 }
                 {(trips.length != 0 && requestDone) &&
                     <View style={{flex:1, alignItems: 'center'}}>
                         <View style={{position: 'absolute', top: hp(3)}}>
-                            <Text style={[styles.text, {fontSize: 25}]}>Your Followed Trips</Text>
+                            <Text style={[styles.text, {fontSize: 25}]}>Tamamladığınız Rotalar</Text>
                         </View>
 
                         <ScrollView style={{marginBottom:hp(20), top: hp(9), width:wp(100)}}>
@@ -121,7 +122,12 @@ export default class FinishedTripsPage extends Component {
                                 <Card key={key} title={trip[2]}>
                                     <Text style={{fontWeight:"bold", marginBottom:2}}>{trip[3]}</Text>
                                     <Text style={{marginVertical:2}}>{trip[4]}</Text>
-                                    <Button title='Comment and rate this trip' onPress={() => { Actions.CommentRatePage({tripID: trip[0], tripName: trip[2], label: trip[3], description: trip[4], guid: this.state.guid}); }}></Button>
+                                    {(trip[5] == "") &&
+                                        <Button title='Rotayı puanla ve yorumla' onPress={() => { Actions.CommentRatePage({tripID: trip[0], tripName: trip[2], label: trip[3], description: trip[4], guid: this.state.guid}); }}></Button>
+                                    }
+                                    {(trip[5] != "") &&
+                                        <Button title='Bu rotayı puanladınız ve yorumladınız' disabled={true}></Button>
+                                    }
                                 </Card>
                             )}
                         </ScrollView>

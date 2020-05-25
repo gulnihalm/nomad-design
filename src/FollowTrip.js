@@ -281,7 +281,7 @@ export default class FollowTrip extends React.Component{
             if(response.result == 1){
                 this.props.onBack(9);
             }
-            else if(response.result == -1){
+            else if(response.error != ""){
                 alert("Finished trip could not be saved");
             }
         }).catch((error) => {
