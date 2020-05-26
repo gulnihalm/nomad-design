@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     },
     map: {
       width: wp('100%'),
-      height: hp('73.5%'),
+      height: hp('65%'),
     },
     marker: {
       backgroundColor: "#550bbc",
@@ -87,14 +87,25 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
     },
+    markerStyle2: {
+      width: 80,
+      height: 55,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     userStyle: {
       width: 40,
       height: 40,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    userStyle2: {
+      width: 60,
+      height: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
     }
 });
-
 
 const DISTANCE_LIMIT = 1000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM'; //google api key with directions included
@@ -109,6 +120,7 @@ export default class FollowTrip extends React.Component{
         this.tokeNum =0;//token collected
         this.finished;//end toute condition, 1 is finished, 0 is not finished
         this.m=0;//marker array length
+        this.mode="WALKING";
         this.workedOnce = 0;
         this.mapdata= {
           distance : 0,
@@ -118,7 +130,6 @@ export default class FollowTrip extends React.Component{
           latitude :0,
           longitude:0,
         };
-
 
         const {markers} = this.props;
         this.state = {
@@ -131,8 +142,6 @@ export default class FollowTrip extends React.Component{
 
         }
     }
-
-
 
     componentDidMount(){
         let {markers} = this.state;
@@ -173,7 +182,6 @@ export default class FollowTrip extends React.Component{
             count++;
 
         });
-
         return flag;//ID
     }
 
@@ -211,8 +219,6 @@ export default class FollowTrip extends React.Component{
 //      coordinates=marker.latlng
 //      return coordinates;
 //        return m;
-
-
     }
 
     markClose(closeEnough){//this function is for getting the index of closest marker within DISTANCE_LIMIT, which is found by ID(from checkposition)
@@ -295,6 +301,15 @@ export default class FollowTrip extends React.Component{
 
         return myMarkers;
     }
+    changeMode()
+    {
+      if (this.mode==="WALKING"){
+        this.mode="DRIVING";
+      }
+      else {
+        this.mode="WALKING";
+      }
+    }
 
     finishTrip=()=>{
         console.log(this.props.user);
@@ -326,17 +341,11 @@ export default class FollowTrip extends React.Component{
     }
 
     render(){
-
         ///console.log(this.props.user);//for tracking
         ///console.log(this.props.trip);//for tracking
 
-
-
         const {markers} = this.state;
         const {pos} = this.props
-
-
-
 
         var closeEnough = this.checkPosition();//close enough is the ID of marker which is under DISTANCE_LIMIT
         this.markRoute();// draw route and check if route is completed
@@ -351,26 +360,32 @@ export default class FollowTrip extends React.Component{
         ///console.log(this.coordinates,"***************************");                                          //for tracking
         ///console.log(this.markersChecked[1]);                                                                  //for tracking
 
-        if (this.workedOnce===0){
-          this.workedOnce++;
-          console.log(this.workedOnce);
           return (
 
             <View style={{flex: 1, justifyContent: 'space-between',alignItems:'center' , width:  wp('100%'),height:  hp('100%')}}>
               <View style={{flex: 1, width: wp('100%'),height:  hp('100%')}}>
                 <View style={{width: wp('100%'),height:  hp('8.5%')}}></View>
-                <MapView style={styles.map}  provider={PROVIDER_GOOGLE}  followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
-                  <Marker coordinate={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}>
-                     <View style ={styles.userStyle}>
-                     <Image style ={styles.userStyle} source= {{uri : 'https://i.ya-webdesign.com/images/pokemon-red-sprite-png-12.gif'}} />
-                   </View>
-                  </Marker>
+                <MapView style={styles.map}  provider={PROVIDER_GOOGLE} followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
+                    { this.mode==="WALKING" &&
+                      <Marker coordinate={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}>
+                         <View style ={styles.userStyle}>
+                         <Image style ={styles.userStyle} source= {{uri : 'https://media.giphy.com/media/Nle3G2U155vHi/giphy.gif'}} />
+                       </View>
+                      </Marker>
+                    }
+                    { this.mode==="DRIVING" &&
+                      <Marker coordinate={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}>
+                         <View style ={styles.userStyle2}>
+                         <Image style ={styles.userStyle2} source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
+                       </View>
+                      </Marker>
+                    }
                     {markers.map((marker, i) => (<Marker coordinate={marker.latlng} title={marker.text} key = {i}>
                         <View style ={styles.markerStyle}>
                           <Image style ={styles.markerStyle} source= {{uri : 'https://www.mountcarmelliving.com/wp-content/uploads/2016/07/map-marker.gif'}} />
                         </View>
                     </Marker>))}
-                    {this.finished<1 &&//if route is not finished keep drawing to next marker
+                    {this.finished<1 && this.workedOnce<1 && (this.workedOnce= this.workedOnce+1) &&//if route is not finished keep drawing to next marker
                     <MapViewDirections
                       origin={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}//from user location to
                       destination={this.coordinates}//closest maker
@@ -378,8 +393,8 @@ export default class FollowTrip extends React.Component{
                       resetOnChange = {false}
                       timePrecision = "now"
                       presicion = "high"
-                      mode="WALKING"//walking route
-                      strokeWidth= {3}//kalınlık
+                      mode={this.mode}
+                      strokeWidth= {5}//kalınlık
                       strokeColor = "#BF1E2E"//renk
                       onStart={(params) => {
                        console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
@@ -398,6 +413,28 @@ export default class FollowTrip extends React.Component{
                             top: (height / 20),
                           }
                         });
+                      }}
+                    />}
+
+                    {this.finished<1 && this.workedOnce>0 &&//if route is not finished keep drawing to next marker
+                    <MapViewDirections
+                      origin={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}//from user location to
+                      destination={this.coordinates}//closest maker
+                      apikey={GOOGLE_MAPS_APIKEY}
+                      resetOnChange = {false}
+                      timePrecision = "now"
+                      presicion = "high"
+                      mode={this.mode}//walking route
+                      strokeWidth= {5}//kalınlık
+                      strokeColor = "#BF1E2E"//renk
+                      onStart={(params) => {
+                       console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
+                      }}
+                      onReady={result => {
+                        console.log(`Distance: ${result.distance} km`)
+                        console.log(`Duration: ${result.duration} min.`)
+                        this.mapdata.distance = result.distance;
+                        this.mapdata.duration = parseInt(result.duration);
                       }}
                     />}
                 </MapView>
@@ -426,6 +463,17 @@ export default class FollowTrip extends React.Component{
                           <Text style={styles.textStyle}>Find Marker</Text>
                         </TouchableOpacity>
                       </View>
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                          <Image style={styles.markerStyle}
+                            source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                          <Image style={styles.markerStyle2}
+                            source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
+                        </TouchableOpacity>
+                      </View>
+
                     </View>
                 }
                 {closeEnough<1 && this.finished<1 &&
@@ -448,6 +496,16 @@ export default class FollowTrip extends React.Component{
                         });
                       }}>
                           <Text style={styles.textStyle}>Find Marker</Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                          <Image style={styles.markerStyle}
+                            source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                          <Image style={styles.markerStyle2}
+                            source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -477,6 +535,16 @@ export default class FollowTrip extends React.Component{
                           <Text style={styles.textStyle}>Find Marker</Text>
                         </TouchableOpacity>
                       </View>
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                          <Image style={styles.markerStyle}
+                            source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                          <Image style={styles.markerStyle2}
+                            source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
+                        </TouchableOpacity>
+                      </View>
                     </View>
                 //Burada bize yakın veya geçtiğimiz (token aldığımız) maerker ın index i ve ID si dahil sahip olduğu her veriye erişimimiz var ve istediğimiz gibi kullanabiliyoruz.
                 //DB de ayrı token yerine user in üstünden geçtiği marker ları ayrıca tutabiliriz veya her rota için bool array i DB ye gidebilir. Çünkü bütün rota takibi ve user nerde kaldı
@@ -485,139 +553,5 @@ export default class FollowTrip extends React.Component{
               </View>
             </View>
         );
-      }
-      else {
-        return (
-
-          <View style={{flex: 1, justifyContent: 'space-between',alignItems:'center' , width:  wp('100%'),height:  hp('100%')}}>
-            <View style={{flex: 1, width: wp('100%'),height:  hp('100%')}}>
-              <View style={{width: wp('100%'),height:  hp('8.5%')}}></View>
-              <MapView style={styles.map}  provider={PROVIDER_GOOGLE}  followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
-                <Marker coordinate={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}>
-                   <View style ={styles.userStyle}>
-                   <Image style ={styles.userStyle} source= {{uri : 'https://i.ya-webdesign.com/images/pokemon-red-sprite-png-12.gif'}} />
-                 </View>
-                </Marker>
-                  {markers.map((marker, i) => (<Marker coordinate={marker.latlng} title={marker.text} key = {i}>
-                      <View style ={styles.markerStyle}>
-                        <Image style ={styles.markerStyle} source= {{uri : 'https://www.mountcarmelliving.com/wp-content/uploads/2016/07/map-marker.gif'}} />
-                      </View>
-                  </Marker>))}
-                  {this.finished<1 &&//if route is not finished keep drawing to next marker
-                  <MapViewDirections
-                    origin={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}//from user location to
-                    destination={this.coordinates}//closest maker
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    resetOnChange = {false}
-                    timePrecision = "now"
-                    presicion = "high"
-                    mode="WALKING"//walking route
-                    strokeWidth= {3}//kalınlık
-                    strokeColor = "#BF1E2E"//renk
-                    onStart={(params) => {
-                     console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
-                    }}
-                    onReady={result => {
-                      console.log(`Distance: ${result.distance} km`)
-                      console.log(`Duration: ${result.duration} min.`)
-                      this.mapdata.distance = result.distance;
-                      this.mapdata.duration = parseInt(result.duration);
-
-                      this.mapView.fitToCoordinates(result.coordinates, {
-                        edgePadding: {
-                          right: (width / 20),
-                          bottom: (height / 20),
-                          left: (width / 20),
-                          top: (height / 20),
-                        }
-                      });
-                    }}
-                  />}
-              </MapView>
-              {closeEnough>0 &&//if distance to closest marker under DISTANCE_LIMIT show AR button
-                  <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('96%')}}>
-                    <View style={{backgroundColor:"#BF1E2E", padding:10}} >
-                      <Text style={styles.textStyle2}>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
-                      <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.buttonPress(closeEnough)}}>
-                        <Text style={styles.textStyle}>Get Token</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
-                        <Text style={styles.textStyle}>Find Me</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
-                        edgePadding: {
-                          right: (width / 20),
-                          bottom: (height / 20),
-                          left: (width / 20),
-                          top: (height / 20),
-                        }
-                      });
-                    }}>
-                        <Text style={styles.textStyle}>Find Marker</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-              }
-              {closeEnough<1 && this.finished<1 &&
-                  <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('96%')}}>
-                    <View style={{backgroundColor:"#BF1E2E", padding:10}} >
-                      <Text style={styles.textStyle2}>Follow the route and go to the next checkpoint!</Text>
-                      <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
-                        <Text style={styles.textStyle}>Find Me</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
-                        edgePadding: {
-                          right: (width / 20),
-                          bottom: (height / 20),
-                          left: (width / 20),
-                          top: (height / 20),
-                        }
-                      });
-                    }}>
-                        <Text style={styles.textStyle}>Find Marker</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-              }
-              {this.finished>0 &&//if route is finished show finish button
-                  <View style={{flex:1,flexDirection: 'column', height: hp('20%'), width: wp('96%')}}>
-                    <View style={{backgroundColor:"#BF1E2E", padding:10}} >
-                      <Text style={styles.textStyle2}>Trip done. TAP FINISH.</Text>
-                      <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <TouchableOpacity style={styles.buttonStyle} onPress={this.finishTrip}>
-                        <Text style={styles.textStyle}>FINISH</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
-                        <Text style={styles.textStyle}>Find Me</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
-                        edgePadding: {
-                          right: (width / 20),
-                          bottom: (height / 20),
-                          left: (width / 20),
-                          top: (height / 20),
-                        }
-                      });
-                    }}>
-                        <Text style={styles.textStyle}>Find Marker</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-              //Burada bize yakın veya geçtiğimiz (token aldığımız) maerker ın index i ve ID si dahil sahip olduğu her veriye erişimimiz var ve istediğimiz gibi kullanabiliyoruz.
-              //DB de ayrı token yerine user in üstünden geçtiği marker ları ayrıca tutabiliriz veya her rota için bool array i DB ye gidebilir. Çünkü bütün rota takibi ve user nerde kaldı
-              //bir tane bool array ile anlaşılabilyor.
-              }
-            </View>
-          </View>
-        );
-      }
     }
 }

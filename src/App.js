@@ -144,7 +144,7 @@ export default class App extends React.Component {
       }, error => console.log(error.message), {
         enableHighAccuracy: false,
         timeout: 10000,
-        //maximumAge: 3600000,
+        
 
       })
     }, 1000);
