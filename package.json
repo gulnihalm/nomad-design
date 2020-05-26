@@ -40,6 +40,7 @@
     "react-native-screens": "^2.4.0",
     "react-native-scrollable-tab-view": "^1.0.0",
     "react-native-sensors": "^5.4.1",
+    "react-native-simple-radio-button": "^2.7.4",
     "react-native-twitter-signin": "^1.1.1",
     "react-native-unimodules": "^0.9.0",
     "react-native-vector-icons": "^6.6.0",

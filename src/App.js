@@ -103,8 +103,9 @@ export default class App extends React.Component {
     if(useMapServices)
         this.requestLocationPermission();
 
-    user = '{"ID":"' + this.props.guid + '", "email":"' + this.props.userEmail + '", "username":"' + this.props.userName + '", "password":"' + this.props.userPassword + '"}';//HI I AM THE JSON OBJECT MENTIONED
+    user = '{"userID":"' + this.props.guid + '", "email":"' + this.props.userEmail + '", "username":"' + this.props.userName + '", "password":"' + this.props.userPassword + '"}';//HI I AM THE JSON OBJECT MENTIONED
     this.setState({Page, user});
+    
   };
 
   requestLocationPermission = async () => {
@@ -144,7 +145,7 @@ export default class App extends React.Component {
       }, error => console.log(error.message), {
         enableHighAccuracy: false,
         timeout: 10000,
-        
+        //maximumAge: 3600000,
 
       })
     }, 1000);

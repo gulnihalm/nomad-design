@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 import Geolocation from "@react-native-community/geolocation";
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import {Header} from 'react-native-elements';
 import { Footer} from 'native-base';
-import Icon from 'react-native-vector-icons/Entypo';
 
+import Icon from 'react-native-vector-icons/Entypo';
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -31,8 +32,8 @@ const styles = StyleSheet.create({
     },
     map: {
       flex: 1,
-      width,
-      height
+      width:400,
+      height:400
     },
     buttonContainer: {
         margin: 20,
@@ -49,6 +50,9 @@ const styles = StyleSheet.create({
      justifyContent: 'flex-start',
      justifyContent: 'space-around'
    },
+   scrollView: {
+    marginHorizontal: 20,
+  }
 });
 
 export default class EditTrip extends React.Component{
@@ -60,22 +64,25 @@ export default class EditTrip extends React.Component{
             markers: markers,
             descriptions: [],
             tripDescription: '',
+            tripName : '',
             titles: [],
             text: '',
             inputEnabled: false,
-            selectedMarker: -1
+            selectedMarker: -1,
+            label: ''
                 //possible userid
         }
     }
 
     onPressMarker(i) {
-        
+
 
         this.setState({inputEnabled: true, selectedMarker: i, text: ''});
     }
 
     async getLastTripCreatedByUser(){
-        const userID = this.props.user.ID;
+        let obj = JSON.parse(this.props.user)
+        const userID = obj.userID;
         console.log("LOG CURRENT USER:",userID);
         tripID = 0;
         fetch('http://nomad-server2.000webhostapp.com/getTrips.php')
@@ -93,14 +100,14 @@ export default class EditTrip extends React.Component{
             })
 
             array[0].forEach(element => {
-            
+
                 if ( element.userID === userID ){
                     tripID = element.tripID;
                     console.log('trip id updated:',tripID);
                 }
-    
+
             });
-            
+
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
         });
@@ -111,13 +118,17 @@ export default class EditTrip extends React.Component{
 
     async submitMarkers(){
         const {markers,titles} = this.state;
-        const userID = this.props.user.ID;
-        // console.log("LOG CURRENT USER:",userID);
+        let obj = JSON.parse(this.props.user)
+        const userID = obj.userID;
+        console.log("LOG CURRENT USER:",obj.userID);
+        console.log("Don't delete this log. It does woala")
+        console.log("Don't delete this log. It does woala. This too")
+        console.log("Don't delete this log. It does woala. This too")
         tripID = 0;
         await fetch('http://nomad-server2.000webhostapp.com/getTrips.php')
         .then((response)=> response.json())
         .then((response) => {
-            // console.log('response from get: ',response);
+            console.log('response from get: ', response);
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
@@ -128,22 +139,22 @@ export default class EditTrip extends React.Component{
             })
 
             array[0].forEach(element => {
-            
+
                 if ( element.userID === userID ){
                     tripID = element.tripID;
                     console.log('trip id updated:',tripID);
                 }
-    
+
             });
-            
+
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
         });
 
-        console.log("Submitting MARKERS ->",tripID);
-        // console.log("************",markers[0].latlng.latitude);
-        // console.log("************",markers[0].latlng.longitude);
-        // console.log("************",titles[0]);
+        /*console.log("Submitting MARKERS ->",tripID);
+        console.log("************",markers[0].latlng.latitude);
+        console.log("************",markers[0].latlng.longitude);
+        console.log("************",titles[0]);*/
 
         for (i = 0; i<markers.length ; i++) {
             await fetch('http://nomad-server2.000webhostapp.com/submitMarker.php',{
@@ -175,7 +186,7 @@ export default class EditTrip extends React.Component{
         console.log(this.state.titles);
         console.log(this.state.tripDescription);
         console.log('----------------');
-
+        let obj = JSON.parse(this.props.user)
         await fetch('http://nomad-server2.000webhostapp.com/submitTripInfo.php',{
 		  method: 'POST',
 		  headers:{
@@ -183,9 +194,9 @@ export default class EditTrip extends React.Component{
 			'Content-Type':'application/json'
 		  },
 		  body: JSON.stringify({
-			  userID: this.props.user.ID,
-              name: 'Default Trip Name', // change this later
-              label: 'Default Label', // change this later
+			  userID: obj.userID,
+              name: this.state.tripName, // change this later
+              label: this.state.label, // change this later
               description: this.state.tripDescription
 		  })
 
@@ -196,22 +207,37 @@ export default class EditTrip extends React.Component{
         }).catch((error) => {
             console.log('error is ', error.message);
         });
+        console.log("Trip")
 
-        this.submitMarkers();        
-        
+        this.submitMarkers();
+
     }
-
+//yaz, kış, doğa, tarihi, fun stuff, mixed
     render(){
+        let obj = JSON.parse(this.props.user)
 
-        console.log('titles');
+        //console.log('titles');
         //console.log(this.state.titles);
         const {titles} = this.state;
         const {tripDescription} = this.state
-        console.log(titles);
-        console.log(tripDescription);
+        //console.log(titles);
+        //console.log(tripDescription);
         const {pos} = this.props;
         const {selectedMarker} = this.state
-
+        const {checked} = this.state
+        var radio_props = [
+            {label: 'winter', value: 'winter' },
+            {label: 'summer', value: 'summer' },
+            {label: 'nature', value: 'nature' },
+            {label: 'historical', value: 'historical'},
+            {label: 'fun stuff', value : 'fun stuff'},
+            {label: 'mixed', value : 'mixed'}
+          ];
+          /*<RadioForm
+                          radio_props={radio_props}
+                          initial = {'winter'}
+                          onPress={(value) => { this.setState({ label: value }); }}
+                        /> */
         if(this.state.inputEnabled){
 
             return (
@@ -220,38 +246,59 @@ export default class EditTrip extends React.Component{
                     <Header
         	            backgroundColor = '#BF1E2E'
         	            centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff' } }}
-        	            
+
       	            />
-                    
+                    <ScrollView style={styles.scrollView}>
                     <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
-            
-                        {this.state.markers.map((marker, i) => <Marker identifier = {i.toString(10)} title = {this.state.titles[i]} description = {this.state.descriptions[i]} 
+
+                        {this.state.markers.map((marker, i) => <Marker identifier = {i.toString(10)} title = {this.state.titles[i]} description = {this.state.descriptions[i]}
                             onPress= {(e) => {this.onPressMarker(i)}} coordinate={marker.latlng} key = {i}/>)}
-            
+
                     </MapView>
-                    <View>
-                        <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }} label = {'Description'} placeholder = {'Trip Description'} value={this.state.tripDescription} onChangeText={desc => {
-                            this.setState({tripDescription: desc});}}/>
-                    </View>
-                    <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1 }} label = {'title'} placeholder = {'Marker Title'} value={this.state.text} onChangeText={text => {
-                        let temp = titles.slice();
-                        temp[selectedMarker] = text;
-                        this.setState({titles: temp, text: text});}}/>
+                    <Text>{"\n"}</Text>
+                        <Text>Trip Name:</Text>
+                        <View style={{width:'100%'}}>
+                            <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1,borderRadius: 4 }} label = {'Name'} placeholder = {'Trip Name'} value={this.state.tripName} onChangeText={name => {
+                                this.setState({tripName: name});}}/>
 
-                    <View style={styles.multiButtonContainer}>
-                        <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
-                        
-                    </View>
+                        </View>
+                    <Text>{"\n"}</Text>
+                    <Text>Trip Description:</Text>
+                        <View>
+                            <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1,borderRadius: 4 }} label = {'Description'} placeholder = {'Trip Description'} value={this.state.tripDescription} onChangeText={desc => {
+                                this.setState({tripDescription: desc});}}/>
 
-                    
+                        </View>
+                        <Text>{"\n"}</Text>
+                        <View>
+                        <Text>Choose a label related to your trip(be honest :)):</Text>
+                        <RadioForm
+                            radio_props={radio_props}
+                            initial = {'winter'}
+                            onPress={(value) => { this.setState({ label: value }); }}
+                        />
+                        </View>
+                        <Text>{"\n"}</Text>
+                        <Text>Marker Title:</Text>
+                        <TextInput style={{ height: 40, width: 200, borderColor: 'gray', borderWidth: 1,borderRadius: 4 }} label = {'title'} placeholder = {'Marker Title'} value={this.state.text} onChangeText={text => {
+                            let temp = titles.slice();
+                            temp[selectedMarker] = text;
+                            this.setState({titles: temp, text: text});}}/>
+
+                        <View style={styles.multiButtonContainer}>
+                            <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
+
+                        </View>
+                    </ScrollView>
+
 
                     <View>
                         <Footer style={{backgroundColor: "#BF1E2E"}}/>
                     </View>
 
                 </View>
-                
-            );      
+
+            );
 
         }
         else if(!this.state.inputEnabled){
@@ -261,40 +308,62 @@ export default class EditTrip extends React.Component{
 
                     <Header
                         backgroundColor = '#BF1E2E'
-        	            
+
         	            centerComponent={{ text: 'TRIP CREATION', style: { color: '#fff' } }}
-        	            
+
       	            />
-                    
 
+                    <ScrollView style={styles.scrollView}>
                     <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
-            
+
                         {this.state.markers.map((marker, i) => <Marker identifier = {i.toString(10)} title = {this.state.titles[i]} description = {this.state.descriptions[i]} onPress= {(e) => {this.onPressMarker(i)}} coordinate={marker.latlng} key = {i}/>)}
-            
+
                     </MapView>
+                        <Text>{"\n"}</Text>
+                        <Text>Trip Name:</Text>
+                        <View style={{width:'100%'}}>
+                            <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1,borderRadius: 4 }} label = {'Name'} placeholder = {'Trip Name'} value={this.state.tripName} onChangeText={name => {
+                                this.setState({tripName: name});}}/>
 
-                    <View style={{width:'100%'}}>
-                        <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1 }} label = {'Description'} placeholder = {'Trip Description'} value={this.state.tripDescription} onChangeText={desc => {
-                            this.setState({tripDescription: desc});}}/>
-                    </View>
-                    <View style={styles.multiButtonContainer}>
-                        <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
-                    </View>
+                        </View>
 
-                    
+                        <Text>{"\n"}</Text>
+                        <Text>Trip Description:</Text>
+                        <View style={{width:'100%'}}>
+                            <TextInput style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1,borderRadius: 4 }} label = {'Description'} placeholder = {'Trip Description'} value={this.state.tripDescription} onChangeText={desc => {
+                                this.setState({tripDescription: desc});}}/>
+
+                        </View>
+                        <Text>{"\n"}</Text>
+                        <View>
+
+                        <Text>Choose a label related to your trip(be honest :)):</Text>
+                        <RadioForm
+                            radio_props={radio_props}
+                            initial = {'winter'}
+                            onPress={(value) => { this.setState({ label: value }); }}
+                        />
+                        </View>
+                        <Text>Tip: Tap to your markers to give them a title</Text>
+                        <View style={styles.multiButtonContainer}>
+
+                            <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
+                        </View>
+                    </ScrollView>
+
 
                     <View>
                         <Footer style={{backgroundColor: "#BF1E2E"}}/>
                     </View>
 
-                    
-            
+
+
                 </View>
-                
-            );     
+
+            );
 
         }
-             
+
 
     }
 

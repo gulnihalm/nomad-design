@@ -13,14 +13,14 @@ import ProfilePage from './src/pages/profile-page';
 import FinishedTripsPage from './src/pages/finished-trips-page';
 import CreateTripPage from './src/pages/CreateTripPage';
 import ARpage from './src/pages/ARpage';
-import CommentRatePage from './src/pages/comment-rate-page';
-
+import Achievements from './src/Achievements';
 export default class Login extends Component {
 
     render() {
         //pages used throughout the program
         const scenes = Actions.create(
             <Scene key="root" hideNavBar="true">
+
                 <Scene key="StartPage" component={StartPage}/>
                 <Scene key="LoginPage" component={LoginPage}/>
                 <Scene key="MainPage" component={MainSidebar}/>
@@ -28,8 +28,8 @@ export default class Login extends Component {
                 <Scene key="CreateTripPage" component = {CreateTripPage}/>
                 <Scene key="ProfilePage" component={ProfilePage}/>
                 <Scene key="FinishedTripsPage" component={FinishedTripsPage}/>
-                <Scene key="CommentRatePage" component={CommentRatePage}/>
                 <Scene key="ARpage" component={ARpage}/>
+                <Scene key="Achievements" component={Achievements}/>
             </Scene>
     );
 

@@ -112,33 +112,41 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
                             }}>
                             <Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Create Trip</Text>
                         </TouchableOpacity>
+
+						<TouchableOpacity //Achievements button
+                            style={styles.sidebarButton}
+                            onPress={()=>{
+                                Actions.Achievements({guid: this.state.guid, userEmail: this.props.userEmail, userName: this.state.userName, userPassword: this.props.userPassword});
+                            }}>
+                            <Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Achievements</Text>
+                        </TouchableOpacity>
 						<View style={{ position: 'absolute', top: hp(100) - 80, left: wp(25)-45 }}>
 							{ this.state.userChoice == "0" ? ( //LOG OUT FACEBOOK
-								<View style={{width: wp(30)}}>
+								<View style={{width: wp(25)}}>
 									<TouchableOpacity style={styles.altButton}
 										onPress={()=>{ LoginManager.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-										<Text style={styles.buttonText}>Log out</Text>
+										<Text style={styles.buttonText}>Back</Text>
 									</TouchableOpacity>
 								</View>
 								):( this.state.userChoice == "1" ? ( //LOG OUT GOOGLE
-									<View style={{width: wp(30)}}>
+									<View style={{width: wp(25)}}>
 										<TouchableOpacity style={styles.altButton}
 											onPress={()=>{ google_signOut(); Actions.LoginPage({type: 'reset'}); }}>
-											<Text style={styles.buttonText}>Log out</Text>
+											<Text style={styles.buttonText}>Back</Text>
 										</TouchableOpacity>
 									</View>
 									):( this.state.userChoice == "2" ? ( //LOG OUT TWITTER
-										<View style={{width: wp(30)}}>
+										<View style={{width: wp(25)}}>
 											<TouchableOpacity style={styles.altButton}
 												onPress={()=>{ RNTwitterSignIn.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-												<Text style={styles.buttonText}>Log out</Text>
+												<Text style={styles.buttonText}>Back</Text>
 											</TouchableOpacity>
 										</View>
 										):( //LOG OUT EMAIL
-											<View style={{width: wp(30)}}>
+											<View style={{width: wp(25)}}>
 												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ Actions.LoginPage({type: 'reset'}); }}>
-													<Text style={styles.buttonText}>Log out</Text>
+													<Text style={styles.buttonText}>Back</Text>
 												</TouchableOpacity>
 											</View>
 										)
@@ -156,7 +164,7 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 										googleEntrance: this.state.googleEntrance, fbEntrance: this.state.fbEntrance, twitterEntrance: this.state.twitterEntrance,
 									});
 								}}>
-								<Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Synchronize Your Accounts</Text>
+								<Text adjustsFontSizeToFit={true} style={{color: '#fff', textAlign: 'center'}}>Synchronize Accounts</Text>
 							</TouchableOpacity>
 						}
 

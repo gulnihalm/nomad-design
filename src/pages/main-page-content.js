@@ -75,11 +75,16 @@ export default class MainPage extends Component {
 					<ScrollView tabLabel="ios-notifications" style={styles.tabView} keyboardShouldPersistTaps='always' //keyboardDismissMode='on-drag'
 					>
 						<View style={styles.card}>
-							<Text>twitterEntrance: 	{this.state.twitterEntrance.toString()}</Text>
+							{this.state.twitterEntrance.toString()===false &&
+								<View style={styles.card}>
+									<Text>twitterEntrance: 	{this.state.twitterEntrance.toString()}</Text>
+								</View>
+							}
+
 							<Text>googleEntrance: 	{this.state.googleEntrance.toString()}</Text>
 							<Text>fbEntrance:		{this.state.fbEntrance.toString()}</Text>
-							<Text>emailEntrance:	{this.state.emailEntrance.toString()}</Text>
-							<Text>activeTab:		{this.state.activeTab}</Text>
+							<Text>Email Entrance:	{this.state.emailEntrance.toString()}</Text>
+							<Text>Active Tab:		{this.state.activeTab}</Text>
 						</View>
 					</ScrollView>
 
@@ -270,4 +275,83 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		color: '#fff'
 	},
+	textStyle: {
+		fontSize:20,
+		textAlign: 'center',
+		color: "#f8f8ff",
+		textShadowColor: 'rgba(0, 0, 0, 0.75)',
+		textShadowOffset: {width: -1, height: 1},
+		textShadowRadius: 7
+	},
+	textStyle2: {
+		fontSize:15,
+		textAlign: 'center',
+		color: "#f8f8ff",
+		textShadowColor: 'rgba(0, 0, 0, 0.75)',
+		textShadowOffset: {width: -1, height: 1},
+	},
+	textStyle3: {
+		fontSize:15,
+		textAlign: 'center',
+		color: "#f8f8ff",
+		textShadowColor: 'rgba(0, 0, 0, 0.75)',
+		textShadowOffset: {width: -1, height: 1},
+		textShadowRadius: 7
+	},
+	buttonStyle: {
+		alignItems: 'center',
+		width: wp('32%'),
+		padding:10,
+		backgroundColor: '#BF1E2E',
+		borderRadius:3,
+		borderColor: "#d3d3d3",
+		borderWidth: 1
+	},
+	buttonStyle2: {
+		alignItems: 'center',
+		width: wp('48%'),
+		padding:10,
+		backgroundColor: '#BF1E2E',
+		borderRadius:3,
+		borderColor: "#d3d3d3",
+		borderWidth: 1
+	},
+	container: {
+		flex: 1,
+		justifyContent: 'flex-start',
+		justifyContent: 'space-around'
+	},
+	map: {
+		width: wp('100%'),
+		height: hp('65%'),
+	},
+	marker: {
+		backgroundColor: "#550bbc",
+		padding: 5,
+		borderRadius: 5
+	},
+	markerStyle: {
+		width: 50,
+		height: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	markerStyle2: {
+		width: 80,
+		height: 55,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	userStyle: {
+		width: 40,
+		height: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	userStyle2: {
+		width: 60,
+		height: 40,
+		justifyContent: 'center',
+		alignItems: 'center',
+	}
 });
