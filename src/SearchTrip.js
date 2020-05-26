@@ -48,7 +48,7 @@ export default class SearchTrip extends Component{
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
             })
-
+            
             array[0].forEach(element => {
 
                 var trip = [];
@@ -83,7 +83,7 @@ export default class SearchTrip extends Component{
 
                 commentEnabled.push(comment)
             });
-
+            
             console.log("Comment Enabled", commentEnabled)
             this.setState({commentEnabled:commentEnabled})
             this.setState({tripsForChange:tripsForChange})
@@ -132,7 +132,7 @@ export default class SearchTrip extends Component{
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
             })
-
+            
             array[0].forEach(element => {
 
                 var trip = [];
@@ -154,8 +154,9 @@ export default class SearchTrip extends Component{
 
 
                 trips.push(trip);
-
+                
             });
+            
             this.setState({tripsForChange:tripsForChange})
             this.setState({trips});
         }).catch((error) => {
@@ -213,7 +214,7 @@ export default class SearchTrip extends Component{
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
             })
-
+            if(array.length !== 0){
             array[0].forEach(element => {
 
                 var comment = [];
@@ -224,7 +225,7 @@ export default class SearchTrip extends Component{
                 console.log(comment)
                 comments.push(comment);
 
-            });
+            });}else{alert("This trip has no comment")}
             console.log("GELDİ")
             this.setState({control:true,comments:comments})
 
