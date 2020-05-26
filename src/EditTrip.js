@@ -178,6 +178,7 @@ export default class EditTrip extends React.Component{
             });
 
         }
+
     }
 
     async submitTrip(){
@@ -210,6 +211,7 @@ export default class EditTrip extends React.Component{
         console.log("Trip")
 
         this.submitMarkers();
+
 
     }
 //yaz, kış, doğa, tarihi, fun stuff, mixed
@@ -346,7 +348,6 @@ export default class EditTrip extends React.Component{
                         </View>
                         <Text>Tip: Tap to your markers to give them a title</Text>
                         <View style={styles.multiButtonContainer}>
-
                             <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
                         </View>
                     </ScrollView>

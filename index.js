@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
 import App from './src/App';
+import CommentAndRate from './src/pages/comment-rate-page';
 
 //navigator library used throughout the program. Most important thing to know is Actions.xPage takes you to the page you want. type = 'reset' resets navigator's history.
 import {Actions, Scene, Router} from 'react-native-router-flux';
@@ -30,6 +31,7 @@ export default class Login extends Component {
                 <Scene key="FinishedTripsPage" component={FinishedTripsPage}/>
                 <Scene key="ARpage" component={ARpage}/>
                 <Scene key="Achievements" component={Achievements}/>
+                <Scene key="CommentRatePage" component={CommentAndRate}/>
             </Scene>
     );
 
