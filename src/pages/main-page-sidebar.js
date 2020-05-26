@@ -125,28 +125,28 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 								<View style={{width: wp(25)}}>
 									<TouchableOpacity style={styles.altButton}
 										onPress={()=>{ LoginManager.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-										<Text style={styles.buttonText}>Back</Text>
+										<Text style={styles.buttonText}>Log Out</Text>
 									</TouchableOpacity>
 								</View>
 								):( this.state.userChoice == "1" ? ( //LOG OUT GOOGLE
 									<View style={{width: wp(25)}}>
 										<TouchableOpacity style={styles.altButton}
 											onPress={()=>{ google_signOut(); Actions.LoginPage({type: 'reset'}); }}>
-											<Text style={styles.buttonText}>Back</Text>
+											<Text style={styles.buttonText}>Log Out</Text>
 										</TouchableOpacity>
 									</View>
 									):( this.state.userChoice == "2" ? ( //LOG OUT TWITTER
 										<View style={{width: wp(25)}}>
 											<TouchableOpacity style={styles.altButton}
 												onPress={()=>{ RNTwitterSignIn.logOut(); Actions.LoginPage({type: 'reset'}); }}>
-												<Text style={styles.buttonText}>Back</Text>
+												<Text style={styles.buttonText}>Log Out</Text>
 											</TouchableOpacity>
 										</View>
 										):( //LOG OUT EMAIL
 											<View style={{width: wp(25)}}>
 												<TouchableOpacity style={styles.altButton}
 													onPress={()=>{ Actions.LoginPage({type: 'reset'}); }}>
-													<Text style={styles.buttonText}>Back</Text>
+													<Text style={styles.buttonText}>Log Out</Text>
 												</TouchableOpacity>
 											</View>
 										)

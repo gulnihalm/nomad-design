@@ -74,17 +74,48 @@ export default class MainPage extends Component {
 
 					<ScrollView tabLabel="ios-notifications" style={styles.tabView} keyboardShouldPersistTaps='always' //keyboardDismissMode='on-drag'
 					>
-						<View style={styles.card}>
-							{this.state.twitterEntrance.toString()===false &&
-								<View style={styles.card}>
-									<Text>twitterEntrance: 	{this.state.twitterEntrance.toString()}</Text>
-								</View>
-							}
+						<View style={styles.card2}>
+							<Text style={styles.textStyle}>WELCOME TO NOMAD</Text>
+							<Text style={styles.textStyle2}>Thank tou for joining us! Nomad allows users to experience each other's voyages and trips.</Text>
+							<View style={styles.card3}>
+								<Icon name = 'ios-menu' size={30} color= '#BF1E2E' />
+								<Text style={styles.textStyle3}> By pressing menu button you can choose to create a route, view achievement list, Synchronize your accounts or log out.</Text>
+								<Image style={styles.iconStyle} source={require('../images/nav.png')}/>
+								<Text style={styles.textStyle3}> You can press the navigaton button to see all available trips, search for a trip you would like to follow and see their comments.
+								 Choose a trip, tap Follow Route button.On the map, you can determine a driving or a walking route. Your distance to your destination and estimated duration of the route will be shown.
+								  Additionally, helpful information will be shown to you when you are following a route.</Text>
+								<Image style={styles.iconStyle} source={require('../images/gear.png')}/>
+								<Text style={styles.textStyle3}> By pressing the gear button, you can see and edit you account information, you can log out or delete your account.</Text>
+								<Text style={styles.textStyle3}> Your preferred way of login is shown below.</Text>
+							</View>
+							<View style={styles.card}>
+								{this.state.twitterEntrance.toString()==="false" &&
+										<Image style={styles.markerStyle} source={require('../images/tblack.png')}/>
+								}
+								{this.state.twitterEntrance.toString()==="true" &&
+										<Image style={styles.markerStyle} source={require('../images/tcolor.png')}/>
+								}
+								{this.state.googleEntrance.toString()==="false" &&
+										<Image style={styles.markerStyle} source={require('../images/gblack.png')}/>
+								}
+								{this.state.googleEntrance.toString()==="true" &&
+										<Image style={styles.markerStyle} source={require('../images/gcolor.png')}/>
+								}
+								{this.state.fbEntrance.toString()==="false" &&
+										<Image style={styles.markerStyle} source={require('../images/fblack.png')}/>
+								}
+								{this.state.fbEntrance.toString()==="true" &&
+										<Image style={styles.markerStyle} source={require('../images/fcolor.png')}/>
+								}
+								{this.state.emailEntrance.toString()==="false" &&
+										<Image style={styles.markerStyle} source={require('../images/eblack.png')}/>
+								}
+								{this.state.emailEntrance.toString()==="true" &&
+										<Image style={styles.markerStyle} source={require('../images/ecolor.png')}/>
+										//<Text>Active Tab:		{this.state.activeTab}</Text>
+								}
+							</View>
 
-							<Text>googleEntrance: 	{this.state.googleEntrance.toString()}</Text>
-							<Text>fbEntrance:		{this.state.fbEntrance.toString()}</Text>
-							<Text>Email Entrance:	{this.state.emailEntrance.toString()}</Text>
-							<Text>Active Tab:		{this.state.activeTab}</Text>
 						</View>
 					</ScrollView>
 
@@ -246,11 +277,38 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0,0,0,0.01)',
 	},
 	card: {
+		flexDirection: 'row',
 		borderWidth: 1,
 		backgroundColor: '#fff',
-		borderColor: 'rgba(0,0,0,0.1)',
+		borderColor: '#ffffff',
 		margin: 5,
-		height: 150,
+		height: hp('9%'),
+		padding: 15,
+		shadowColor: '#ccc',
+		shadowOffset: { width: 2, height: 2, },
+		shadowOpacity: 0.5,
+		shadowRadius: 3,
+	},
+	card2: {
+		flexDirection: 'column',
+		borderWidth: 0,
+		backgroundColor: '#fff',
+		borderColor: '#ffffff',
+		margin: 5,
+		height: hp('88%'),
+		padding: 15,
+		shadowColor: '#ccc',
+		shadowOffset: { width: 2, height: 2, },
+		shadowOpacity: 0.5,
+		shadowRadius: 3,
+	},
+	card3: {
+		flexDirection: 'column',
+		borderWidth: 1,
+		backgroundColor: '#fff',
+		borderColor: '#ffffff',
+		margin: 5,
+		height: hp('50%'),
 		padding: 15,
 		shadowColor: '#ccc',
 		shadowOffset: { width: 2, height: 2, },
@@ -276,27 +334,29 @@ const styles = StyleSheet.create({
 		color: '#fff'
 	},
 	textStyle: {
-		fontSize:20,
+		fontSize:40,
+		fontWeight: 'bold',
 		textAlign: 'center',
-		color: "#f8f8ff",
+		fontFamily: "sans-serif-medium",
+		color: "#000000",
 		textShadowColor: 'rgba(0, 0, 0, 0.75)',
 		textShadowOffset: {width: -1, height: 1},
-		textShadowRadius: 7
+		textShadowRadius: 1
 	},
 	textStyle2: {
-		fontSize:15,
+		fontSize:20,
 		textAlign: 'center',
-		color: "#f8f8ff",
+		color: "#000000",
 		textShadowColor: 'rgba(0, 0, 0, 0.75)',
 		textShadowOffset: {width: -1, height: 1},
 	},
 	textStyle3: {
 		fontSize:15,
 		textAlign: 'center',
-		color: "#f8f8ff",
+		color: "#000000",
 		textShadowColor: 'rgba(0, 0, 0, 0.75)',
 		textShadowOffset: {width: -1, height: 1},
-		textShadowRadius: 7
+		textShadowRadius: 0
 	},
 	buttonStyle: {
 		alignItems: 'center',
@@ -321,10 +381,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		justifyContent: 'space-around'
 	},
-	map: {
-		width: wp('100%'),
-		height: hp('65%'),
-	},
 	marker: {
 		backgroundColor: "#550bbc",
 		padding: 5,
@@ -333,6 +389,12 @@ const styles = StyleSheet.create({
 	markerStyle: {
 		width: 50,
 		height: 50,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	iconStyle: {
+		width: 30,
+		height: 30,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
