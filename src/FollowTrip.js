@@ -392,7 +392,7 @@ export default class FollowTrip extends React.Component{
         ///console.log(this.markersChecked[1]);                                                                  //for tracking
 
           return (
-              <View style={{flex: 1, flexDirection: 'column',justifyContent: 'flex-end',alignItems:'center' , width:  wp('96%'),height:  hp('110%')}}>
+              <View style={{flex: 1, flexDirection: 'column',justifyContent: 'center',alignItems:'center' , width:  wp('96%'),height:  hp('105%')}}>
                  <View style={{width: wp('100%'),height:  hp('8.5%'), position: 'absolute'}}></View>
                   <MapView style={styles.map}  provider={PROVIDER_GOOGLE} showsUserLocation={true} followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
                       { this.mode==="WALKING" &&
