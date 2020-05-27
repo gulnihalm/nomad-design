@@ -8,6 +8,7 @@ import {
     Image,
     Text,
     TouchableOpacity,
+    ScrollView,
 } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Geolocation from "@react-native-community/geolocation";
@@ -20,6 +21,7 @@ import {RNCamera} from 'react-native-camera';
 import { hostURL } from './common/general';
 import {Actions} from 'react-native-router-flux';
 import MapViewDirections from 'react-native-maps-directions';
+import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -104,7 +106,11 @@ const styles = StyleSheet.create({
       height: 40,
       justifyContent: 'center',
       alignItems: 'center',
-    }
+    },
+    tabView2: {
+      flex: 1,
+      backgroundColor: 'rgba(0,0,0,0.01)',
+    },
 });
 
 const DISTANCE_LIMIT = 1000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
@@ -362,9 +368,10 @@ export default class FollowTrip extends React.Component{
 
           return (
 
-            <View style={{flex: 1, justifyContent: 'space-between',alignItems:'center' , width:  wp('100%'),height:  hp('100%')}}>
-              <View style={{flex: 1, width: wp('100%'),height:  hp('100%')}}>
+            <View style={{flex: 1, flexDirection: 'column',justifyContent: 'space-between',alignItems:'center' , width:  wp('96%'),height:  hp('100%')}}>
+
                 <View style={{width: wp('100%'),height:  hp('8.5%')}}></View>
+
                 <MapView style={styles.map}  provider={PROVIDER_GOOGLE} followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
                     { this.mode==="WALKING" &&
                       <Marker coordinate={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}>
@@ -440,40 +447,39 @@ export default class FollowTrip extends React.Component{
                 </MapView>
                 {closeEnough>0 &&//if distance to closest marker under DISTANCE_LIMIT show AR button
                     <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('96%')}}>
-                      <View style={{backgroundColor:"#BF1E2E", padding:10}} >
-                        <Text style={styles.textStyle2}>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
-                        <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
-                      </View>
-                      <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.buttonPress(closeEnough)}}>
-                          <Text style={styles.textStyle}>Get Token</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
-                          <Text style={styles.textStyle}>Find Me</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
-                          edgePadding: {
-                            right: (width / 20),
-                            bottom: (height / 20),
-                            left: (width / 20),
-                            top: (height / 20),
-                          }
-                        });
-                      }}>
-                          <Text style={styles.textStyle}>Find Marker</Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
-                          <Image style={styles.markerStyle}
-                            source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
-                          <Image style={styles.markerStyle2}
-                            source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
-                        </TouchableOpacity>
-                      </View>
-
+                        <View style={{backgroundColor:"#BF1E2E", padding:10}} >
+                          <Text style={styles.textStyle2}>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
+                          <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                          <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.buttonPress(closeEnough)}}>
+                            <Text style={styles.textStyle}>Get Token</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                            <Text style={styles.textStyle}>Find Me</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
+                            edgePadding: {
+                              right: (width / 20),
+                              bottom: (height / 20),
+                              left: (width / 20),
+                              top: (height / 20),
+                            }
+                          });
+                        }}>
+                            <Text style={styles.textStyle}>Find Marker</Text>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                            <Image style={styles.markerStyle}
+                              source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                            <Image style={styles.markerStyle2}
+                              source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
+                          </TouchableOpacity>
+                        </View>
                     </View>
                 }
                 {closeEnough<1 && this.finished<1 &&
@@ -550,7 +556,7 @@ export default class FollowTrip extends React.Component{
                 //DB de ayrı token yerine user in üstünden geçtiği marker ları ayrıca tutabiliriz veya her rota için bool array i DB ye gidebilir. Çünkü bütün rota takibi ve user nerde kaldı
                 //bir tane bool array ile anlaşılabilyor.
                 }
-              </View>
+
             </View>
         );
     }
