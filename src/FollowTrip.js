@@ -29,23 +29,26 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
 
     textStyle: {
-      fontSize:20,
+      fontSize: wp('4%'),
       textAlign: 'center',
+      marginRight: wp('4%'),
       color: "#f8f8ff",
       textShadowColor: 'rgba(0, 0, 0, 0.75)',
       textShadowOffset: {width: -1, height: 1},
       textShadowRadius: 7
     },
     textStyle2: {
-      fontSize:15,
+      fontSize: wp('4%'),
+      marginRight: wp('4%'),
       textAlign: 'center',
       color: "#f8f8ff",
       textShadowColor: 'rgba(0, 0, 0, 0.75)',
       textShadowOffset: {width: -1, height: 1},
     },
     textStyle3: {
-      fontSize:15,
+      fontSize: wp('3.5%'),
       textAlign: 'center',
+      marginRight: wp('4%'),
       color: "#f8f8ff",
       textShadowColor: 'rgba(0, 0, 0, 0.75)',
       textShadowOffset: {width: -1, height: 1},
@@ -54,6 +57,7 @@ const styles = StyleSheet.create({
     buttonStyle: {
       alignItems: 'center',
       width: wp('32%'),
+      height: hp('8%'),
       padding:10,
       backgroundColor: '#BF1E2E',
       borderRadius:3,
@@ -63,6 +67,17 @@ const styles = StyleSheet.create({
     buttonStyle2: {
       alignItems: 'center',
       width: wp('48%'),
+      height: hp('6%'),
+      padding:10,
+      backgroundColor: '#BF1E2E',
+      borderRadius:3,
+      borderColor: "#d3d3d3",
+      borderWidth: 1
+    },
+    buttonStyle3: {
+      alignItems: 'center',
+      width: wp('48%'),
+      height: hp('9%'),
       padding:10,
       backgroundColor: '#BF1E2E',
       borderRadius:3,
@@ -113,7 +128,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const DISTANCE_LIMIT = 1000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
+const DISTANCE_LIMIT = 10; // 100 meters is close enough to collect token but right now it is close to 10km for testing
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM'; //google api key with directions included
 //AIzaSyCA0MiYtfUFz70Mz4vZh6YTnjfY4_r_r18
 export default class FollowTrip extends React.Component{
@@ -447,7 +462,7 @@ export default class FollowTrip extends React.Component{
                 </MapView>
                 {closeEnough>0 &&//if distance to closest marker under DISTANCE_LIMIT show AR button
                     <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('96%')}}>
-                        <View style={{backgroundColor:"#BF1E2E", padding:10}} >
+                        <View style={{backgroundColor:"#BF1E2E", padding:10, height: hp('15%') , width: wp('96%')}} >
                           <Text style={styles.textStyle2}>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
                           <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
                         </View>
@@ -471,11 +486,11 @@ export default class FollowTrip extends React.Component{
                           </TouchableOpacity>
                         </View>
                         <View style={{flexDirection: 'row'}}>
-                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                          <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                             <Image style={styles.markerStyle}
                               source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                          <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                             <Image style={styles.markerStyle2}
                               source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
                           </TouchableOpacity>
@@ -505,11 +520,11 @@ export default class FollowTrip extends React.Component{
                         </TouchableOpacity>
                       </View>
                       <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                        <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                           <Image style={styles.markerStyle}
                             source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                        <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                           <Image style={styles.markerStyle2}
                             source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
                         </TouchableOpacity>
@@ -542,11 +557,11 @@ export default class FollowTrip extends React.Component{
                         </TouchableOpacity>
                       </View>
                       <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                        <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                           <Image style={styles.markerStyle}
                             source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.changeMode()}}>
+                        <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                           <Image style={styles.markerStyle2}
                             source= {{uri : 'https://www.pinclipart.com/picdir/big/141-1419823_svg-free-techflourish-collections-man-driving-pinterest-driving.png'}} />
                         </TouchableOpacity>
