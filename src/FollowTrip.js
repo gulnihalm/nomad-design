@@ -462,18 +462,18 @@ export default class FollowTrip extends React.Component{
                 </MapView>
                 {closeEnough>0 &&//if distance to closest marker under DISTANCE_LIMIT show AR button
                     <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('96%')}}>
-                        <View style={{backgroundColor:"#BF1E2E", padding:10, height: hp('15%') , width: wp('96%')}} >
+                        <View style={{backgroundColor:"#BF1E2E", padding:10 , width: wp('96%')}} >
                           <Text style={styles.textStyle2}>Close to a checkpoint! Please STAY STILL and look for a Token with your camera!</Text>
                           <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
-                          <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.buttonPress(closeEnough)}}>
+                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.buttonPress(closeEnough)}}>
                             <Text style={styles.textStyle}>Get Token</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
                             <Text style={styles.textStyle}>Find Me</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
+                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
                             edgePadding: {
                               right: (width / 20),
                               bottom: (height / 20),
@@ -538,13 +538,13 @@ export default class FollowTrip extends React.Component{
                         <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
                       </View>
                       <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={styles.buttonStyle} onPress={this.finishTrip}>
+                        <TouchableOpacity style={styles.buttonStyle2} onPress={this.finishTrip}>
                           <Text style={styles.textStyle}>FINISH</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
                           <Text style={styles.textStyle}>Find Me</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
+                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
                           edgePadding: {
                             right: (width / 20),
                             bottom: (height / 20),
