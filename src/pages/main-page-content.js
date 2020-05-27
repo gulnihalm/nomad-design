@@ -79,10 +79,8 @@ export default class MainPage extends Component {
 							<ScrollView tabLabel="ios-notifications" style={styles.tabView} keyboardShouldPersistTaps='always' //keyboardDismissMode='on-drag'
 							>
 								<Text style={styles.textStyle}>WELCOME TO NOMAD</Text>
-								<Text style={styles.textStyle2}>Thank tou for joining us! Nomad allows users to experience each other's voyages and trips.</Text>
-								<View style={styles.card3}>
-									<ScrollView tabLabel="ios-notifications" style={styles.tabView2} keyboardShouldPersistTaps='always' //keyboardDismissMode='on-drag'
-									>
+								<Text style={styles.textStyle2}>Thank tou for joining us! Nomad allows users to experience each other's voyages and trips.Thank tou for joining us! Nomad allows users to experience each other's voyages and trips.Thank tou for joining us! Nomad allows users to experience each other's voyages and trips.Thank tou for joining us! Nomad allows users to experience each other's voyages and trips.</Text>
+
 										<Icon name = 'ios-menu' size={30} color= '#BF1E2E' />
 										<Text style={styles.textStyle3}> By pressing menu button you can choose to create a route, view achievement list, Synchronize your accounts or log out.</Text>
 										<Image style={styles.iconStyle} source={require('../images/nav.png')}/>
@@ -92,8 +90,7 @@ export default class MainPage extends Component {
 										<Image style={styles.iconStyle} source={require('../images/gear.png')}/>
 										<Text style={styles.textStyle3}> By pressing the gear button, you can see and edit you account information, you can log out or delete your account.</Text>
 										<Text style={styles.textStyle3}> Your preferred way of login is shown below.</Text>
-									</ScrollView>
-								</View>
+
 								<View style={styles.card}>
 									{this.state.twitterEntrance.toString()==="false" &&
 											<Image style={styles.markerStyle} source={require('../images/tblack.png')}/>
