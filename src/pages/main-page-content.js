@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		borderColor: '#ffffff',
 		margin: 5,
-		height: hp('88%'),
+		height: hp('100%'),
 		width: wp('95%'),
 		padding: 15,
 		shadowColor: '#ccc',
@@ -379,7 +379,6 @@ const styles = StyleSheet.create({
 	},
 	textStyle3: {
 		fontSize:15,
-		marginRight : wp('10%'),
 		textAlign: 'center',
 		color: "#000000",
 		textShadowColor: 'rgba(0, 0, 0, 0.75)',
