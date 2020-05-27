@@ -387,7 +387,7 @@ export default class FollowTrip extends React.Component{
 
                 <View style={{width: wp('100%'),height:  hp('8.5%')}}></View>
 
-                <MapView style={styles.map}  provider={PROVIDER_GOOGLE} followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
+                <MapView style={styles.map}  provider={PROVIDER_GOOGLE} showsUserLocation={true} followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
                     { this.mode==="WALKING" &&
                       <Marker coordinate={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}>
                          <View style ={styles.userStyle}>
