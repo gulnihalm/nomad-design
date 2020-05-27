@@ -79,7 +79,7 @@ export default class MainPage extends Component {
 							<ScrollView tabLabel="ios-notifications" style={styles.tabView} keyboardShouldPersistTaps='always' //keyboardDismissMode='on-drag'
 							>
 								<Text style={styles.textStyle}>WELCOME TO NOMAD</Text>
-								<Text style={styles.textStyle2}>Thank tou for joining us! Nomad allows users to experience each other's voyages and trips.</Text>
+								<Text style={styles.textStyle2}>Thank you for joining us! Nomad allows users to experience each other's voyages and trips.</Text>
 
 										<Icon name = 'ios-menu' size={30} color= '#BF1E2E' />
 										<Text style={styles.textStyle3}> By pressing menu button you can choose to create a route, view achievement list, Synchronize your accounts or log out.</Text>

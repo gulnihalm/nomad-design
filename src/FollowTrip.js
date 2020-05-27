@@ -74,6 +74,16 @@ const styles = StyleSheet.create({
       borderColor: "#d3d3d3",
       borderWidth: 1
     },
+    buttonStyle21: {
+      alignItems: 'center',
+      width: wp('32%'),
+      height: hp('6%'),
+      padding:10,
+      backgroundColor: '#BF1E2E',
+      borderRadius:3,
+      borderColor: "#d3d3d3",
+      borderWidth: 1
+    },
     buttonStyle3: {
       alignItems: 'center',
       width: wp('48%'),
@@ -128,7 +138,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const DISTANCE_LIMIT = 10; // 100 meters is close enough to collect token but right now it is close to 10km for testing
+const DISTANCE_LIMIT = 100; // 100 meters is close enough to collect token but right now it is close to 10km for testing
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM'; //google api key with directions included
 //AIzaSyCA0MiYtfUFz70Mz4vZh6YTnjfY4_r_r18
 export default class FollowTrip extends React.Component{
@@ -467,13 +477,13 @@ export default class FollowTrip extends React.Component{
                           <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
-                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.buttonPress(closeEnough)}}>
+                          <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.buttonPress(closeEnough)}}>
                             <Text style={styles.textStyle}>Get Token</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                          <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
                             <Text style={styles.textStyle}>Find Me</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
+                          <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
                             edgePadding: {
                               right: (width / 20),
                               bottom: (height / 20),
@@ -538,13 +548,13 @@ export default class FollowTrip extends React.Component{
                         <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
                       </View>
                       <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress={this.finishTrip}>
+                        <TouchableOpacity style={styles.buttonStyle21} onPress={this.finishTrip}>
                           <Text style={styles.textStyle}>FINISH</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                        <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
                           <Text style={styles.textStyle}>Find Me</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
+                        <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
                           edgePadding: {
                             right: (width / 20),
                             bottom: (height / 20),
