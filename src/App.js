@@ -128,20 +128,6 @@ export default class App extends React.Component {
         }
         this.setState({pos: region});
 
-        // if (this.state.coordinates.length > 0) {
-
-        //   let coord = this.state.coordinates[this.state.coordinates.length - 1];
-
-        //   if (this.measure(coord.latitude, coord.longitude, position.coords.latitude, position.coords.longitude) > 50) {
-        //     let joined = this.state.coordinates.concat({latitude: position.coords.latitude, longitude: position.coords.longitude});
-        //     this.setState({coordinates: joined, pos: region});
-        //   }
-        // }
-
-        // else {
-        //   let joined = this.state.coordinates.concat({latitude: position.coords.latitude, longitude: position.coords.longitude});
-        //   this.setState({coordinates: joined, pos: region});
-        // }
       }, error => console.log(error.message), {
         enableHighAccuracy: false,
         timeout: 10000,

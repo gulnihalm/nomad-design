@@ -196,8 +196,8 @@ export default class EditTrip extends React.Component{
 		  },
 		  body: JSON.stringify({
 			  userID: obj.userID,
-              name: this.state.tripName, // change this later
-              label: this.state.label, // change this later
+              name: this.state.tripName,
+              label: this.state.label,
               description: this.state.tripDescription
 		  })
 
@@ -212,8 +212,9 @@ export default class EditTrip extends React.Component{
 
         this.submitMarkers();
 
-
     }
+
+
 //yaz, kış, doğa, tarihi, fun stuff, mixed
     render(){
         let obj = JSON.parse(this.props.user)

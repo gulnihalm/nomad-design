@@ -146,7 +146,6 @@ export default class SearchTrip extends Component{
                     }
                 }
                 trip.push(element.tripID);
-
                 trip.push(element.userID);
                 trip.push(element.name);
                 trip.push(element.label);
@@ -328,14 +327,11 @@ export default class SearchTrip extends Component{
 
                         return(
                         <Card title={trip[2]}
-                              image={req}
-                        >
+                              image={req}>
 
                             <Text style={{fontWeight:"bold"}}>{trip[3]}</Text>
                             <Text>{trip[4]}</Text>
                             <Button title="See Comments" style = {styles.button} onPress={() => {this.seeComments([trip[0]])}}></Button>
-
-
                             <Button title='Follow This Trip' onPress={() => this.onPressFollow(trip[0])}> </Button>
 
                         </Card>)
