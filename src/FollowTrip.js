@@ -30,16 +30,15 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
 
     textStyle: {
-      fontSize: wp('4%'),
+      fontSize: wp('3.5%'),
       textAlign: 'center',
-      marginRight: wp('4%'),
       color: "#f8f8ff",
       textShadowColor: 'rgba(0, 0, 0, 0.75)',
       textShadowOffset: {width: -1, height: 1},
       textShadowRadius: 7
     },
     textStyle2: {
-      fontSize: wp('4%'),
+      fontSize: wp('3.5%'),
       marginRight: wp('4%'),
       textAlign: 'center',
       color: "#f8f8ff",
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const DISTANCE_LIMIT = 10000000000000000000000000000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
+const DISTANCE_LIMIT = 100000000000000000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM'; //google api key with directions included
 //AIzaSyCA0MiYtfUFz70Mz4vZh6YTnjfY4_r_r18
 export default class FollowTrip extends React.Component{
@@ -153,6 +152,7 @@ export default class FollowTrip extends React.Component{
         this.finished;//end toute condition, 1 is finished, 0 is not finished
         this.m=0;//marker array length
         this.mode="WALKING";
+        this.back=false;
         this.workedOnce = 0;
         this.mapdata= {
           distance : 0,
@@ -281,7 +281,7 @@ export default class FollowTrip extends React.Component{
       console.log(markers[mindex])
       this.tokeNum=this.tokeNum+1;//collected one token
       let obj = JSON.parse(this.props.user)
-      
+
       fetch('http://nomad-server2.000webhostapp.com/addToCollectedTokens.php',
         {
             method: 'POST',
@@ -298,12 +298,12 @@ export default class FollowTrip extends React.Component{
         })
         .then((response)=> response.json())
         .then((response) => {
-            
+
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
         });
-        
-        
+
+
       //this.setState({markersChecked: mchecked ,markerIndex: mindex});
       ///console.log(mindex,"_________");
       ///console.log(this.markersChecked,"_________");
@@ -395,6 +395,10 @@ export default class FollowTrip extends React.Component{
             alert('Finish trip error: ', error);
         });
     }
+    goBack()
+    {
+      this.back=true;
+    }
 
     render(){
         ///console.log(this.props.user);//for tracking
@@ -415,8 +419,9 @@ export default class FollowTrip extends React.Component{
         ///console.log("My markers for trip:",this.props.trip,"----->",markers);                                 //for tracking
         ///console.log(this.coordinates,"***************************");                                          //for tracking
         ///console.log(this.markersChecked[1]);                                                                  //for tracking
-
+if(!this.back){
           return (
+
               <View style={{flex: 1, flexDirection: 'column',justifyContent: 'center',alignItems:'center' , width:  wp('96%'),height:  hp('105%')}}>
                  <View style={{width: wp('100%'),height:  hp('8.5%'), position: 'absolute'}}></View>
                   <MapView style={styles.map}  provider={PROVIDER_GOOGLE} showsUserLocation={true} followUserLocation= {true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
@@ -516,8 +521,8 @@ export default class FollowTrip extends React.Component{
                           }}>
                               <Text style={styles.textStyle}>Find Marker</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.buttonStyle} onPress= { () => {Actions.pop();}}>
-                              <Text style={styles.textStyle}>Back</Text>
+                            <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.goBack()}}>
+                              <Text style={styles.textStyle}>Exit</Text>
                             </TouchableOpacity>
                           </View>
                           <View style={{flexDirection: 'row'}}>
@@ -554,7 +559,7 @@ export default class FollowTrip extends React.Component{
                             <Text style={styles.textStyle}>Find Marker</Text>
                           </TouchableOpacity>
                           <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.goBack()}}>
-                            <Text style={styles.textStyle}>Back</Text>
+                            <Text style={styles.textStyle}>Exit</Text>
                           </TouchableOpacity>
                         </View>
                         <View style={{flexDirection: 'row'}}>
@@ -594,7 +599,7 @@ export default class FollowTrip extends React.Component{
                             <Text style={styles.textStyle}>Find Marker</Text>
                           </TouchableOpacity>
                           <TouchableOpacity style={styles.buttonStyle}  onPress= { () => {this.goBack()}}>
-                            <Text style={styles.textStyle}>Back</Text>
+                            <Text style={styles.textStyle}>Exit</Text>
                           </TouchableOpacity>
                         </View>
                         <View style={{flexDirection: 'row'}}>
@@ -612,10 +617,13 @@ export default class FollowTrip extends React.Component{
                   //DB de ayrı token yerine user in üstünden geçtiği marker ları ayrıca tutabiliriz veya her rota için bool array i DB ye gidebilir. Çünkü bütün rota takibi ve user nerde kaldı
                   //bir tane bool array ile anlaşılabilyor.
                   }
-
               </View>
-
-
         );
+        }
+        else if (this.back){
+          return(
+            <App page ={9}/>
+          );
+        }
     }
 }
