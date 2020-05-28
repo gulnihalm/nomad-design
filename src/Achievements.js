@@ -12,6 +12,7 @@ import {
   } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Header,Card,Button, SearchBar, Icon} from 'react-native-elements';
+import { Footer} from 'native-base';
 import { Actions } from 'react-native-router-flux';
 export default class Achievements extends React.Component{
 
@@ -22,6 +23,7 @@ export default class Achievements extends React.Component{
         }
         this.getAchievements();
     }
+    
     getAchievements(){
         var achievements = [];
         
@@ -57,6 +59,7 @@ export default class Achievements extends React.Component{
         });
 
     }
+
     getAchImage(id){
         if(id === "1"){
             return require("../src/achimage/cricket.jpg")
@@ -74,42 +77,49 @@ export default class Achievements extends React.Component{
             return require("../src/achimage/nomad.jpg")
         }
     }
+
+
     render(){
+
         const {achievements} = this.state;
-        
-        console.log("ACHIEVE BEFOÇ",achievements)
+        if ( achievements.length == 0 )
         return (
-            <View >
-                <Text style = {styles.forTitle}>Achievements</Text>
+            <Text>Getting the Achivements...</Text>
+        );
+        
+        return (
+
+            <View style = {styles.container}>
+                <Header
+                backgroundColor = '#BF1E2E'
+                centerComponent={{ text: 'Achivements', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center' } }}/>
+                
                 <ScrollView style={styles.scrollView}>
                 {
                     achievements.map(achievement =>{
                         var req = this.getAchImage(achievement[0]);
                         return(
                         <Card title={achievement[1]}
-                              image = {req}
-                        >
+                              image = {req}>
                             
-                            <Text >{achievement[2]}</Text>
-                            
-                            
-                            
-                            
-                             
+                            <Text >{achievement[2]}</Text>                                                   
                             
                         </Card>)
                         }
                         
                     )
                 }
-                
                 <Text> {"\n"}  </Text>
-                <TouchableOpacity style={styles.altButton}
-                    onPress={()=>{Actions.pop();}}>
-                    <Text style={styles.buttonText}>Back</Text>
-                </TouchableOpacity>
-                <Text> {"\n"}  </Text>
+                    <TouchableOpacity style={styles.altButton}
+                        onPress={()=>{Actions.pop();}}>
+                        <Text style={styles.buttonText}>Back</Text>
+                    </TouchableOpacity>
+                    <Text> {"\n"}  </Text>
+                    <Text> {"\n"}  </Text>
                 </ScrollView>
+                <View>
+                    <Footer style={{backgroundColor: "#BF1E2E", position: 'absolute', bottom: 0}}/>
+                </View>
                 
             </View>
 
@@ -118,13 +128,12 @@ export default class Achievements extends React.Component{
     }
 }
 const styles = StyleSheet.create({
-    container:{
-      flex:1,
-      backgroundColor:'#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-      
-    },
+    container: {
+        ...StyleSheet.absoluteFillObject,
+        flex: 1,
+        justifyContent: 'flex-start',
+        justifyContent: 'space-around'
+      },
     buttonText: {
 		fontSize: 18,
         color: '#fff',

@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const DISTANCE_LIMIT = 1000000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
+const DISTANCE_LIMIT = 10000000000000000000000000000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM'; //google api key with directions included
 //AIzaSyCA0MiYtfUFz70Mz4vZh6YTnjfY4_r_r18
 export default class FollowTrip extends React.Component{
@@ -278,7 +278,32 @@ export default class FollowTrip extends React.Component{
       //let mchecked = markersChecked;
       let mindex = this.markClose(closeEnough);// get Index of closest marker within DISTANCE_LIMIT
       this.markersChecked[mindex]=true;//make the same index in bool array true
+      console.log(markers[mindex])
       this.tokeNum=this.tokeNum+1;//collected one token
+      let obj = JSON.parse(this.props.user)
+      
+      fetch('http://nomad-server2.000webhostapp.com/addToCollectedTokens.php',
+        {
+            method: 'POST',
+            headers:{
+              Accept: 'application/json',
+              'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                userID: obj.userID,
+                tripID: markers[mindex].tripID,
+                markerID: markers[mindex].markerID
+            })
+
+        })
+        .then((response)=> response.json())
+        .then((response) => {
+            
+        }).catch((error) => {
+            Alert.alert('The error is',JSON.stringify(error.message));
+        });
+        
+        
       //this.setState({markersChecked: mchecked ,markerIndex: mindex});
       ///console.log(mindex,"_________");
       ///console.log(this.markersChecked,"_________");

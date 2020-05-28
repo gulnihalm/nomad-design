@@ -136,11 +136,7 @@ export default class SearchTrip extends Component{
             array[0].forEach(element => {
 
                 var trip = [];
-
-
                 for(let row in tripsForStandStill){
-
-
                     if(element.tripID === tripsForStandStill[row][0]){
                         tripsForChange.push(tripsForStandStill[row])
                     }
@@ -340,7 +336,9 @@ export default class SearchTrip extends Component{
                     )}
 
                 </View>
+                <Text> {"\n"}  </Text>
                 </ScrollView>
+                
             );
         }
         else if (this.state.control === true){
@@ -364,7 +362,6 @@ const styles = StyleSheet.create({
   button:{
     padding:20,
     borderWidth:1,
-
   },
 
   textField:{
