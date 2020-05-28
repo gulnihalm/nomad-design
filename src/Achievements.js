@@ -77,15 +77,18 @@ export default class Achievements extends React.Component{
     render(){
         const {achievements} = this.state;
         
-        console.log("ACHIEVE BEFOÇ",achievements)
+        
         return (
             <View >
-                <Text style = {styles.forTitle}>Achievements</Text>
+            <Text style = {styles.forTitle}>Achievements</Text>
+            <Text style = {styles.forTitle}>Number of Collected Tokens = {() => this.getNumOfTokens()}</Text>
                 <ScrollView style={styles.scrollView}>
                 {
                     achievements.map(achievement =>{
                         var req = this.getAchImage(achievement[0]);
+                        
                         return(
+                            
                         <Card title={achievement[1]}
                               image = {req}
                         >
