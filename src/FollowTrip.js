@@ -22,6 +22,7 @@ import { hostURL } from './common/general';
 import {Actions} from 'react-native-router-flux';
 import MapViewDirections from 'react-native-maps-directions';
 import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view';
+import App from './App';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
     },
     buttonStyle: {
       alignItems: 'center',
-      width: wp('32%'),
-      height: hp('8%'),
+      width: wp('24%'),
+      height: hp('6%'),
       padding:10,
       backgroundColor: '#BF1E2E',
       borderRadius:3,
@@ -341,7 +342,6 @@ export default class FollowTrip extends React.Component{
         this.mode="WALKING";
       }
     }
-
     finishTrip=()=>{
         console.log(this.props.user);
         console.log(this.props.trip);
@@ -474,13 +474,13 @@ export default class FollowTrip extends React.Component{
                             <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
                           </View>
                           <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.buttonPress(closeEnough)}}>
+                            <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.buttonPress(closeEnough)}}>
                               <Text style={styles.textStyle}>Get Token</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                            <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
                               <Text style={styles.textStyle}>Find Me</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
+                            <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
                               edgePadding: {
                                 right: (width / 20),
                                 bottom: (height / 20),
@@ -490,6 +490,9 @@ export default class FollowTrip extends React.Component{
                             });
                           }}>
                               <Text style={styles.textStyle}>Find Marker</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonStyle} onPress= { () => {Actions.pop();}}>
+                              <Text style={styles.textStyle}>Back</Text>
                             </TouchableOpacity>
                           </View>
                           <View style={{flexDirection: 'row'}}>
@@ -511,10 +514,10 @@ export default class FollowTrip extends React.Component{
                           <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
                         </View>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                          <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
                             <Text style={styles.textStyle}>Find Me</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.buttonStyle2} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
+                          <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
                             edgePadding: {
                               right: (width / 20),
                               bottom: (height / 20),
@@ -524,6 +527,9 @@ export default class FollowTrip extends React.Component{
                           });
                         }}>
                             <Text style={styles.textStyle}>Find Marker</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.goBack()}}>
+                            <Text style={styles.textStyle}>Back</Text>
                           </TouchableOpacity>
                         </View>
                         <View style={{flexDirection: 'row'}}>
@@ -545,13 +551,13 @@ export default class FollowTrip extends React.Component{
                           <Text style={styles.textStyle3}> Distance :{this.mapdata.distance} km, Duration : {this.mapdata.duration} min</Text>
                         </View>
                         <View style={{flexDirection: 'row'}}>
-                          <TouchableOpacity style={styles.buttonStyle21} onPress={this.finishTrip}>
+                          <TouchableOpacity style={styles.buttonStyle} onPress={this.finishTrip}>
                             <Text style={styles.textStyle}>FINISH</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
+                          <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.animateToRegion(pos, 2000)}}>
                             <Text style={styles.textStyle}>Find Me</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.buttonStyle21} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
+                          <TouchableOpacity style={styles.buttonStyle} onPress= { () => {this.mapView.fitToCoordinates([{latitude: this.coordinates.latitude, longitude: this.coordinates.longitude}], {
                             edgePadding: {
                               right: (width / 20),
                               bottom: (height / 20),
@@ -561,6 +567,9 @@ export default class FollowTrip extends React.Component{
                           });
                         }}>
                             <Text style={styles.textStyle}>Find Marker</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.buttonStyle}  onPress= { () => {this.goBack()}}>
+                            <Text style={styles.textStyle}>Back</Text>
                           </TouchableOpacity>
                         </View>
                         <View style={{flexDirection: 'row'}}>
@@ -580,6 +589,7 @@ export default class FollowTrip extends React.Component{
                   }
 
               </View>
+
 
         );
     }
