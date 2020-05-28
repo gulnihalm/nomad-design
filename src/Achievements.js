@@ -93,7 +93,6 @@ export default class Achievements extends React.Component{
                 <Header
                 backgroundColor = '#BF1E2E'
                 centerComponent={{ text: 'Achivements', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center' } }}/>
-                
                 <ScrollView style={styles.scrollView}>
                 {
                     achievements.map(achievement =>{

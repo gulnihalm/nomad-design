@@ -241,7 +241,7 @@ export default class App extends React.Component {
 
         <View style={styles.multiButtonContainer}>
           {button}
-          <Button title="Next" onPress = {(e) => this.setState({Page:2})}/>
+          <Button title="Next" onPress = {(e) => {if(markers.length === 0 ) {alert('You did not place any markers yet!')} else this.setState({Page:2})}}/>
         </View>
         <View style={styles.multiButtonContainer}>
 
