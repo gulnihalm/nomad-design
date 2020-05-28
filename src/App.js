@@ -227,13 +227,15 @@ export default class App extends React.Component {
 
       	/>
 
-        <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={this.state.pos}
+        <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true}
+         ref={(ref) => this.mapView=ref} initialRegion={this.state.pos}
                 onPress={(e) => {
                   console.log(e.nativeEvent.coordinate);
                   if(this.state.markerPlaceEnabled)
                     this.setState({ markers: [...this.state.markers, { latlng: e.nativeEvent.coordinate }] })}}>
 
-          {this.state.markers.map((marker, i) => (<Marker onPress= {(e) => { if(this.state.markerPlaceEnabled) this.onPressMarker(e)}} coordinate={marker.latlng} key = {i}/>))}
+          {this.state.markers.map((marker, i) => (<Marker onPress= {(e) => { if(this.state.markerPlaceEnabled) this.onPressMarker(e)}} 
+          coordinate={marker.latlng} key = {i}/>))}
 
         </MapView>
 
@@ -243,7 +245,7 @@ export default class App extends React.Component {
         </View>
         <View style={styles.multiButtonContainer}>
 
-        <Text >You will tap map to put markers and retap to remove the marker. To disable/enable removing and see the locations, click STOP/START button. To add description tap NEXT</Text>
+        <Text>TIP: You will tap map to put markers and retap to remove the marker. To disable/enable removing and see the locations, click STOP/START button. To add description tap NEXT.</Text>
 
         </View>
 

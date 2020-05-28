@@ -278,6 +278,9 @@ export default class FollowTrip extends React.Component{
       let mindex = this.markClose(closeEnough);// get Index of closest marker within DISTANCE_LIMIT
       this.markersChecked[mindex]=true;//make the same index in bool array true
       this.tokeNum=this.tokeNum+1;//collected one token
+      console.log(this.tokeNum)
+      console.log(markers[mindex])
+      console.log(mindex)
       //this.setState({markersChecked: mchecked ,markerIndex: mindex});
       ///console.log(mindex,"_________");
       ///console.log(this.markersChecked,"_________");
