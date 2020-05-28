@@ -31,20 +31,16 @@ export default class Comments extends React.Component{
             return (
                 
                 <View >
-
-                    
                     <Text style = {styles.forTitle}>Comments</Text>
                     <ScrollView style={styles.scrollView}>
                     {
-                        
                         comments.map(comment => 
 
                         <Card style= {styles.container}>
                             <Text>{comment[0] + " "}{comment[1]}</Text>
                             <View style={{borderBottomColor: 'black',borderBottomWidth: 1,}}
                             />
-                            <Text>{comment[3]}</Text>
-                            
+                            <Text>{comment[3]}</Text> 
                         </Card>)
 
                     }
