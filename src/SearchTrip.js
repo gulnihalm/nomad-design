@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
 	  margin:10
   },
   scrollView: {
-    backgroundColor: 'pink',
+    backgroundColor: '#BF1E2E',
     marginHorizontal: 20,
   },
   myButton:{
