@@ -190,6 +190,7 @@ export default class SearchTrip extends Component{
     seeComments = (tripID) => {
         var comments = [];
         console.log("TripID sent : ",tripID)
+        console.log(typeof(tripID[0]))
 
         fetch('http://nomad-server2.000webhostapp.com/seeComments.php',
         {
@@ -216,17 +217,17 @@ export default class SearchTrip extends Component{
                 return obj[k];
             })
             if(array.length !== 0){
-            array[0].forEach(element => {
+                array[0].forEach(element => {
+                    var comment = [];
+                    comment.push(element.name);
+                    comment.push(element.surname)
+                    comment.push(element.tripID);
+                    comment.push(element.comment);
+                    console.log(comment)
+                    comments.push(comment);
 
-                var comment = [];
-                comment.push(element.name);
-                comment.push(element.surname)
-                comment.push(element.tripID);
-                comment.push(element.comment);
-                console.log(comment)
-                comments.push(comment);
-
-            });}else{alert("This trip has no comment")}
+            });}
+            else{alert("This trip has no comment")}
             console.log("GELDİ")
             this.setState({control:true,comments:comments})
 

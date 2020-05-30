@@ -78,6 +78,7 @@ export default class EditTrip extends React.Component{
             done: false,
                 //possible userid
         }
+        this.submitMarkers = this.submitMarkers.bind(this);
     }
 
     onPressMarker(i) {
@@ -219,7 +220,7 @@ export default class EditTrip extends React.Component{
         });
         console.log("Trip")
 
-        this.submitMarkers();
+        setTimeout(this.submitMarkers, 5000);
 
     }
 
@@ -321,7 +322,11 @@ export default class EditTrip extends React.Component{
                             this.setState({titles: temp, text: text});}}/>
 
                         <View style={styles.multiButtonContainer}>
-                            <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
+                            <Button title="Create Trip" onPress = {(e) =>
+                            {if(this.state.tripDescription === '' || this.state.tripName === '' || this.state.label == '')
+                            {alert('You did not fill all the fields!')}
+                            else{this.submitTrip()} } }/>
+
                         </View>
                     </ScrollView>
 
@@ -381,7 +386,10 @@ export default class EditTrip extends React.Component{
                         <Text>Tip: Tap to your markers to give them a title</Text>
                       {this.state.done===false &&
                         <View style={styles.multiButtonContainer}>
-                            <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
+                        <Button title="Create Trip" onPress = {(e) =>
+                            {if(this.state.tripDescription === '' || this.state.tripName === '' || this.state.label == '')
+                            {alert('You did not fill all the fields!');}
+                            else{alert('You have created a trip!'); this.submitTrip(); Actions.pop();} } }/>
                         </View>
                       }
                     </ScrollView>
