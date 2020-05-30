@@ -13,6 +13,8 @@ import {
 import Comments from './Comments';
 import {Header,Card,Button, SearchBar, Icon} from 'react-native-elements';
 import { string } from 'prop-types';
+import { Actions } from 'react-native-router-flux';
+import App from './App';
 
 export default class SearchTrip extends Component{
     constructor(props){
@@ -24,7 +26,8 @@ export default class SearchTrip extends Component{
             commentEnabled:[],
             control : false,
             tripsForChange:[],
-            tripsForStandStill:[]
+            tripsForStandStill:[],
+            refresh: false,
         }
     }
 
@@ -48,7 +51,7 @@ export default class SearchTrip extends Component{
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
             })
-            
+
             array[0].forEach(element => {
 
                 var trip = [];
@@ -83,7 +86,7 @@ export default class SearchTrip extends Component{
 
                 commentEnabled.push(comment)
             });
-            
+
             console.log("Comment Enabled", commentEnabled)
             this.setState({commentEnabled:commentEnabled})
             this.setState({tripsForChange:tripsForChange})
@@ -132,7 +135,7 @@ export default class SearchTrip extends Component{
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
             })
-            
+
             array[0].forEach(element => {
 
                 var trip = [];
@@ -149,9 +152,9 @@ export default class SearchTrip extends Component{
 
 
                 trips.push(trip);
-                
+
             });
-            
+
             this.setState({tripsForChange:tripsForChange})
             this.setState({trips});
         }).catch((error) => {
@@ -159,6 +162,9 @@ export default class SearchTrip extends Component{
         });
 
 
+    }
+    refreshS(){
+      this.refresh=true;
     }
 
     updateSearch = searchText => {
@@ -266,7 +272,7 @@ export default class SearchTrip extends Component{
             }else if(random === 2){
                 return require("./images/summer3.jpg")
             }
-        }else if(label === "fun"){
+        }else if(label === "fun stuff"){
             if(random === 0){
                 return require("./images/fun1.jpg")
             }else if(random === 1){
@@ -293,12 +299,19 @@ export default class SearchTrip extends Component{
         }
     }
     render(){
+
         const { comments } = this.state
         const {user} = this.props;
         const {tripsForChange} = this.state;
         const { searchText } = this.state;
+        const obj = JSON.parse(user);
 
         const { commentEnabled } = this.state;
+        if (this.state.refresh===true){
+          return(
+            <App guid = {obj.userID} userEmail = {obj.email} userName = {obj.username} userPassword = {obj.password} page = {9}/>
+          );
+        }
         if ( tripsForChange.length == 0 )
             return (
                 <Text>Getting Available Trips...</Text>
@@ -306,7 +319,6 @@ export default class SearchTrip extends Component{
 
         if(this.state.control === false){
             return (
-
                 <ScrollView style={styles.scrollView}>
                 <View>
                     <SearchBar
@@ -316,7 +328,7 @@ export default class SearchTrip extends Component{
                       value = {searchText}
                     />
                     <Button title='Search' onPress={() => this.searchTrip()}> </Button>
-
+                    <Button title='Refresh' onPress={() =>this.setState({refresh:true})}> </Button>
                     {tripsForChange.map((trip, index) =>{
 
                         var req = this.getRandom(trip[3],trip[5]);
@@ -338,7 +350,7 @@ export default class SearchTrip extends Component{
                 </View>
                 <Text> {"\n"}  </Text>
                 </ScrollView>
-                
+
             );
         }
         else if (this.state.control === true){
@@ -346,6 +358,7 @@ export default class SearchTrip extends Component{
             return(<Comments comments = {comments} user = {user} ></Comments>)
 
         }
+
 
 }
 

@@ -406,7 +406,7 @@ export default class FollowTrip extends React.Component{
 
         const {markers} = this.state;
         const {pos} = this.props
-
+        const obj = JSON.parse(this.props.user);
         var closeEnough = this.checkPosition();//close enough is the ID of marker which is under DISTANCE_LIMIT
         this.markRoute();// draw route and check if route is completed
 //        this.coordinates = m.latlng;
@@ -622,7 +622,7 @@ if(!this.back){
         }
         else if (this.back){
           return(
-            <App page ={9}/>
+            <App guid = {obj.userID} userEmail = {obj.email} userName = {obj.username} userPassword = {obj.password} page = {9}/>
           );
         }
     }

@@ -18,8 +18,9 @@ class ARpage extends Component {
 
     this.token= {x: 0, y:0}//token place (pixel)
     this.state = {
-      x: Math.random() < 0.5 ? (Math.random()*(-15)) : (Math.random()*(15)),//initial place for token(degree to translate)
-      y: Math.random() < 0.5 ? (Math.random()*(-20)) : (Math.random()*(20)),//oynayabiliyoruz
+      x: Math.random() < 0.5 ? (Math.random()*(-16)) : (Math.random()*(16)),//initial place for token(degree to translate)
+      y: Math.random() < 0.5 ? (Math.random()*(-22)) : (Math.random()*(22)),//oynayabiliyoruz
+      rt: Math.floor(Math.random() * 6)
       //t: true,
     };
   }
@@ -73,8 +74,30 @@ componentDidMount() {
             {transform:[{translateX:this.token.x},
                         {translateY: this.token.y }]}]}
             onPress= {()=>Actions.popTo("MainPage",{})}>
-            <Image style={[styles.token]}
-              source= {{uri : 'https://i.pinimg.com/originals/c1/2d/c5/c12dc536b8f8797b629eb9942a2dbbf1.gif'}} />
+            {this.state.rt ===0 &&
+              <Image style={[styles.token]}
+              source= {require("../images/AR1.gif")} />
+            }
+            {this.state.rt ===1 &&
+              <Image style={[styles.token2]}
+              source= {require("../images/AR2.gif")} />
+            }
+            {this.state.rt ===2 &&
+              <Image style={[styles.token]}
+              source= {require("../images/AR3.gif")} />
+            }
+            {this.state.rt ===3 &&
+              <Image style={[styles.token]}
+              source= {require("../images/AR4.gif")} />
+            }
+            {this.state.rt ===4 &&
+              <Image style={[styles.token]}
+              source= {require("../images/AR5.gif")} />
+            }
+            {this.state.rt ===5 &&
+              <Image style={[styles.token3]}
+              source= {require("../images/AR6.gif")} />
+            }
           </TouchableOpacity>
         </RNCamera>
       </View>
@@ -91,10 +114,20 @@ const styles = StyleSheet.create({
     height: wp('100%'),
   },
   token: {
-    width: wp('20%'),
+    width: wp('40%'),
     height: wp('40%'),
     position: 'absolute',
   },
+  token2: {
+      width: wp('20%'),
+      height: wp('20%'),
+      position: 'absolute',
+    },
+    token3: {
+        width: wp('65%'),
+        height: wp('40%'),
+        position: 'absolute',
+      },
 })
 
 
