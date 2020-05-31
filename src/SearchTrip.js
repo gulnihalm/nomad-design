@@ -75,6 +75,11 @@ export default class SearchTrip extends Component{
                 tripForChange.push(element.description);
                 tripForStandStill.push(element.description);
                 let rate = parseFloat(element.rate)
+                
+                comment = [element.tripID, false]
+                var random = Math.floor(Math.random() * Math.floor(3));
+                tripForChange.push(random);
+                tripForStandStill.push(random);
                 if(isNaN(rate)){
                     console.log("NaN")
                     trip.push(parseFloat("0.0000"))
@@ -86,12 +91,8 @@ export default class SearchTrip extends Component{
                     tripForChange.push(parseFloat(rate));
                     tripForStandStill.push(parseFloat(rate));
                 }
-                comment = [element.tripID, false]
-                var random = Math.floor(Math.random() * Math.floor(3));
-                tripForChange.push(random);
-                tripForStandStill.push(random);
-
                 trips.push(trip);
+                
                 tripsForChange.push(tripForChange);
                 tripsForStandStill.push(tripForStandStill);
 
@@ -365,7 +366,7 @@ export default class SearchTrip extends Component{
         const {tripsForChange} = this.state;
         const { searchText } = this.state;
         const obj = JSON.parse(user);
-
+        console.log("TripsForChange: ",tripsForChange)
         const { commentEnabled } = this.state;
         if (this.state.refresh===true){
           return(
@@ -397,7 +398,7 @@ export default class SearchTrip extends Component{
                         <Card title={trip[2]}
                               image={req}>
 
-                            <Text style={{fontWeight:"bold"}}>{trip[3] + " Rate : "+trip[5]}</Text>
+                            <Text style={{fontWeight:"bold"}}>{trip[3] + " Rate : "+trip[6]}</Text>
                             <Text>{trip[4]}</Text>
                             <Button title="See Comments" style = {styles.button} onPress={() => {this.seeComments([trip[0]])}}></Button>
                             <Button title='Follow This Trip' onPress={() => this.onPressFollow(trip[0])}> </Button>
