@@ -38,9 +38,10 @@ export default class Comments extends React.Component{
 
                         <Card style= {styles.container}>
                             <Text>{comment[0] + " "}{comment[1]}</Text>
+                            <Text>{"User Level: "+comment[6] + ", User Rate: "+comment[3]}</Text>
                             <View style={{borderBottomColor: 'black',borderBottomWidth: 1,}}
                             />
-                            <Text>{comment[3]}</Text> 
+                            <Text>{comment[5]}</Text> 
                         </Card>)
 
                     }

@@ -19,9 +19,12 @@ export default class Achievements extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            achievements:[]
+            achievements:[],
+            count : 0,
         }
         this.getAchievements();
+        this.getTokenCount(this.props.guid)
+
     }
     
     getAchievements(){
@@ -31,7 +34,7 @@ export default class Achievements extends React.Component{
         fetch('http://nomad-server2.000webhostapp.com/getAchievements.php')
         .then((response)=> response.json())
         .then((response) => {
-            console.log('response from get: ',response);
+            //console.log('response from get: ',response);
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
@@ -77,11 +80,44 @@ export default class Achievements extends React.Component{
             return require("../src/achimage/nomad.jpg")
         }
     }
+    getTokenCount(userID){
+        var count = 0;
+        console.log("wtf is userID", userID)
+        fetch('http://nomad-server2.000webhostapp.com/getTokenCountByID2.php',
+        {
+            method: 'POST',
+            headers:{
+              Accept: 'application/json',
+              'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                userID: userID,
+            })
 
+        })
+        .then((response)=> response.json())
+        .then((response) => {
+            
+            console.log("response = ", response)
+            let str = JSON.stringify(response);
+            str = str.replace(/\\/g, "");
+            str = str.substr(1,str.length - 2);
+            console.log("obj = ", obj)
+            let obj = JSON.parse(str);
+            
+            count = parseInt(obj.count,10);
+            console.log("count = ",count)
+            this.setState({count:count})
+        }).catch((error) => {
+            Alert.alert('The error is',JSON.stringify(error.message));
+        });
+        
+    }
 
     render(){
-
+        
         const {achievements} = this.state;
+        const {count} = this.state
         if ( achievements.length == 0 )
         return (
             <Text>Getting the Achivements...</Text>
@@ -93,19 +129,31 @@ export default class Achievements extends React.Component{
                 <Header
                 backgroundColor = '#BF1E2E'
                 centerComponent={{ text: 'Achivements', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center' } }}/>
-                
+                <Text> Your token count is: {count}</Text>
+
                 <ScrollView style={styles.scrollView}>
                 {
                     achievements.map(achievement =>{
                         var req = this.getAchImage(achievement[0]);
+                        if(achievement[3] <= count){
                         return(
                         <Card title={achievement[1]}
                               image = {req}>
                             
                             <Text >{achievement[2]}</Text>                                                   
-                            
+                            <Text>Congratulations! You unlocked this achievement :)</Text>
                         </Card>)
+                        }else{
+                            return(
+                                <Card title={achievement[1]}
+                                      image = {req}>
+                                    
+                                    <Text >{achievement[2]}</Text>                                                   
+                                    <Text>{achievement[3] - count} number of tokens to collect :(</Text>
+                                </Card>)
                         }
+                    
+                    }
                         
                     )
                 }

@@ -35,7 +35,7 @@ export default class SearchTrip extends Component{
         var tripsForChange = [];
         var tripsForStandStill = [];
         commentEnabled = [];
-        fetch('http://nomad-server2.000webhostapp.com/getTrips.php')
+        fetch('http://nomad-server2.000webhostapp.com/getTrips2.php')
         .then((response)=> response.json())
         .then((response) => {
             // console.log('response from get: ',response);
@@ -43,7 +43,7 @@ export default class SearchTrip extends Component{
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
 
-            console.log('str:',str);
+            
             let obj = JSON.parse(str);
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
@@ -71,7 +71,18 @@ export default class SearchTrip extends Component{
                 trip.push(element.description);
                 tripForChange.push(element.description);
                 tripForStandStill.push(element.description);
-
+                let rate = parseFloat(element.rate)
+                if(isNaN(rate)){
+                    console.log("NaN")
+                    trip.push(parseFloat("0.0000"))
+                    tripForChange.push(parseFloat("0.0000"));
+                    tripForStandStill.push(parseFloat("0.0000"));
+                }else{
+                    console.log(parseFloat(rate))
+                    trip.push(parseFloat(rate))
+                    tripForChange.push(parseFloat(rate));
+                    tripForStandStill.push(parseFloat(rate));
+                }
                 comment = [element.tripID, false]
                 var random = Math.floor(Math.random() * Math.floor(3));
                 tripForChange.push(random);
@@ -84,7 +95,7 @@ export default class SearchTrip extends Component{
                 commentEnabled.push(comment)
             });
             
-            console.log("Comment Enabled", commentEnabled)
+            
             this.setState({commentEnabled:commentEnabled})
             this.setState({tripsForChange:tripsForChange})
             this.setState({tripsForStandStill:tripsForStandStill})
@@ -99,7 +110,7 @@ export default class SearchTrip extends Component{
 
 
     onPressFollow( tripID ){
-        console.log("Trip Followed :",tripID);
+        
         this.props.setTrip( tripID );
     }
 
@@ -108,7 +119,7 @@ export default class SearchTrip extends Component{
         var trips = [];
         var tripsForChange = []
         var {tripsForStandStill} = this.state
-        fetch('http://nomad-server2.000webhostapp.com/searchTrip.php',
+        fetch('http://nomad-server2.000webhostapp.com/searchTrip2.php',
         {
             method: 'POST',
             headers:{
@@ -122,12 +133,12 @@ export default class SearchTrip extends Component{
         })
         .then((response)=> response.json())
         .then((response) => {
-            console.log('response from get: ',response);
+            
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
 
-            console.log('str:',str);
+            
             let obj = JSON.parse(str);
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
@@ -146,8 +157,13 @@ export default class SearchTrip extends Component{
                 trip.push(element.name);
                 trip.push(element.label);
                 trip.push(element.description);
-
-
+                let rate = parseFloat(element.rate)
+                if(isNaN(rate)){
+                    trip.push(parseFloat("0.0000"))
+                }else{
+                    trip.push(parseFloat(rate))
+                }
+                
                 trips.push(trip);
                 
             });
@@ -163,7 +179,7 @@ export default class SearchTrip extends Component{
 
     updateSearch = searchText => {
         this.setState({ searchText });
-        console.log(searchText)
+        
 
     };
     onSearch = () => {
@@ -181,11 +197,45 @@ export default class SearchTrip extends Component{
             resolve();
         });
     }
+
+    getAchievementForComment(userID){
+        let ach = "";
+        let count = 0;
+        fetch('http://nomad-server2.000webhostapp.com/getTokenCountByID2.php',
+        {
+            method: 'POST',
+            headers:{
+              Accept: 'application/json',
+              'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                userID: userID
+                
+            })
+
+        })
+        .then((response)=> response.json())
+        .then((response) => {
+            
+            let str = JSON.stringify(response);
+            str = str.replace(/\\/g, "");
+            str = str.substr(1,str.length - 2);
+            
+            let obj = JSON.parse(str);
+            
+            this.count = parseInt(obj.count,10);
+            
+        }).catch((error) => {
+            Alert.alert('The error is',JSON.stringify(error.message));
+        });
+        
+
+    }
     seeComments = (tripID) => {
         var comments = [];
-        console.log("TripID sent : ",tripID)
+        
 
-        fetch('http://nomad-server2.000webhostapp.com/seeComments.php',
+        fetch('http://nomad-server2.000webhostapp.com/seeComments2.php',
         {
             method: 'POST',
             headers:{
@@ -199,12 +249,12 @@ export default class SearchTrip extends Component{
         })
         .then((response)=> response.json())
         .then((response) => {
-            console.log('response from get: ',response);
+            
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
 
-            console.log('str:',str);
+            
             let obj = JSON.parse(str);
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
@@ -214,9 +264,12 @@ export default class SearchTrip extends Component{
 
                 var comment = [];
                 comment.push(element.name);
-                comment.push(element.surname)
+                comment.push(element.surname);
+                comment.push(element.tokenCount);
+                comment.push(element.rate)
                 comment.push(element.tripID);
                 comment.push(element.comment);
+                comment.push(element.ach)
                 console.log(comment)
                 comments.push(comment);
 
@@ -325,7 +378,7 @@ export default class SearchTrip extends Component{
                         <Card title={trip[2]}
                               image={req}>
 
-                            <Text style={{fontWeight:"bold"}}>{trip[3]}</Text>
+                            <Text style={{fontWeight:"bold"}}>{trip[3] + " Rate : "+trip[5]}</Text>
                             <Text>{trip[4]}</Text>
                             <Button title="See Comments" style = {styles.button} onPress={() => {this.seeComments([trip[0]])}}></Button>
                             <Button title='Follow This Trip' onPress={() => this.onPressFollow(trip[0])}> </Button>

@@ -281,8 +281,8 @@ export default class FollowTrip extends React.Component{
       this.tokeNum=this.tokeNum+1;//collected one token
       let obj = JSON.parse(this.props.user)
       
-      fetch('http://nomad-server2.000webhostapp.com/addToCollectedTokens.php',
-        {
+      fetch('http://nomad-server2.000webhostapp.com/addToCollectedTokens2.php',
+      {
             method: 'POST',
             headers:{
               Accept: 'application/json',
@@ -312,8 +312,8 @@ export default class FollowTrip extends React.Component{
 
     getMarkers(){//get markers from DB and also form bool array, filled with false.
         //let {markersChecked, markersClaimed} = this.state;
-        myMarkers = [];
-        tripID = this.props.trip;
+        let myMarkers = [];
+        let tripID = this.props.trip;
         fetch( hostURL + 'getMarkers.php')
         .then((response)=> response.json())
         .then((response) => {
@@ -347,11 +347,12 @@ export default class FollowTrip extends React.Component{
                     this.m=this.m+1;//increase the size by one
                     //markersClaimed.push(false);
                     ///console.log("marker found:",element);
+                    
                 }
             });
 
         }).catch((error) => {
-            alert('The error is',JSON.stringify(error.message));
+            alert('The error iss',JSON.stringify(error.message));
         });
         //this.setState({markersChecked, markersClaimed});
 
