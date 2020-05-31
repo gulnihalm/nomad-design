@@ -129,7 +129,9 @@ export default class Achievements extends React.Component{
                 <Header
                 backgroundColor = '#BF1E2E'
                 centerComponent={{ text: 'Achivements', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center' } }}/>
+
                 <Text> Your token count is: {count}</Text>
+
 
                 <ScrollView style={styles.scrollView}>
                 {

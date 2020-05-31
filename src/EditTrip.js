@@ -14,6 +14,7 @@ import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import {Header} from 'react-native-elements';
 import { Footer} from 'native-base';
 
+
 import Icon from 'react-native-vector-icons/Entypo';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 const width = Dimensions.get('window').width;
@@ -52,7 +53,11 @@ const styles = StyleSheet.create({
    },
    scrollView: {
     marginHorizontal: 20,
-  }
+  },
+  titleText: {
+  fontSize: 20,
+  fontWeight: "bold"
+}
 });
 
 export default class EditTrip extends React.Component{
@@ -69,9 +74,11 @@ export default class EditTrip extends React.Component{
             text: '',
             inputEnabled: false,
             selectedMarker: -1,
-            label: ''
+            label: '',
+            done: false,
                 //possible userid
         }
+        this.submitMarkers = this.submitMarkers.bind(this);
     }
 
     onPressMarker(i) {
@@ -179,9 +186,12 @@ export default class EditTrip extends React.Component{
 
         }
 
+        this.setState({done:true});
+
     }
 
     async submitTrip(){
+        this.setState({init:true});
         console.log("Trip submitted");
         console.log(this.state.markers);
         console.log(this.state.titles);
@@ -210,7 +220,7 @@ export default class EditTrip extends React.Component{
         });
         console.log("Trip")
 
-        this.submitMarkers();
+        setTimeout(this.submitMarkers, 5000);
 
     }
 
@@ -241,6 +251,29 @@ export default class EditTrip extends React.Component{
                           initial = {'winter'}
                           onPress={(value) => { this.setState({ label: value }); }}
                         /> */
+        if (this.state.done){
+          return(
+            <View style={styles.container}>
+
+                <Header
+                  backgroundColor = '#BF1E2E'
+                  centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff' } }}
+
+                />
+                <ScrollView style={styles.scrollView}>
+
+                    <Text style= {styles.titleText}>Trip Created. Please go back using the back button of the device.</Text>
+
+                </ScrollView>
+
+
+                <View>
+                    <Footer style={{backgroundColor: "#BF1E2E"}}/>
+                </View>
+
+            </View>
+          )
+        }
         if(this.state.inputEnabled){
 
             return (
@@ -289,7 +322,10 @@ export default class EditTrip extends React.Component{
                             this.setState({titles: temp, text: text});}}/>
 
                         <View style={styles.multiButtonContainer}>
-                            <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
+                            <Button title="Create Trip" onPress = {(e) =>
+                            {if(this.state.tripDescription === '' || this.state.tripName === '' || this.state.label == '')
+                            {alert('You did not fill all the fields!')}
+                            else{this.submitTrip()} } }/>
 
                         </View>
                     </ScrollView>
@@ -348,9 +384,14 @@ export default class EditTrip extends React.Component{
                         />
                         </View>
                         <Text>Tip: Tap to your markers to give them a title</Text>
+                      {this.state.done===false &&
                         <View style={styles.multiButtonContainer}>
-                            <Button title="Create Trip" onPress = {(e) => this.submitTrip() }/>
+                        <Button title="Create Trip" onPress = {(e) =>
+                            {if(this.state.tripDescription === '' || this.state.tripName === '' || this.state.label == '')
+                            {alert('You did not fill all the fields!');}
+                            else{alert('You have created a trip!'); this.submitTrip(); Actions.pop();} } }/>
                         </View>
+                      }
                     </ScrollView>
 
 

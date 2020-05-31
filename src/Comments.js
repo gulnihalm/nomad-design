@@ -22,26 +22,30 @@ export default class Comments extends React.Component{
             enabled:false
         }
     }
-    
+
     render(){
         const comments = this.props.comments;
         const user = this.props.user;
         const obj = JSON.parse(user)
         if(this.state.enabled === false){
             return (
-                
+
                 <View >
                     <Text style = {styles.forTitle}>Comments</Text>
                     <ScrollView style={styles.scrollView}>
                     {
-                        comments.map(comment => 
+                        comments.map(comment =>
 
                         <Card style= {styles.container}>
                             <Text>{comment[0] + " "}{comment[1]}</Text>
                             <Text>{"User Level: "+comment[6] + ", User Rate: "+comment[3]}</Text>
                             <View style={{borderBottomColor: 'black',borderBottomWidth: 1,}}
                             />
+
                             <Text>{comment[5]}</Text> 
+
+                            <Text>{comment[3]}</Text>
+
                         </Card>)
 
                     }
@@ -53,10 +57,10 @@ export default class Comments extends React.Component{
                         <Text style={styles.buttonText}>Back</Text>
                     </TouchableOpacity>
                     <Text> {"\n"}  </Text>
-                    
-                    
+
+
                 </View>
-            ); 
+            );
         }else{
             return (<App guid = {obj.userID} userEmail = {obj.email} userName = {obj.username} userPassword = {obj.password} page = {9}/>);
         }
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#fff',
       alignItems: 'center',
       justifyContent: 'center',
-      
+
     },
     buttonText: {
 		fontSize: 18,
@@ -96,15 +100,15 @@ const styles = StyleSheet.create({
         margin:10
     },
     scrollView: {
-      backgroundColor: 'pink',
+      backgroundColor: '#BF1E2E',
       marginHorizontal: 20,
     },
     myButton:{
       padding: 5,
       height: 20,
       width: 20,  //The Width must be the same as the height
-      borderRadius:40, //Then Make the Border Radius twice the size of width or Height   
+      borderRadius:40, //Then Make the Border Radius twice the size of width or Height
       backgroundColor:'red'
-  
+
     }
 })
