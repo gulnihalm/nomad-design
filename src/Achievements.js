@@ -26,11 +26,11 @@ export default class Achievements extends React.Component{
         this.getTokenCount(this.props.guid)
 
     }
-    
+
     getAchievements(){
         var achievements = [];
-        
-        
+
+
         fetch('http://nomad-server2.000webhostapp.com/getAchievements.php')
         .then((response)=> response.json())
         .then((response) => {
@@ -39,23 +39,23 @@ export default class Achievements extends React.Component{
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
 
-            
+
             let obj = JSON.parse(str);
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
             })
 
             array[0].forEach(element => {
-            
+
                 var achievement = [];
                 achievement.push(element.ach_id);
                 achievement.push(element.name)
                 achievement.push(element.ach_desc);
                 achievement.push(element.token);
                 achievements.push(achievement);
-    
+
             });
-            
+
             this.setState({achievements:achievements})
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
@@ -97,32 +97,32 @@ export default class Achievements extends React.Component{
         })
         .then((response)=> response.json())
         .then((response) => {
-            
+
             console.log("response = ", response)
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
             console.log("obj = ", obj)
             let obj = JSON.parse(str);
-            
+
             count = parseInt(obj.count,10);
             console.log("count = ",count)
             this.setState({count:count})
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
         });
-        
+
     }
 
     render(){
-        
+
         const {achievements} = this.state;
         const {count} = this.state
         if ( achievements.length == 0 )
         return (
             <Text>Getting the Achivements...</Text>
         );
-        
+
         return (
 
             <View style = {styles.container}>
@@ -141,22 +141,22 @@ export default class Achievements extends React.Component{
                         return(
                         <Card title={achievement[1]}
                               image = {req}>
-                            
-                            <Text >{achievement[2]}</Text>                                                   
+
+                            <Text >{achievement[2]}</Text>
                             <Text>Congratulations! You unlocked this achievement :)</Text>
                         </Card>)
                         }else{
                             return(
                                 <Card title={achievement[1]}
                                       image = {req}>
-                                    
-                                    <Text >{achievement[2]}</Text>                                                   
+
+                                    <Text >{achievement[2]}</Text>
                                     <Text>{achievement[3] - count} number of tokens to collect :(</Text>
                                 </Card>)
                         }
-                    
+
                     }
-                        
+
                     )
                 }
                 <Text> {"\n"}  </Text>
@@ -170,11 +170,11 @@ export default class Achievements extends React.Component{
                 <View>
                     <Footer style={{backgroundColor: "#BF1E2E", position: 'absolute', bottom: 0}}/>
                 </View>
-                
+
             </View>
 
-            
-        ); 
+
+        );
     }
 }
 const styles = StyleSheet.create({
@@ -209,15 +209,15 @@ const styles = StyleSheet.create({
         margin:10
     },
     scrollView: {
-      backgroundColor: 'pink',
+      backgroundColor: '#BF1E2E',
       marginHorizontal: 20,
     },
     myButton:{
       padding: 5,
       height: 20,
       width: 20,  //The Width must be the same as the height
-      borderRadius:40, //Then Make the Border Radius twice the size of width or Height   
+      borderRadius:40, //Then Make the Border Radius twice the size of width or Height
       backgroundColor:'red'
-  
+
     }
 })

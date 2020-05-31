@@ -15,6 +15,7 @@ import {Header,Card,Button, SearchBar, Icon} from 'react-native-elements';
 import { string } from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import App from './App';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default class SearchTrip extends Component{
     constructor(props){
@@ -46,7 +47,7 @@ export default class SearchTrip extends Component{
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
 
-            
+
             let obj = JSON.parse(str);
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
@@ -75,7 +76,7 @@ export default class SearchTrip extends Component{
                 tripForChange.push(element.description);
                 tripForStandStill.push(element.description);
                 let rate = parseFloat(element.rate)
-                
+
                 comment = [element.tripID, false]
                 var random = Math.floor(Math.random() * Math.floor(3));
                 tripForChange.push(random);
@@ -92,7 +93,7 @@ export default class SearchTrip extends Component{
                     tripForStandStill.push(parseFloat(rate));
                 }
                 trips.push(trip);
-                
+
                 tripsForChange.push(tripForChange);
                 tripsForStandStill.push(tripForStandStill);
 
@@ -116,7 +117,7 @@ export default class SearchTrip extends Component{
 
 
     onPressFollow( tripID ){
-        
+
         this.props.setTrip( tripID );
     }
 
@@ -139,12 +140,12 @@ export default class SearchTrip extends Component{
         })
         .then((response)=> response.json())
         .then((response) => {
-            
+
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
 
-            
+
             let obj = JSON.parse(str);
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
@@ -169,7 +170,7 @@ export default class SearchTrip extends Component{
                 }else{
                     trip.push(parseFloat(rate))
                 }
-                
+
                 trips.push(trip);
 
             });
@@ -188,7 +189,7 @@ export default class SearchTrip extends Component{
 
     updateSearch = searchText => {
         this.setState({ searchText });
-        
+
 
     };
     onSearch = () => {
@@ -219,25 +220,25 @@ export default class SearchTrip extends Component{
             },
             body: JSON.stringify({
                 userID: userID
-                
+
             })
 
         })
         .then((response)=> response.json())
         .then((response) => {
-            
+
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
-            
+
             let obj = JSON.parse(str);
-            
+
             this.count = parseInt(obj.count,10);
-            
+
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
         });
-        
+
 
     }
     seeComments = (tripID) => {
@@ -261,12 +262,12 @@ export default class SearchTrip extends Component{
         })
         .then((response)=> response.json())
         .then((response) => {
-            
+
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
 
-            
+
             let obj = JSON.parse(str);
             let array=Object.keys(obj).map(function(k){
                 return obj[k];
@@ -388,8 +389,10 @@ export default class SearchTrip extends Component{
                       onChangeText = {(searchText) => this.updateSearch(searchText)}
                       value = {searchText}
                     />
-                    <Button title='Search' onPress={() => this.searchTrip()}> </Button>
-                    <Button title='Refresh' onPress={() =>this.setState({refresh:true})}> </Button>
+                    <View style={{flexDirection: 'column', justifyContent: 'space-between',height: hp('10&')}}>
+                      <Button title='Search' onPress={() => this.searchTrip()}> </Button>
+                      <Button title='Refresh' onPress={() =>this.setState({refresh:true})}> </Button>
+                    </View>
                     {tripsForChange.map((trip, index) =>{
 
                         var req = this.getRandom(trip[3],trip[5]);
@@ -400,8 +403,10 @@ export default class SearchTrip extends Component{
 
                             <Text style={{fontWeight:"bold"}}>{trip[3] + " Rate : "+trip[6]}</Text>
                             <Text>{trip[4]}</Text>
-                            <Button title="See Comments" style = {styles.button} onPress={() => {this.seeComments([trip[0]])}}></Button>
-                            <Button title='Follow This Trip' onPress={() => this.onPressFollow(trip[0])}> </Button>
+                            <View style={{flexDirection: 'column', justifyContent: 'space-between',height: hp('10&')}}>
+                              <Button title="See Comments" style = {styles.button} onPress={() => {this.seeComments([trip[0]])}}></Button>
+                              <Button title='Follow This Trip' onPress={() => this.onPressFollow(trip[0])}> </Button>
+                            </View>
 
                         </Card>)
                         }
