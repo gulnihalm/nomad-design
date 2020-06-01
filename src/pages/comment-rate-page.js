@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NativeModules, Text, TextInput, View, ScrollView, SafeAreaView, TouchableOpacity, Dimensions, StyleSheet, Platform, Image } from 'react-native';
+import { NativeModules, Text, TextInput, View, ScrollView, SafeAreaView, TouchableOpacity, Dimensions, StyleSheet, Platform, Image,Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { hostURL } from '../common/general';
@@ -30,7 +30,12 @@ export default class CommentRatePage extends Component {
     submitCommentAndRate(){
         let {guid, tripID, comment, rating} = this.state;
         if(comment == ""){
-            alert("You need to leave a comment with your rating");
+            Alert.alert("Wait!","You need to leave a comment with your rating",
+						[
+							{text: 'OK', onPress: () => console.log('Ok Pressed')},
+							],
+							{ cancelable: false }
+					);
         }
         else{
             fetch(hostURL + 'commentAndRate.php', {
@@ -51,10 +56,20 @@ export default class CommentRatePage extends Component {
                 console.log('commentAndRate response: ', response);
                 if(response.result == 1){
                     Actions.popTo('ProfilePage');
-                    alert("Your comment and rating has been added succesfully.");
+                    Alert.alert("Thank You","Your comment and rating has been added succesfully.",
+										[
+											{text: 'OK', onPress: () => console.log('Ok Pressed')},
+											],
+											{ cancelable: false }
+									);
                 }
                 else if( response.error != "" ){
-                    alert("Comment and rate submission failed.");
+                    Alert.alert("Try Again Later","Comment and rate submission failed.",
+										[
+											{text: 'OK', onPress: () => console.log('Ok Pressed')},
+											],
+											{ cancelable: false }
+									);
                 }
             }).catch((error) => {
                 alert('Comment and rate error: ', error);

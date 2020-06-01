@@ -7,6 +7,7 @@ import {
     Dimensions,
     Button,
     Text,
+    Alert,
 } from 'react-native';
 import Geolocation from "@react-native-community/geolocation";
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -324,7 +325,12 @@ export default class EditTrip extends React.Component{
                         <View style={styles.multiButtonContainer}>
                             <Button title="Create Trip" onPress = {(e) =>
                             {if(this.state.tripDescription === '' || this.state.tripName === '' || this.state.label == '')
-                            {alert('You did not fill all the fields!')}
+                            {alert('Try Again','You did not fill all the fields!',
+                            [
+                              {text: 'OK', onPress: () => console.log('Ok Pressed')},
+                              ],
+                              { cancelable: false }
+                          )}
                             else{this.submitTrip()} } }/>
 
                         </View>
@@ -388,8 +394,18 @@ export default class EditTrip extends React.Component{
                         <View style={styles.multiButtonContainer}>
                         <Button title="Create Trip" onPress = {(e) =>
                             {if(this.state.tripDescription === '' || this.state.tripName === '' || this.state.label == '')
-                            {alert('You did not fill all the fields!');}
-                            else{alert('You have created a trip!'); this.submitTrip(); Actions.pop();} } }/>
+                            {Alert.alert('Try Again','You did not fill all the fields!',
+                            [
+                              {text: 'OK', onPress: () => console.log('Ok Pressed')},
+                              ],
+                              { cancelable: false }
+                          )}
+                            else{Alert.alert('Succesful','You have created a trip!',
+                            [
+                              {text: 'OK', onPress: () => console.log('Ok Pressed')},
+                              ],
+                              { cancelable: false }
+                          ); this.submitTrip(); Actions.pop();} } }/>
                         </View>
                       }
                     </ScrollView>
