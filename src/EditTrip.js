@@ -187,7 +187,7 @@ export default class EditTrip extends React.Component{
 
         }
 
-        this.setState({done:true});
+        //this.setState({done:true});
 
     }
 
@@ -252,29 +252,7 @@ export default class EditTrip extends React.Component{
                           initial = {'winter'}
                           onPress={(value) => { this.setState({ label: value }); }}
                         /> */
-        if (this.state.done){
-          return(
-            <View style={styles.container}>
 
-                <Header
-                  backgroundColor = '#BF1E2E'
-                  centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff' } }}
-
-                />
-                <ScrollView style={styles.scrollView}>
-
-                    <Text style= {styles.titleText}>Trip Created. Please go back using the back button of the device.</Text>
-
-                </ScrollView>
-
-
-                <View>
-                    <Footer style={{backgroundColor: "#BF1E2E"}}/>
-                </View>
-
-            </View>
-          )
-        }
         if(this.state.inputEnabled){
 
             return (
@@ -323,16 +301,20 @@ export default class EditTrip extends React.Component{
                             this.setState({titles: temp, text: text});}}/>
 
                         <View style={styles.multiButtonContainer}>
-                            <Button title="Create Trip" onPress = {(e) =>
+                        <Button title="Create Trip" onPress = {(e) =>
                             {if(this.state.tripDescription === '' || this.state.tripName === '' || this.state.label == '')
-                            {alert('Try Again','You did not fill all the fields!',
+                            {Alert.alert('Try Again','You did not fill all the fields!',
                             [
                               {text: 'OK', onPress: () => console.log('Ok Pressed')},
                               ],
                               { cancelable: false }
                           )}
-                            else{this.submitTrip()} } }/>
-
+                            else{Alert.alert('Succesful','You have created a trip!',
+                            [
+                              {text: 'OK', onPress: () => console.log('Ok Pressed')},
+                              ],
+                              { cancelable: false }
+                          ); this.submitTrip(); Actions.pop();} } }/>
                         </View>
                     </ScrollView>
 
@@ -390,7 +372,7 @@ export default class EditTrip extends React.Component{
                         />
                         </View>
                         <Text>Tip: Tap to your markers to give them a title</Text>
-                      {this.state.done===false &&
+
                         <View style={styles.multiButtonContainer}>
                         <Button title="Create Trip" onPress = {(e) =>
                             {if(this.state.tripDescription === '' || this.state.tripName === '' || this.state.label == '')
@@ -407,7 +389,7 @@ export default class EditTrip extends React.Component{
                               { cancelable: false }
                           ); this.submitTrip(); Actions.pop();} } }/>
                         </View>
-                      }
+
                     </ScrollView>
 
 
