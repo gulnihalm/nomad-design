@@ -105,7 +105,7 @@ export default class App extends React.Component {
 
     user = '{"userID":"' + this.props.guid + '", "email":"' + this.props.userEmail + '", "username":"' + this.props.userName + '", "password":"' + this.props.userPassword + '"}';//HI I AM THE JSON OBJECT MENTIONED
     this.setState({Page, user});
-    
+
   };
 
   requestLocationPermission = async () => {
@@ -234,14 +234,19 @@ export default class App extends React.Component {
                   if(this.state.markerPlaceEnabled)
                     this.setState({ markers: [...this.state.markers, { latlng: e.nativeEvent.coordinate }] })}}>
 
-          {this.state.markers.map((marker, i) => (<Marker onPress= {(e) => { if(this.state.markerPlaceEnabled) this.onPressMarker(e)}} 
+          {this.state.markers.map((marker, i) => (<Marker onPress= {(e) => { if(this.state.markerPlaceEnabled) this.onPressMarker(e)}}
           coordinate={marker.latlng} key = {i}/>))}
 
         </MapView>
 
         <View style={styles.multiButtonContainer}>
           {button}
-          <Button title="Next" onPress = {(e) => {if(markers.length === 0 ) {alert('You did not place any markers yet!')} else this.setState({Page:2})}}/>
+          <Button title="Next" onPress = {(e) => {if(markers.length === 0 ) {Alert.alert('Wait!','You did not place any markers yet!',
+                                                                                          [
+                                                                                            {text: 'OK', onPress: () => console.log('Ok Pressed')},
+                                                                                            ],
+                                                                                            { cancelable: false }
+                                                                                        )} else this.setState({Page:2})}}/>
         </View>
         <View style={styles.multiButtonContainer}>
 

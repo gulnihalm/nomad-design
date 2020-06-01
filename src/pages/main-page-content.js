@@ -82,7 +82,7 @@ export default class MainPage extends Component {
 								<Text style={styles.textStyle2}>Thank you for joining us! Nomad allows users to experience each other's voyages and trips.</Text>
 
 										<Icon name = 'ios-menu' size={30} color= '#BF1E2E' />
-										<Text style={styles.textStyle3}> By pressing menu button you can choose to create a route, view achievement list, Synchronize your accounts or log out.</Text>
+										<Text style={styles.textStyle3}> By pressing menu button you can choose to create a route, view achievement list, Synchronize your accounts or log out. You can go to your profile page and see your finished trips, rate them, send comments.</Text>
 										<Image style={styles.iconStyle} source={require('../images/nav.png')}/>
 										<Text style={styles.textStyle3}> You can press the navigaton button to see all available trips, search for a trip you would like to follow and see their comments.
 										 Choose a trip, tap Follow Route button.On the map, you can determine a driving or a walking route. Your distance to your destination and estimated duration of the route will be shown.
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		borderColor: '#ffffff',
 		margin: 5,
-		height: hp('100%'),
+		height: hp('85%'),
 		width: wp('95%'),
 		padding: 15,
 		shadowColor: '#ccc',
