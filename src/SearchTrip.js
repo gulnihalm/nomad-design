@@ -287,7 +287,7 @@ export default class SearchTrip extends Component{
                 console.log(comment)
                 comments.push(comment);
 
-            });}else{alert("This trip has no comment")}
+            });}else{Alert.alert("Sorry","This trip has no comment")}
 
             console.log("GELDİ")
             this.setState({control:true,comments:comments})
@@ -403,10 +403,11 @@ export default class SearchTrip extends Component{
 
                             <Text style={{fontWeight:"bold"}}>{trip[3] + " Rate : "+trip[6]}</Text>
                             <Text>{trip[4]}</Text>
-                            <View style={{flexDirection: 'column', justifyContent: 'space-between',height: hp('10&')}}>
                               <Button title="See Comments" style = {styles.button} onPress={() => {this.seeComments([trip[0]])}}></Button>
+                              <View style={{marginVertical: 2}}>
+                                </View>
                               <Button title='Follow This Trip' onPress={() => this.onPressFollow(trip[0])}> </Button>
-                            </View>
+
 
                         </Card>)
                         }

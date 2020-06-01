@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NativeModules, Text, View, TextInput, TouchableOpacity, Dimensions, StyleSheet, Platform } from 'react-native';
+import { NativeModules, Text, View, TextInput, TouchableOpacity, Dimensions, StyleSheet, Platform, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
@@ -91,7 +91,7 @@ export default class LoginPage extends Component {
 			.then((res) => {
 				//console.log("email res: " + res );
 				if (res.result == 1){ //SUCCESS
-					alert("Welcome " + res.name);
+					Alert.alert("Hello There","Welcome " + res.name);
 					// we take the user to the main page now. this is an existing account login, so we get the values from the database.
 					// important thing to note here is emailEntrance is directly given the true value as this is the direct email entrance
 					Actions.MainPage({
@@ -266,7 +266,7 @@ export default class LoginPage extends Component {
 				});
 			}
 			else if (res.result == 1){ //EXISTING LOGIN
-				alert("Welcome " + res.name);
+				Alert.alert("Hello There","Welcome " + res.name);
 				Actions.MainPage({ // this is not a new entry so we get the values we need from the database. Email entrance is found depending on the existence of a password
 					type: 'reset', userChoice: userChoice, register: false, pic: this.state.pic,
 					userName: res.name, userSurname: res.surname, userEmail: res.email, userPassword: res.password,
