@@ -102,10 +102,19 @@ export default class Achievements extends React.Component{
             let str = JSON.stringify(response);
             str = str.replace(/\\/g, "");
             str = str.substr(1,str.length - 2);
-            console.log("obj = ", obj)
+            
             let obj = JSON.parse(str);
+            let array=Object.keys(obj).map(function(k){
+                return obj[k];
+            })
+            
+            let count = 0;
+            array[0].forEach(element => {
 
-            count = parseInt(obj.count,10);
+                count = parseInt(element.count,10);
+
+            })
+            
             console.log("count = ",count)
             this.setState({count:count})
         }).catch((error) => {
