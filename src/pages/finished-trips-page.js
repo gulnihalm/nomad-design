@@ -94,6 +94,7 @@ export default class FinishedTripsPage extends Component {
     }
 
 	render() {
+        console.disableYellowBox = true;
         let {trips, requestDone} = this.state;
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center' }}>

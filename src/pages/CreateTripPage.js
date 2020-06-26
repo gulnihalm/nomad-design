@@ -14,6 +14,7 @@ export default class CreateTripPage extends React.Component{
     }
 
     render(){
+        console.disableYellowBox = true;
             return (
                 <App guid = {this.state.guid} userEmail = {this.state.userEmail} userName = {this.state.userName} userPassword = {this.state.userPassword} page = {1}/>
             );      

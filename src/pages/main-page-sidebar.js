@@ -56,6 +56,7 @@ export default class MainSidebar extends Component { //Actions.MainPage actually
 	}
 
 	render() {
+		console.disableYellowBox = true;
 		return(
 			<Drawer
 				open={this.state.openDrawer}

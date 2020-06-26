@@ -12,6 +12,7 @@ import {
 import Geolocation from "@react-native-community/geolocation";
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Header} from 'react-native-elements';
 import { Footer} from 'native-base';
 
@@ -228,6 +229,7 @@ export default class EditTrip extends React.Component{
 
 //yaz, kış, doğa, tarihi, fun stuff, mixed
     render(){
+        console.disableYellowBox = true;
         let obj = JSON.parse(this.props.user)
 
         //console.log('titles');
@@ -259,10 +261,12 @@ export default class EditTrip extends React.Component{
                 <View style={styles.container}>
 
                     <Header
-        	            backgroundColor = '#BF1E2E'
-        	            centerComponent={{ text: 'CREATE ROUTE', style: { color: '#fff' } }}
+                    backgroundColor = '#BF1E2E'
+                    centerComponent={{ text: 'Create Trip', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center', marginBottom: 20} }}
+                    containerStyle={{
+                        height: hp('10%')
 
-      	            />
+                    }}/>
                     <ScrollView style={styles.scrollView}>
                     <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
 
@@ -316,11 +320,12 @@ export default class EditTrip extends React.Component{
                               { cancelable: false }
                           ); this.submitTrip(); Actions.pop();} } }/>
                         </View>
+                        <Text>{"\n"}</Text>
                     </ScrollView>
 
 
                     <View>
-                        <Footer style={{backgroundColor: "#BF1E2E"}}/>
+                        <Footer style={{backgroundColor: "#BF1E2E", position: 'absolute', bottom: 0, height: hp('5%')}}/>   
                     </View>
 
                 </View>
@@ -334,11 +339,12 @@ export default class EditTrip extends React.Component{
                 <View style={styles.container}>
 
                     <Header
-                        backgroundColor = '#BF1E2E'
+                    backgroundColor = '#BF1E2E'
+                    centerComponent={{ text: 'Create Trip', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center', marginBottom: 20} }}
+                    containerStyle={{
+                        height: hp('10%')
 
-        	            centerComponent={{ text: 'TRIP CREATION', style: { color: '#fff' } }}
-
-      	            />
+                    }}/>
 
                     <ScrollView style={styles.scrollView}>
                     <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true} ref={(ref) => this.mapView=ref} initialRegion={pos}>
@@ -389,12 +395,12 @@ export default class EditTrip extends React.Component{
                               { cancelable: false }
                           ); this.submitTrip(); Actions.pop();} } }/>
                         </View>
-
+                        <Text>{"\n"}</Text>
                     </ScrollView>
 
 
                     <View>
-                        <Footer style={{backgroundColor: "#BF1E2E"}}/>
+                        <Footer style={{backgroundColor: "#BF1E2E", position: 'absolute', bottom: 0, height: hp('5%')}}/>   
                     </View>
 
 

@@ -300,6 +300,7 @@ export default class LoginPage extends Component {
 	}
 
 	render() {
+		console.disableYellowBox = true;
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center', top: -hp(0.9) }}>
 				<View style={{ marginVertical: 8.3, width: wp(60) }}>

@@ -28,6 +28,7 @@ export default class ProfilePage extends Component {
     }
 
 	render() {
+        console.disableYellowBox = true;
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{alignItems: 'center', top: -height/2 + 125 + hp(9)}}>

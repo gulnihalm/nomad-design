@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
    },
    multiButtonContainer: {
     margin: 20,
+    paddingBottom: 25,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
@@ -60,11 +61,11 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor:'red',
     justifyContent: 'flex-start',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between'
   },
   map: {
     width: wp('100%'),
-    height: hp('60%'),
+    height: hp('50%'),
   },
   marker: {
     backgroundColor: "#550bbc",
@@ -129,7 +130,7 @@ export default class App extends React.Component {
         this.setState({pos: region});
 
       }, error => console.log(error.message), {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
         timeout: 10000,
         //maximumAge: 3600000,
 
@@ -222,10 +223,12 @@ export default class App extends React.Component {
       return (
       <View style={styles.container}>
       	<Header
-        	backgroundColor = '#BF1E2E'
-        	centerComponent={{ text: 'TRIP CREATION', style: { color: '#fff' } }}
+          backgroundColor = '#BF1E2E'
+          centerComponent={{ text: 'Create Trip', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center', marginBottom: 20} }}
+          containerStyle={{
+              height: hp('10%')
 
-      	/>
+          }}/>
 
         <MapView style={styles.map} provider={PROVIDER_GOOGLE} showsUserLocation={true} showsBuildings={true}
          ref={(ref) => this.mapView=ref} initialRegion={this.state.pos}
@@ -248,14 +251,16 @@ export default class App extends React.Component {
                                                                                             { cancelable: false }
                                                                                         )} else this.setState({Page:2})}}/>
         </View>
-        <View style={styles.multiButtonContainer}>
+        <View style={{margin: 20,
+                    paddingBottom: 25,
+                    flexDirection: 'row'}}>
 
         <Text>TIP: You will tap map to put markers and retap to remove the marker. To disable/enable removing and see the locations, click STOP/START button. To add description tap NEXT.</Text>
-
+        <Text>{"\n"}</Text>
         </View>
-
+          
         <View>
-          <Footer style={{backgroundColor: "#BF1E2E"}}/>
+        <Footer style={{backgroundColor: "#BF1E2E", position: 'absolute', bottom: 0, height: hp('5%')}}/>
         </View>
 
         </View>

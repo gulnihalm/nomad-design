@@ -30,7 +30,7 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
 
     textStyle: {
-      fontSize: wp('3.5%'),
+      fontSize: wp('3.2%'),
       textAlign: 'center',
       color: "#f8f8ff",
       textShadowColor: 'rgba(0, 0, 0, 0.75)',
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     },
     map: {
       width: wp('100%'),
-      height: hp('65%'),
+      height: hp('58%'),
     },
     marker: {
       backgroundColor: "#550bbc",
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const DISTANCE_LIMIT = 100000000000000000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
+const DISTANCE_LIMIT = 1000000000; // 100 meters is close enough to collect token but right now it is close to 10km for testing
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAxXVF5Z4CbXiIssgfqYGYqgUuy0yzMdbM'; //google api key with directions included
 //AIzaSyCA0MiYtfUFz70Mz4vZh6YTnjfY4_r_r18
 export default class FollowTrip extends React.Component{
@@ -149,11 +149,12 @@ export default class FollowTrip extends React.Component{
         this.markRoute= this.markRoute.bind(this);
         this.markersChecked = [];//bollean array for tracking which marker is checked and closest. This is basically an array which can determine whole process (for example which marker is next, which are done)
         this.tokeNum =0;//token collected
-        this.finished;//end toute condition, 1 is finished, 0 is not finished
+        this.finished =0;//end toute condition, 1 is finished, 0 is not finished
         this.m=0;//marker array length
         this.mode="WALKING";
         this.back=false;
         this.workedOnce = 0;
+        this.equal =false;
         this.mapdata= {
           distance : 0,
           duration : 0,
@@ -223,17 +224,10 @@ export default class FollowTrip extends React.Component{
 //        let {coordinates} = this.state;
         var count =0;
         var temp=1000000; //this funtion will for markers closer than 1000km
-        var flag2 =0;
+        var flag2 = 0;
 //        let finished2= this.state;
 //        var m;
-        for(let i = 0; i<this.m; i++){//loop for determining if route is finished
-            if (this.markersChecked[i]){// if all bool array true route finished
-              this.finished= 1;//finished
-            }
-            else {
-              this.finished =0;//not finished
-            }
-        }
+
         markers.forEach(marker => {
             var distance =  this.measure( pos.latitude, pos.longitude, marker.latlng.latitude, marker.latlng.longitude )
 
@@ -282,7 +276,12 @@ export default class FollowTrip extends React.Component{
       this.tokeNum=this.tokeNum+1;//collected one token
       let obj = JSON.parse(this.props.user)
 
-      
+      this.finished = this.finished +1;
+      if(this.finished ===this.m)
+      {
+        this.equal = true;
+      }
+ 
       fetch('http://nomad-server2.000webhostapp.com/addToCollectedTokens2.php',
       {
 
@@ -358,7 +357,12 @@ export default class FollowTrip extends React.Component{
             alert('The error iss',JSON.stringify(error.message));
         });
         //this.setState({markersChecked, markersClaimed});
-
+        console.log('DELAYYYY');
+        console.log('DELAYYYY');
+        console.log('DELAYYYY');
+        console.log('DELAYYYY');
+        console.log('DELAYYYY');
+        console.log('DELAYYYY');
         return myMarkers;
     }
     changeMode()
@@ -404,9 +408,11 @@ export default class FollowTrip extends React.Component{
     }
 
     render(){
+      console.disableYellowBox = true;
         ///console.log(this.props.user);//for tracking
         ///console.log(this.props.trip);//for tracking
-
+        //console.log('FINISHED=====', this.finished);
+        //console.log('MMMMMMMMMMM======', this.m);
         const {markers} = this.state;
         const {pos} = this.props
         const obj = JSON.parse(this.props.user);
@@ -418,7 +424,7 @@ export default class FollowTrip extends React.Component{
         ///console.log(closeEnough,"__________________________________________________________________________");//for tracking
         ///console.log(this.finished,"22222222222222222222222");                                                 //for tracking
         ///console.log(this.markersChecked,"111111111111111111111111111");                                       //for tracking
-        ///console.log(closeEnough,"__________________________________________________________________________");//for tracking
+        console.log(closeEnough,"__________________________________________________________________________");//for tracking
         ///console.log("My markers for trip:",this.props.trip,"----->",markers);                                 //for tracking
         ///console.log(this.coordinates,"***************************");                                          //for tracking
         ///console.log(this.markersChecked[1]);                                                                  //for tracking
@@ -447,7 +453,7 @@ if(!this.back){
                             <Image style ={styles.markerStyle} source= {{uri : 'https://www.mountcarmelliving.com/wp-content/uploads/2016/07/map-marker.gif'}} />
                           </View>
                       </Marker>))}
-                      {this.finished<1 && this.workedOnce<1 && (this.workedOnce= this.workedOnce+1) &&//if route is not finished keep drawing to next marker
+                      {this.workedOnce<1 && (this.workedOnce= this.workedOnce+1) &&//if route is not finished keep drawing to next marker
                       <MapViewDirections
                         origin={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}//from user location to
                         destination={this.coordinates}//closest maker
@@ -478,7 +484,7 @@ if(!this.back){
                         }}
                       />}
 
-                      {this.finished<1 && this.workedOnce>0 &&//if route is not finished keep drawing to next marker
+                      {this.finished<this.m && this.workedOnce>0 &&//if route is not finished keep drawing to next marker
                       <MapViewDirections
                         origin={{latitude: this.props.pos.latitude , longitude: this.props.pos.longitude}}//from user location to
                         destination={this.coordinates}//closest maker
@@ -531,7 +537,7 @@ if(!this.back){
                           <View style={{flexDirection: 'row'}}>
                             <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                               <Image style={styles.markerStyle}
-                                source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
+                                source= {{uri : 'https://thumbs.gfycat.com/SpotlessGrimBat-max-1mb.gif'}} />
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                               <Image style={styles.markerStyle2}
@@ -540,7 +546,7 @@ if(!this.back){
                           </View>
                       </View>
                   }
-                  {closeEnough<1 && this.finished<1 &&
+                  {closeEnough<1 && this.finished<this.m &&
                       <View style={{flex:1,flexDirection: 'column',height: hp('20%'), width: wp('96%')}}>
                         <View style={{backgroundColor:"#BF1E2E", padding:10}} >
                           <Text style={styles.textStyle2}>Follow the route and go to the next checkpoint!</Text>
@@ -568,7 +574,7 @@ if(!this.back){
                         <View style={{flexDirection: 'row'}}>
                           <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                             <Image style={styles.markerStyle}
-                              source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
+                              source= {{uri : 'https://thumbs.gfycat.com/SpotlessGrimBat-max-1mb.gif'}} />
                           </TouchableOpacity>
                           <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                             <Image style={styles.markerStyle2}
@@ -577,7 +583,7 @@ if(!this.back){
                         </View>
                       </View>
                   }
-                  {this.finished>0 &&//if route is finished show finish button
+                  {this.equal && //if route is finished show finish button
                       <View style={{flex:1,flexDirection: 'column', height: hp('20%'), width: wp('96%')}}>
                         <View style={{backgroundColor:"#BF1E2E", padding:10}} >
                           <Text style={styles.textStyle2}>Trip done. TAP FINISH.</Text>
@@ -608,7 +614,7 @@ if(!this.back){
                         <View style={{flexDirection: 'row'}}>
                           <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                             <Image style={styles.markerStyle}
-                              source= {{uri : 'https://lh3.googleusercontent.com/proxy/rY3OCHpu6ffO29_Mrv8sMe9kWc0mAUrUeBBmSR4r6CMrwDuB7X0TvuevzAa-rHQQYJJ3f1JJUFYDT-MlU2TlQ42qL8rT7xhe'}} />
+                              source= {{uri : 'https://thumbs.gfycat.com/SpotlessGrimBat-max-1mb.gif'}} />
                           </TouchableOpacity>
                           <TouchableOpacity style={styles.buttonStyle3} onPress= { () => {this.changeMode()}}>
                             <Image style={styles.markerStyle2}

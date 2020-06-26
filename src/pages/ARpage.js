@@ -19,8 +19,8 @@ class ARpage extends Component {
     this.token= {x: 0, y:0}//token place (pixel)
     this.state = {
       x: Math.random() < 0.5 ? (Math.random()*(-16)) : (Math.random()*(16)),//initial place for token(degree to translate)
-      y: Math.random() < 0.5 ? (Math.random()*(-22)) : (Math.random()*(22)),//oynayabiliyoruz
-      rt: Math.floor(Math.random() * 6)
+      y: Math.random() < 0.5 ? (Math.random()*(-21)) : (Math.random()*(21)),//oynayabiliyoruz
+      rt: Math.floor(Math.random() * 5)
       //t: true,
     };
   }
@@ -60,6 +60,7 @@ componentDidMount() {
 
   render() {
     //console.log(this.state.t);
+    console.disableYellowBox = true;
     return (
       <View style={styles.container}>
         <RNCamera
@@ -91,10 +92,6 @@ componentDidMount() {
               source= {require("../images/AR4.gif")} />
             }
             {this.state.rt ===4 &&
-              <Image style={[styles.token]}
-              source= {require("../images/AR5.gif")} />
-            }
-            {this.state.rt ===5 &&
               <Image style={[styles.token3]}
               source= {require("../images/AR6.gif")} />
             }
@@ -124,7 +121,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
     },
     token3: {
-        width: wp('65%'),
+        width: wp('80%'),
         height: wp('40%'),
         position: 'absolute',
       },

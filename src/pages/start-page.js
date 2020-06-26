@@ -21,6 +21,7 @@ export default class StartPage extends Component {
 	}
 
 	render() {
+		console.disableYellowBox = true;
 		return(
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 				<ActivityIndicator size = "large"/>

@@ -52,6 +52,7 @@ export default class MainPage extends Component {
 	}
 
 	render() {
+		console.disableYellowBox = true;
 		return(
 			<View style={{backgroundColor: "#E7E6EC", flex:1}}>
 				<ScrollableTabView
@@ -318,7 +319,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		borderColor: '#ffffff',
 		margin: 5,
-		height: hp('85%'),
+		height: hp('115%'),
 		width: wp('95%'),
 		padding: 15,
 		shadowColor: '#ccc',

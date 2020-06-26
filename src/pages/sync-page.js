@@ -179,6 +179,7 @@ export default class SyncPage extends Component {
 	}
 
 	render() {
+		console.disableYellowBox = true;
 		return (
 			<View style={{ backgroundColor: "#E7E6EC", flex: 1, justifyContent: 'center', alignItems: 'center', top: -hp(0.9) }}>
 

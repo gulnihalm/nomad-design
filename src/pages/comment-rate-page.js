@@ -79,6 +79,7 @@ export default class CommentRatePage extends Component {
     }
 
 	render() {
+        console.disableYellowBox = true;
         let {trips, requestDone} = this.state;
         console.log(this.state.rating);
 		return (

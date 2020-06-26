@@ -124,7 +124,7 @@ export default class Achievements extends React.Component{
     }
 
     render(){
-
+        console.disableYellowBox = true;
         const {achievements} = this.state;
         const {count} = this.state
         if ( achievements.length == 0 )
@@ -137,7 +137,11 @@ export default class Achievements extends React.Component{
             <View style = {styles.container}>
                 <Header
                 backgroundColor = '#BF1E2E'
-                centerComponent={{ text: 'Achivements', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center' } }}/>
+                centerComponent={{ text: 'Achivements', style: { color: '#fff', fontWeight:'bold', fontSize:20, alignSelf:'center', marginBottom: 20} }}
+                containerStyle={{
+                    height: hp('10%')
+
+                  }}/>
 
                 <Text> Your token count is: {count}</Text>
 
@@ -177,7 +181,7 @@ export default class Achievements extends React.Component{
                     <Text> {"\n"}  </Text>
                 </ScrollView>
                 <View>
-                    <Footer style={{backgroundColor: "#BF1E2E", position: 'absolute', bottom: 0}}/>
+                    <Footer style={{backgroundColor: "#BF1E2E", position: 'absolute', bottom: 0, height: hp('5%')}}/>
                 </View>
 
             </View>
@@ -191,7 +195,7 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
         flex: 1,
         justifyContent: 'flex-start',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
       },
     buttonText: {
 		fontSize: 18,

@@ -131,6 +131,7 @@ export default class SelectedRoute extends React.Component {
 
 
   render() {
+    console.disableYellowBox = true;
     return (
 
     <View style={styles.container}>

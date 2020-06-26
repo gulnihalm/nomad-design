@@ -38,7 +38,7 @@ export default class SearchTrip extends Component{
         var trips = [];
         var tripsForChange = [];
         var tripsForStandStill = [];
-        commentEnabled = [];
+        var commentEnabled = [];
         fetch('http://nomad-server2.000webhostapp.com/getTrips2.php')
         .then((response)=> response.json())
         .then((response) => {
@@ -106,6 +106,7 @@ export default class SearchTrip extends Component{
             this.setState({commentEnabled:commentEnabled})
             this.setState({tripsForChange:tripsForChange})
             this.setState({tripsForStandStill:tripsForStandStill})
+
 
         }).catch((error) => {
             Alert.alert('The error is',JSON.stringify(error.message));
@@ -361,7 +362,7 @@ export default class SearchTrip extends Component{
         }
     }
     render(){
-
+        console.disableYellowBox = true;
         const { comments } = this.state
         const {user} = this.props;
         const {tripsForChange} = this.state;
@@ -389,10 +390,10 @@ export default class SearchTrip extends Component{
                       onChangeText = {(searchText) => this.updateSearch(searchText)}
                       value = {searchText}
                     />
-                    <View style={{flexDirection: 'column', justifyContent: 'space-between',height: hp('10&')}}>
+                    
                       <Button title='Search' onPress={() => this.searchTrip()}> </Button>
+                      <View style={{margin: 2}}></View>
                       <Button title='Refresh' onPress={() =>this.setState({refresh:true})}> </Button>
-                    </View>
                     {tripsForChange.map((trip, index) =>{
 
                         var req = this.getRandom(trip[3],trip[5]);

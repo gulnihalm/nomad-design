@@ -24,6 +24,7 @@ export default class Comments extends React.Component{
     }
 
     render(){
+        console.disableYellowBox = true;
         const comments = this.props.comments;
         const user = this.props.user;
         const obj = JSON.parse(user)
